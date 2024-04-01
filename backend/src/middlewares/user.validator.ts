@@ -3,21 +3,21 @@ import { body, validationResult } from "express-validator";
 
 
 export const userValidator = [
-  body("first_name").notEmpty().withMessage("First name is required"),
-  body("last_name").notEmpty().withMessage("Last name is required"),
-  body("country").notEmpty().withMessage("Country is required"),
+  body("first_name").notEmpty().withMessage("El nombre es obligatorio"),
+  body("last_name").notEmpty().withMessage("El apellido es obligatorio"),
+  body("country").notEmpty().withMessage("El país es obligatorio"),
   body("email")
     .isEmail()
-    .withMessage("Invalid email format")
+    .withMessage("Formato de correo invalido")
     .notEmpty()
-    .withMessage("Email is required"),
+    .withMessage("El email es obligatorio"),
   body("password")
     .notEmpty()
-    .withMessage("Password is required")
+    .withMessage("El contraseña es obligatorio")
     .isLength({ min: 6 })
-    .withMessage("Password should be at least 6 characters")
+    .withMessage("Dabe tener al menos 6 caracteres")
     .matches(/[\W_]/)
-    .withMessage("Password should contain at least one special character"),
+    .withMessage("Debe contener al menos un caracter especial"),
   body("role").optional().isIn(["ADMIN", "USER"]).withMessage("Invalid role"),
 ];
 
