@@ -17,7 +17,13 @@ class UserController {
             throw new Error(`Error al obtener usuarios: ${(error as Error).message}`);
         }
       }
-    
+    async findOne(email:string){
+      try {
+        return await userService.findOne(email);
+    } catch (error) {
+        throw new Error(`Error al obtener usuarios: ${(error as Error).message}`);
+    }
+    }
       async createUser(userData: UserInterface):  Promise<any> {
         try {
             return await userService.createUser(userData);

@@ -10,6 +10,4 @@ const RespondSchema = new Schema<respondsInterface & Document>({
 });
 
 
-const RespondModel = mongoose.model<respondsInterface & Document>('Respond', RespondSchema);
-
-export default RespondModel;
+export default mongoose.model('Respond', RespondSchema);
