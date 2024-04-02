@@ -1,12 +1,14 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { UserInterface } from '../interfaces/user.interface';
+import commentModel from './comment.model';
+import tripModel from './trip.model';
 
 const commentSchema = new Schema({
-  cid: { type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }
+  cid: { type: mongoose.Schema.Types.ObjectId, ref: commentModel }
 }, { _id: false });
 
 const tripSchema = new Schema({
-  tid: { type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }
+  tid: { type: mongoose.Schema.Types.ObjectId, ref: tripModel }
 }, { _id: false });
 
 const UserSchema = new Schema<UserInterface>({
