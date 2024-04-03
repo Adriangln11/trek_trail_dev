@@ -7,6 +7,7 @@
 - María Rodríguez [@mariarodriguez](https://github.com/mariarodriguez)
 - Alejandro Martínez [@alejandromartinez](https://github.com/alejandromartinez)
 - Laura García [@lauragarcia](https://github.com/lauragarcia)
+- Rolando Martinez [@rolandomart](https://github.com/rolandomart)
 
 ¡Estamos emocionados de compartir nuestras habilidades en desarrollo web para crear una comunidad vibrante de viajeros! Aquí en nuestra aplicación, puedes descubrir nuevas rutas, compartir tus experiencias de viaje y conectarte con otros entusiastas de los viajes.
 
