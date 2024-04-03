@@ -10,7 +10,7 @@
 
 ### FrontEnd
 - Laura García [@lauragarcia](https://github.com/lauragarcia)   --Definir nombre y usuario
-- UX / UI - Rolando Martinez [@rolandomart](https://github.com/rolandomart)
+- Robelo Lopez [@rolandomart](https://github.com/rolandomart)
 
 ### UX / UI
 - Laura García [@lauragarcia](https://github.com/lauragarcia)   --Definir nombre y usuario
@@ -18,7 +18,7 @@
 
 ### QA
 - Laura García [@lauragarcia](https://github.com/lauragarcia)   --Definir nombre y usuario
-- Rolando Martinez [@rolandomart](https://github.com/rolandomart)
+- Romairo Dominguez [@rolandomart](https://github.com/rolandomart)
   
 ¡Estamos emocionados de compartir nuestras habilidades en desarrollo web para crear una comunidad vibrante de viajeros! Aquí en nuestra aplicación, puedes descubrir nuevas rutas, compartir tus experiencias de viaje y conectarte con otros entusiastas de los viajes.
 
