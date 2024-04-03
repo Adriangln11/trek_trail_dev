@@ -14,6 +14,4 @@ const PlaceSchema = new Schema<placesInterface & Document>({
 });
 
 
-const PlaceModel = mongoose.model<placesInterface & Document>('Place', PlaceSchema);
-
-export default PlaceModel;
+export default mongoose.model('Place', PlaceSchema);
