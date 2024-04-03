@@ -8,9 +8,14 @@ export const commentsValidator = [
     .withMessage("Text is required")
     .isLength({ min: 10 })
     .withMessage("Text should beat least 10 characters"),
+  body('placeId').notEmpty().withMessage('Place is required')
 ];
 
-export const handleCommentsValidationErrors = ( req: Request, res: Response, next: NextFunction ) => {
+export const handleCommentsValidationErrors = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });

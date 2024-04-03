@@ -8,6 +8,7 @@ import { port, secret } from "./utils/constants";
 import cookieParser from 'cookie-parser';
 import { init } from "./db/mongodb";
 import userRouter from './routes/user.router';
+import commentsRouter from './routes/comments.router';
 import passport from "passport";
 import { init as initPassport } from "./config/passport.config";
 import session from 'express-session';
@@ -43,6 +44,7 @@ app.use(passport.session());
 const specs = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/api', userRouter);
+app.use('/api', commentsRouter)
 
 async function startServer() {
     try {
