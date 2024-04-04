@@ -11,6 +11,10 @@ const tripSchema = new Schema({
   tid: { type: mongoose.Schema.Types.ObjectId, ref: tripModel }
 }, { _id: false });
 
+const favoritasSchema = new Schema({
+  tid: { type: mongoose.Schema.Types.ObjectId, ref: tripModel }
+}, { _id: false });
+
 const UserSchema = new Schema<UserInterface>({
   id: { type: String },
   first_name: { type: String, required: true },
@@ -20,6 +24,7 @@ const UserSchema = new Schema<UserInterface>({
   country: { type: String, required: true },
   comments: [commentSchema],
   trips: [tripSchema],
+  favorites: [favoritasSchema],
   role: { type: String, enum: ['ADMIN', 'USER'], default: 'USER' },
   last_connection: { type: Date, default: Date.now() }
 });
