@@ -5,5 +5,5 @@ export interface placesInterface {
     name: string,
     location: string,
     country: string,
-    commentsId: Array<ObjectId>,
+    comments: Array<any>,
 }
