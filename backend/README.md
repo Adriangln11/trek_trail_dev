@@ -27,7 +27,7 @@ Run the server with npm run dev (development) or npm start (production)
 ### Users schema
 
 | Key | Type |  Required |
-| :--------  :------- | :------------------------- |
+| :-------- | :------- | :------------------------- |
 | first_name | string | true |
 | last_name | string | true |
 | email | string | true |
