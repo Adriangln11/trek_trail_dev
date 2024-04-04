@@ -19,7 +19,7 @@ router.get('/', async (req: Request, res: Response) => {
 router.get('/:id', async (req: Request, res: Response) => {
 	try {
 		const placeId: string = req.params.id
-		const place = await PlaceController.getUserById(placeId)
+		const place = await PlaceController.getPlaceById(placeId)
 		res.status(CODE.OK).json(place)
 	} catch (error) {
 		res

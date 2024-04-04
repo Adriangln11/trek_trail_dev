@@ -12,9 +12,9 @@ class PlaceController {
 			)
 		}
 	}
-	async getUserById(id: string): Promise<PlaceDTO | null> {
+	async getPlaceById(id: string): Promise<PlaceDTO | null> {
 		try {
-			return await PlaceService.getUserById(id)
+			return await PlaceService.getPlaceById(id)
 		} catch (error) {
 			throw new Error(
 				`Error al obtener los lugares: ${(error as Error).message}`
