@@ -17,7 +17,7 @@ class UserRepository {
         try {
             const { email } = data;    
             const user = await User.findOne({ email });           
-            if (!user) return new Error(`No se encotro ningun usuario`);
+            if (!user) return null;
             return user;
         } catch (error) {
             throw new Error(`Error al obtener usuario por ID: ${(error as Error).message}`);
