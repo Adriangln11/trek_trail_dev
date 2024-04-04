@@ -6,13 +6,13 @@ export default class PlaceDTO {
 	name: string
 	location: string
 	country: string
-	commentsId: Array<ObjectId>
+	comments: Array<any>
 
 	constructor(place: placesInterface) {
 		this.id = place.id
 		this.name = place.name
 		this.location = place.location
 		this.country = place.country
-		this.commentsId = place.commentsId
+		this.comments = place.comments || []
 	}
 }
