@@ -7,8 +7,8 @@ export default class UserDTO {
     last_name: string;
     email: string;
     country: string;
-    comments: Array<ObjectId>;
-    trips: Array<ObjectId>;
+    comments: Array<any>;
+    trips: Array<any>;
     role?: string;
     last_connection: Date;
 
@@ -18,8 +18,8 @@ export default class UserDTO {
         this.last_name = user.last_name;
         this.email = user.email;
         this.country = user.country;
-        this.comments = user.comments;
-        this.trips = user.trips;
+        this.comments = user.comments || [];
+        this.trips = user.trips || [];
         this.role = user.role;
         this.last_connection = user.last_connection;
     }

@@ -1,18 +1,16 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { tripsInterface } from '../interfaces/trips.interface';
 
+const commentSchema = new Schema({
+  tid: { type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }
+}, { _id: false });
 
-const TripSchema = new Schema<tripsInterface & Document>({
+const TripSchema = new Schema<tripsInterface>({
   id: { type: String },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  commentsId: [{
-    "_id": false,
-    cid: { type: mongoose.Schema.Types.ObjectId, ref: 'Comments' },
-  }],
+  commentsId: [commentSchema],
   placeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Place', required: true },
 });
 
 
-const TripModel = mongoose.model<tripsInterface & Document>('Trip', TripSchema);
-
-export default TripModel;
+export default mongoose.model('Trip', TripSchema);
