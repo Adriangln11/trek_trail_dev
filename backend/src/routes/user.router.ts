@@ -74,8 +74,8 @@ router.post(
         try {
             const { email, ...rest } = req.body;
 
-            const userToken = await userController.findOne(email);
-
+            const userToken = await userController.findOne(req.body);
+            
             const token = tokenGenerator(userToken);
 
             res.status(200).json(token);

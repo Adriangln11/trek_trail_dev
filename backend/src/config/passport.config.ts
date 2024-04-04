@@ -27,8 +27,10 @@ export const init = () => {
         new LocalStrategy({ usernameField: "email", passReqToCallback: true },
             async (req: Request, email, password, done) => {
                 try {
-                    const { email } = req.body
-                    const user = await userModel.findOne({ email: email });
+                    const { email } = req.body;
+                    
+                    const user = await userModel.findOne({ email });
+                    
                     
                     if (!user) {
                         return done(new Error("Usuario o contraseña invalidos"));
@@ -38,7 +40,7 @@ export const init = () => {
                     if (!passwordMatch) {
                         return done(new Error("Usuario o contraseña invalidos"));
                     }
-
+                    console.log(passwordMatch);
                     done(null, user);
                 } catch (error) {
                     done(
