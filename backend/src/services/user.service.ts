@@ -41,7 +41,8 @@ class UserService {
     try {
       const { password, email, ...rest } = userData;
       const user = await UserRepository.findOne(userData);
-      if (user) throw new Error('Ya hay un usuario registrado con este correo');
+
+      if (!user) throw new Error('Ya hay un usuario registrado con este correo');
       return await UserRepository.createUser({
         ...rest,
         email,

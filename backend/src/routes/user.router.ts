@@ -4,14 +4,12 @@ import { userValidator, handleUserValidationErrors } from '../middlewares/user.v
 import passport from "passport";
 import userController from '../controllers/user.controller';
 import { tokenGenerator } from '../utils/utility';
-import { jwtDecode } from 'jwt-decode'
-import { IPayload } from '../interfaces/jwtPayload';
-import userModel from '../models/user.model';
+import { jwtAuthBear } from '../utils/utility';
 
 const router = express.Router();
 
 
-router.get('/users', async (req: Request, res: Response) => {
+router.get('/users', /* jwtAuthBear, */ async (req: Request, res: Response) => {
     try {
         const users = await UserController.getAllUsers();
         res.status(200).json(users);
@@ -20,7 +18,7 @@ router.get('/users', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/users/:id', async (req: Request, res: Response) => {
+router.get('/users/:id', jwtAuthBear, async (req: Request, res: Response) => {
     try {
         const userId: string = req.params.id;
         const users = await UserController.getUserById(userId);
@@ -42,37 +40,6 @@ router.post("/users/loginGoogle", async (req: Request, res: Response) => {
             token,
             msg: "Loggin exitoso"
         });
-        /* const userInfo = jwtDecode(credential) as IPayload
-
-        const user:any = await userModel.findOne({
-            email: userInfo.email
-        })
-        if (!user) {
-            const newUser: any = {
-                first_name: userInfo.given_name,
-                last_name: userInfo.name,
-                email: userInfo.email,
-                password: `Google${userInfo.email}`,
-                country: ':G',
-                last_connection: new Date()
-            };
-           const userCreated = await userController.createUser(newUser);
-           const token = tokenGenerator(userCreated);
-
-           return res.status(201).json({
-            ok: true,
-            token,
-            msg: "Usuario creado con exito"
-        })
-        }
-
-        const token = tokenGenerator(user);
-        return res.status(201).json({
-            ok: true,
-            token,
-            msg: "Loggin exitoso"
-        }) */
-
     } catch (error) {
         return res.status(404).json({
             ok: false,
@@ -121,7 +88,7 @@ router.post(
     }
 )
 
-router.put('/users/:id', async (req: Request, res: Response) => {
+router.put('/users/:id', jwtAuthBear, async (req: Request, res: Response) => {
     const userId: string = req.params.id;
     const userData = req.body;
     try {
@@ -133,7 +100,7 @@ router.put('/users/:id', async (req: Request, res: Response) => {
 });
 
 
-router.delete('/users/:id', async (req: Request, res: Response) => {
+router.delete('/users/:id', jwtAuthBear, async (req: Request, res: Response) => {
     const userId: string = req.params.id;
     try {
         await UserController.deleteUser(userId);
