@@ -31,6 +31,14 @@ class UserController {
             throw new Error(`Error al obtener usuarios: ${(error as Error).message}`);
         }
       }
+
+      async loggGoogle(userData: any):  Promise<any>{
+        try {
+          return await userService.loogGoogle(userData);
+        } catch (error) {
+          throw new Error(`Error al obtener usuarios: ${(error as Error).message}`);
+        }
+      }
     
       async updateUser(userId: string, userData: Partial<UserDTO>): Promise<UserDTO | null> {
         try {
