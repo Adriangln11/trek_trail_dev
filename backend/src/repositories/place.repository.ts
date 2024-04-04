@@ -5,7 +5,7 @@ import Place from '../models/place.model'
 class PlaceRepository {
 	async getAllPlaces(): Promise<PlaceDTO[]> {
 		try {
-			const places = await Place.find()
+			const places = await Place.find().populate('comments.cid')
 			const placesDTO = places.map(place => new PlaceDTO(place.toObject()))
 			return placesDTO
 		} catch (error) {
@@ -14,9 +14,9 @@ class PlaceRepository {
 			)
 		}
 	}
-	async getUserById(id: string): Promise<PlaceDTO | null> {
+	async getPlaceById(id: string): Promise<PlaceDTO | null> {
 		try {
-			const place = await Place.findById(id)
+			const place = await Place.findById(id).populate('comments.cid')
 			if (!place) return null
 			return new PlaceDTO(place.toObject())
 		} catch (error) {
