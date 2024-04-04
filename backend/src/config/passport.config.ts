@@ -12,7 +12,7 @@ export const init = () => {
         new LocalStrategy({ usernameField: "email", passReqToCallback: true },
             async (req: Request, email, password, done) => {
                 try {
-                    const newUser = await userService.createUser(req.body)
+                    const newUser = await userService.createUser(req.body);
                     done(null, newUser);
                 } catch (error) {
                     done(
