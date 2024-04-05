@@ -1,5 +1,8 @@
 import { MouseEventHandler } from 'react'
 import { signIn, useSession } from 'next-auth/react'
+import { FcGoogle } from 'react-icons/fc'
+import Image from 'next/image'
+import logo from '../public/logo.svg'
 
 interface ModalProps {
   open?: boolean
@@ -14,7 +17,6 @@ export const Modal = ({
   close: MouseEventHandler
 }) => {
   const { data: session } = useSession()
-  console.log(session)
   if (!open) return null
   return (
     <div
@@ -44,9 +46,17 @@ export const Modal = ({
           </svg>
           <span className='sr-only'>Cerrar modal</span>
         </button>
-        <div className='p-4 bg-slate-100 border-2 border-slate-300 rounded-lg w-full'>
+        <div className='p-16 bg-slate-100 border-2 border-slate-300 rounded-lg w-full'>
+          <figure>
+            <Image
+              src={logo}
+              alt='Logo de Aventura Compartida'
+              width={100}
+              priority={true}
+              className='m-auto'
+            />
+          </figure>
           <form className='space-y-4 max-w-lg' action='#'>
-            <h3 className='text-center font-bold'>Ingresar</h3>
             <div>
               <label
                 htmlFor='email'
@@ -58,7 +68,7 @@ export const Modal = ({
                 type='email'
                 name='email'
                 id='email'
-                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'
+                className='bg-gray-50 outline outline-1 outline-blue-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-2 block w-full p-2.5'
                 placeholder='name@company.com'
                 required
               />
@@ -75,7 +85,7 @@ export const Modal = ({
                 name='password'
                 id='password'
                 placeholder='••••••••'
-                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 '
+                className='bg-gray-50 outline outline-1 outline-blue-500  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-2 block w-full p-2.5 '
                 required
               />
             </div>
@@ -86,7 +96,7 @@ export const Modal = ({
                     id='remember'
                     type='checkbox'
                     value=''
-                    className='w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 '
+                    className='w-4 h-4 border border-gray-300 rounded bg-gray-50  focus:ring-blue-300 '
                     required
                   />
                 </div>
@@ -113,8 +123,12 @@ export const Modal = ({
             <button
               onClick={() => signIn()}
               type='submit'
-              className='w-full text-white bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center border-2 hover:border-red-500 hover:bg-white hover:text-red-500'
+              className='w-full text-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center border-2 border-red-500 hover:bg-white  flex justify-center relative
+              '
             >
+              <i className='absolute left-4 top-1/2 -translate-y-1/2'>
+                <FcGoogle />
+              </i>
               Iniciar sesión con Google
             </button>
             <div className='text-sm font-medium text-gray-700 '>
