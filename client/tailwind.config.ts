@@ -17,7 +17,7 @@ const config: Config = {
         'light-blue': '#081726',
         'dark-green-yellow': '#2F401E',
         'olive': '#4F5904',
-        'dark-silver': '#VBFBDB4', 
+        'dark-silver': '#VBFBDB', 
         'mystery-color': '#t88gc07',
       },
       fontFamily: {
