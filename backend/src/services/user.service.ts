@@ -2,9 +2,9 @@ import UserRepository from '../repositories/user.repository';
 import UserDTO from '../dto/user.dto';
 import { UserInterface } from '../interfaces/user.interface';
 import { createHash } from '../utils/utility';
-import { IPayload } from '../interfaces/jwtPayload';
-import { jwtDecode } from 'jwt-decode';
+import { userGoogle, userObject } from '../interfaces/jwtPayload';
 import { secretGoogle } from '../utils/constants';
+import userModel from '../models/user.model';
 
 class UserService {
   async getAllUsers(): Promise<UserDTO[]> {
@@ -17,9 +17,9 @@ class UserService {
     }
   }
 
-  async getUserById(userId: string): Promise<UserDTO | null> {
+  async getUserById(uid: string): Promise<UserDTO | null> {
     try {
-      const user = await UserRepository.getUserById(userId);
+      const user = await UserRepository.getUserById(uid);
       if (!user) throw new Error("El usuario no existe");
       return user;
     } catch (error) {
@@ -41,8 +41,7 @@ class UserService {
     try {
       const { password, email, ...rest } = userData;
       const user = await UserRepository.findOne(userData);
-      console.log(user);
-      
+
       if (user) throw new Error('Ya hay un usuario registrado con este correo');
       return await UserRepository.createUser({
         ...rest,
@@ -54,30 +53,24 @@ class UserService {
     }
   }
 
-  async loogGoogle(userData: any): Promise<any> {
+  async loogGoogle(userData: userObject): Promise<any> {
     try {
-      const userInfo = jwtDecode(userData) as IPayload;
-      const user: any = await UserRepository.findOne(userData);
+      const { name, email, image } = userData.user;
+      const user: any = await UserRepository.findOne(userData.user);
 
       if (!user) {
         const newUser: any = {
-          first_name: userInfo.given_name,
-          last_name: userInfo.name,
-          email: userInfo.email,
-          password: `Google${userInfo.email}${secretGoogle}`,
+          first_name: name,
+          last_name: 'Google',
+          email,
+          password: createHash(`Google${email}${secretGoogle}`),
           country: ':G',
           last_connection: new Date()
         };
-        const { password, email, ...rest } = newUser;
-        const userCreated = await UserRepository.createUser({
-          ...rest,
-          email,
-          password: createHash(password),
-        });
-
-        return newUser;
+        const userCreated = await UserRepository.createUser(newUser);
+        return new UserDTO(userCreated.toObject());
       }
-      return user;
+      return new UserDTO(user.toObject());
     } catch (error) {
       throw new Error(`Error al actualizar usuario: ${(error as Error).message}`);
     }
@@ -86,6 +79,7 @@ class UserService {
   async updateUser(userId: string, userData: any): Promise<UserDTO | null> {
     try {
       const user = await UserRepository.getUserById(userId);
+      
       if (!user) throw new Error("El usuario no existe");
       if (userData.password) userData.password = createHash(userData.password!);
       return await UserRepository.updateUser(userId, userData);

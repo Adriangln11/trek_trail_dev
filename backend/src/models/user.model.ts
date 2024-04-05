@@ -16,7 +16,6 @@ const favoritasSchema = new Schema({
 }, { _id: false });
 
 const UserSchema = new Schema<UserInterface>({
-  id: { type: String },
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
   email: { type: String, required: true },
@@ -26,7 +25,8 @@ const UserSchema = new Schema<UserInterface>({
   trips: [tripSchema],
   favorites: [favoritasSchema],
   role: { type: String, enum: ['ADMIN', 'USER'], default: 'USER' },
-  last_connection: { type: Date, default: Date.now() }
+  last_connection: { type: Date, default: Date.now() },
+  status: {type: String, enum:['ACTIVE', 'INACTIVE'], default: 'INACTIVE'}
 });
 
 export default mongoose.model('User', UserSchema);

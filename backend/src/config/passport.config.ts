@@ -31,7 +31,6 @@ export const init = () => {
                     
                     const user = await userModel.findOne({ email });
                     
-                    
                     if (!user) {
                         return done(new Error("Usuario o contraseña invalidos"));
                     }
@@ -40,7 +39,7 @@ export const init = () => {
                     if (!passwordMatch) {
                         return done(new Error("Usuario o contraseña invalidos"));
                     }
-                    console.log(passwordMatch);
+
                     done(null, user);
                 } catch (error) {
                     done(

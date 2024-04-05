@@ -18,10 +18,10 @@ router.get('/users', /* jwtAuthBear, */ async (req: Request, res: Response) => {
     }
 });
 
-router.get('/users/:id', jwtAuthBear, async (req: Request, res: Response) => {
+router.get('/users/:uid', /* jwtAuthBear, */ async (req: Request, res: Response) => {
     try {
-        const userId: string = req.params.id;
-        const users = await UserController.getUserById(userId);
+        const { uid } = req.params;
+        const users = await UserController.getUserById(uid);
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ message: (error as Error).message });
@@ -31,9 +31,7 @@ router.get('/users/:id', jwtAuthBear, async (req: Request, res: Response) => {
 
 router.post("/users/loginGoogle", async (req: Request, res: Response) => {
     try {
-        const { credential } = req.body;
-        
-        const user = await UserController.loggGoogle(credential);
+        const user = await UserController.loggGoogle(req.body);
         const token = tokenGenerator(user);
         return res.status(201).json({
             ok: true,
@@ -88,11 +86,12 @@ router.post(
     }
 )
 
-router.put('/users/:id', jwtAuthBear, async (req: Request, res: Response) => {
-    const userId: string = req.params.id;
-    const userData = req.body;
+router.put('/users/:uid', /* jwtAuthBear, */ async (req: Request, res: Response) => {
+    
     try {
-        await UserController.updateUser(userId, userData);
+        const userData = req.body;
+        const { uid } = req.params;
+        await UserController.updateUser(uid, userData);
         res.status(200).json({ message: 'Usuario actualizado correctamente' });
     } catch (error) {
         res.status(500).json({ message: (error as Error).message });
@@ -100,10 +99,10 @@ router.put('/users/:id', jwtAuthBear, async (req: Request, res: Response) => {
 });
 
 
-router.delete('/users/:id', jwtAuthBear, async (req: Request, res: Response) => {
-    const userId: string = req.params.id;
+router.delete('/users/:uid', /* jwtAuthBear, */ async (req: Request, res: Response) => {
     try {
-        await UserController.deleteUser(userId);
+        const { uid } = req.params;
+        await UserController.deleteUser(uid);
         res.status(200).json({ message: 'Usuario eliminado correctamente' });
     } catch (error) {
         res.status(500).json({ message: (error as Error).message });

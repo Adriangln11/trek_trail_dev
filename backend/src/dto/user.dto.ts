@@ -11,9 +11,10 @@ export default class UserDTO {
     trips: Array<any>;
     role?: string;
     last_connection: Date;
+    status?: string
 
     constructor(user: UserInterface) {
-        this.id = user.id;
+        this.id = user._id!;
         this.first_name = user.first_name;
         this.last_name = user.last_name;
         this.email = user.email;
@@ -22,6 +23,7 @@ export default class UserDTO {
         this.trips = user.trips || [];
         this.role = user.role;
         this.last_connection = user.last_connection;
+        this.status = user.status
     }
 }
 
