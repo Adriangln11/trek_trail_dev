@@ -4,7 +4,7 @@
 
 ## Equipo C17-10-T-Node-React
 ### BackEnd
-- Carlos López [@carloslopez](https://github.com/carloslopez)  --Definir nombre y usuario
+- Tomas Rave [@tomasrave](https://github.com/TomyReiv)
 - María Rodríguez [@mariarodriguez](https://github.com/mariarodriguez)    --Definir nombre y usuario
 - Alejandro Martínez [@alejandromartinez](https://github.com/alejandromartinez)   --Definir nombre y usuario
 
