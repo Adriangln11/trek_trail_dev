@@ -38,6 +38,7 @@ export const jwtAuthBear = async (req: Request, res: Response, next: NextFunctio
         const decodedToken = Jwt.verify(token, secretKey) as { id: string };
 
         const user = await userModel.findById(decodedToken.id);
+
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }

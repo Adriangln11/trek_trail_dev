@@ -5,11 +5,12 @@ import passport from "passport";
 import userController from '../controllers/user.controller';
 import { tokenGenerator } from '../utils/utility';
 import { jwtAuthBear } from '../utils/utility';
+import { adminPolicy } from '../middlewares/adminPolicy';
 
 const router = express.Router();
 
 
-router.get('/users', /* jwtAuthBear, */ async (req: Request, res: Response) => {
+router.get('/users', jwtAuthBear, async (req: Request, res: Response) => {
     try {
         const users = await UserController.getAllUsers();
         res.status(200).json(users);
@@ -18,7 +19,7 @@ router.get('/users', /* jwtAuthBear, */ async (req: Request, res: Response) => {
     }
 });
 
-router.get('/users/:uid', /* jwtAuthBear, */ async (req: Request, res: Response) => {
+router.get('/users/:uid',  jwtAuthBear, async (req: Request, res: Response) => {
     try {
         const { uid } = req.params;
         const users = await UserController.getUserById(uid);
@@ -86,7 +87,7 @@ router.post(
     }
 )
 
-router.put('/users/:uid', /* jwtAuthBear, */ async (req: Request, res: Response) => {
+router.put('/users/:uid',  jwtAuthBear, async (req: Request, res: Response) => {
     
     try {
         const userData = req.body;
@@ -99,7 +100,7 @@ router.put('/users/:uid', /* jwtAuthBear, */ async (req: Request, res: Response)
 });
 
 
-router.delete('/users/:uid', /* jwtAuthBear, */ async (req: Request, res: Response) => {
+router.delete('/users/:uid', jwtAuthBear, adminPolicy, async (req: Request, res: Response) => {
     try {
         const { uid } = req.params;
         await UserController.deleteUser(uid);
