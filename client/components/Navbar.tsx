@@ -1,42 +1,58 @@
 'use client'
-
 import Image from 'next/image'
+import Link from 'next/link'
+import { FcMenu } from 'react-icons/fc'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import logo from '../public/logo.svg'
-import Modal from './Modal'
-import Provider from '@/app/Providers'
+import HamburgerModal from './HamburgerModal'
 
 export const Navbar = () => {
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   return (
-    <nav className='p-3 flex border-b justify-around '>
-      <div className='w-'>
-        <Image src={logo} alt='Aventura Compartida Logo' width={100} />
+    <nav className='p-3 flex border-b justify-between '>
+      <div className='flex gap-10'>
+        <Link href='/' className='w-'>
+          <Image src={logo} alt='Aventura Compartida Logo' width={100} />
+        </Link>
+        <div className='hidden md:flex'>
+          <ul className='flex gap-3  font-semibold text-teal'>
+            <li className='inline-flex items-center hover:text-green-500 '>
+              <Link
+                href='/'
+                className={` ${pathname == '/' ? 'text-green-500' : ''}`}
+              >
+                Inicio
+              </Link>
+            </li>
+            <li className='inline-flex items-center hover:text-green-500'>
+              <Link href='/explore'>Explorar</Link>
+            </li>
+            <li className='inline-flex items-center hover:text-green-500'>
+              <Link href='/post'>Compartir</Link>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div className='hidden md:flex'>
-        <ul className='flex gap-3  font-semibold text-teal'>
-          <li className='inline-flex items-center hover:text-green-700'>
-            <a href='/'>Inicio</a>
-          </li>
-          <li className='inline-flex items-center hover:text-green-700'>
-            <a href='/explore'>Explorar</a>
-          </li>
-          <li className='inline-flex items-center hover:text-green-700'>
-            <a href='/post'>Compartir</a>
-          </li>
-        </ul>
-      </div>
-      <div className='flex items-center'>
-        <button
-          onClick={() => setIsOpen(true)}
-          className='bg-teal text-white font-semibold rounded-full p-3 hover:bg-white hover:text-teal hover:border-teal border'
+      <div
+        className={`${
+          pathname == '/login' || pathname == '/register'
+            ? 'hidden'
+            : 'flex items-center'
+        }`}
+      >
+        <Link
+          href='/login'
+          className='bg-teal text-white font-semibold rounded-full p-4 hover:bg-white hover:text-teal hover:border-teal border hidden md:block'
         >
           Iniciar sesion
-        </button>
-        <Provider>
-          <Modal open={isOpen} close={() => setIsOpen(false)} />
-        </Provider>
+        </Link>
       </div>
+      <button className=' md:hidden' onClick={() => setIsOpen(true)}>
+        <FcMenu className=' text-5xl' />
+      </button>
+      <HamburgerModal open={isOpen} close={() => setIsOpen(false)} />
     </nav>
   )
 }
