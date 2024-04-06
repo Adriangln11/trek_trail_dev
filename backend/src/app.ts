@@ -12,6 +12,7 @@ import passport from "passport";
 import { init as initPassport } from "./config/passport.config";
 import session from 'express-session';
 import emailRouter from './routes/email.router';
+import { errorHandler } from './middlewares/error.middleware';
 
 const app: Express = express();
 app.use(express.json());
@@ -58,6 +59,6 @@ async function startServer() {
     }
 }
 
-
+app.use(errorHandler);
 
 export default app;

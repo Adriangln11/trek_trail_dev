@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import UserController from '../controllers/user.controller';
 import { userValidator, handleUserValidationErrors } from '../middlewares/user.validator';
 import passport from "passport";
@@ -10,27 +10,27 @@ import { adminPolicy } from '../middlewares/adminPolicy';
 const router = express.Router();
 
 
-router.get('/users', jwtAuthBear, async (req: Request, res: Response) => {
+router.get('/users', jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const users = await UserController.getAllUsers();
         res.status(200).json(users);
     } catch (error) {
-        res.status(500).json({ message: (error as Error).message });
+        next(error);
     }
 });
 
-router.get('/users/:uid',  jwtAuthBear, async (req: Request, res: Response) => {
+router.get('/users/:uid',  jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { uid } = req.params;
         const users = await UserController.getUserById(uid);
         res.status(200).json(users);
     } catch (error) {
-        res.status(500).json({ message: (error as Error).message });
+        next(error);
     }
 });
 
 
-router.post("/users/loginGoogle", async (req: Request, res: Response) => {
+router.post("/users/loginGoogle", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await UserController.loggGoogle(req.body);
         const token = tokenGenerator(user);
@@ -40,10 +40,7 @@ router.post("/users/loginGoogle", async (req: Request, res: Response) => {
             msg: "Loggin exitoso"
         });
     } catch (error) {
-        return res.status(404).json({
-            ok: false,
-            msg: 'Ah ocurrido un error, comunicarce con el administrador',
-        })
+        next(error);
     }
 })
 
@@ -54,14 +51,11 @@ router.post(
     passport.authenticate("register", {
         failureMessage: "User already register",
     }),
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response, next: NextFunction) => {
         try {
             res.status(200).json({ message: "Usuario creado" });
         } catch (error) {
-            return res.status(404).json({
-                ok: false,
-                msg: 'Ah ocurrido un error, comunicarce con el administrador',
-            })
+            next(error);
         }
     }
 );
@@ -69,7 +63,7 @@ router.post(
 router.post(
     '/users/login',
     passport.authenticate("login"),
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { email, ...rest } = req.body;
 
@@ -79,15 +73,12 @@ router.post(
 
             res.status(200).json(token);
         } catch (error) {
-            return res.status(404).json({
-                ok: false,
-                msg: 'Ah ocurrido un error, comunicarce con el administrador',
-            })
+            next(error);
         }
     }
 )
 
-router.put('/users/:uid',  jwtAuthBear, async (req: Request, res: Response) => {
+router.put('/users/:uid',  jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
     
     try {
         const userData = req.body;
@@ -95,18 +86,18 @@ router.put('/users/:uid',  jwtAuthBear, async (req: Request, res: Response) => {
         await UserController.updateUser(uid, userData);
         res.status(200).json({ message: 'Usuario actualizado correctamente' });
     } catch (error) {
-        res.status(500).json({ message: (error as Error).message });
+        next(error);
     }
 });
 
 
-router.delete('/users/:uid', jwtAuthBear, adminPolicy, async (req: Request, res: Response) => {
+router.delete('/users/:uid', jwtAuthBear, adminPolicy, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { uid } = req.params;
         await UserController.deleteUser(uid);
         res.status(200).json({ message: 'Usuario eliminado correctamente' });
     } catch (error) {
-        res.status(500).json({ message: (error as Error).message });
+        next(error);
     }
 });
 

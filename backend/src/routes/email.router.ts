@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import userController from '../controllers/user.controller';
 import emailService from '../services/email.service';
 import { tokenGenerator } from '../utils/utility';
@@ -7,7 +7,7 @@ import Jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
-router.post("/pass-recover", async (req: Request, res: Response) => {
+router.post("/pass-recover", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { email, username } = req.body;
 
@@ -28,12 +28,12 @@ router.post("/pass-recover", async (req: Request, res: Response) => {
         }
         
     } catch (error) {
-        res.status(500).json({ message: (error as Error).message });
+        next(error);
     }
 
 })
 
-router.get("/pass-recover/:token", async (req: Request, res: Response) => {
+router.get("/pass-recover/:token", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { token } = req.params;
 
@@ -44,7 +44,7 @@ router.get("/pass-recover/:token", async (req: Request, res: Response) => {
             res.redirect(`${frontURL}/${user.id}`);
         });
     } catch (error) {
-        res.status(500).json({ message: (error as Error).message });
+        next(error);
     }
 
 })
