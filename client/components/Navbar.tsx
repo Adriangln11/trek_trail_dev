@@ -11,26 +11,36 @@ export const Navbar = () => {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   return (
-    <nav className='p-3 flex border-b justify-between '>
+    <nav className='p-3 flex border-b justify-between font-aeonik'>
       <div className='flex gap-10'>
         <Link href='/' className='w-'>
           <Image src={logo} alt='Aventura Compartida Logo' width={100} />
         </Link>
         <div className='hidden md:flex'>
-          <ul className='flex gap-3  font-semibold text-teal'>
-            <li className='inline-flex items-center hover:text-green-500 '>
+          <ul className='flex gap-3  font-semibold'>
+            <li className='inline-flex items-center hover:text-teal '>
               <Link
                 href='/'
-                className={` ${pathname == '/' ? 'text-green-500' : ''}`}
+                className={` ${pathname == '/' ? 'text-teal' : ''}`}
               >
                 Inicio
               </Link>
             </li>
-            <li className='inline-flex items-center hover:text-green-500'>
-              <Link href='/explore'>Explorar</Link>
+            <li className='inline-flex items-center hover:text-teal'>
+              <Link
+                href='/explore'
+                className={` ${pathname == '/explore' ? 'text-teal' : ''}`}
+              >
+                Explorar
+              </Link>
             </li>
-            <li className='inline-flex items-center hover:text-green-500'>
-              <Link href='/post'>Compartir</Link>
+            <li className='inline-flex items-center hover:text-teal'>
+              <Link
+                href='/post'
+                className={` ${pathname == '/post' ? 'text-teal' : ''}`}
+              >
+                Compartir
+              </Link>
             </li>
           </ul>
         </div>
