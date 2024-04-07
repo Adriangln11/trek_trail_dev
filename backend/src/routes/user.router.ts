@@ -19,7 +19,7 @@ router.get('/users', jwtAuthBear, async (req: Request, res: Response, next: Next
     }
 });
 
-router.get('/users/:uid',  jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
+router.get('/users/:uid', jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { uid } = req.params;
         const users = await UserController.getUserById(uid);
@@ -53,7 +53,17 @@ router.post(
     }),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            res.status(200).json({ message: "Usuario creado" });
+            const { email, ...rest } = req.body;
+
+            const userToken = await userController.findOne(req.body);
+
+            const token = tokenGenerator(userToken);
+
+            res.status(200).json({
+                ok: true,
+                token,
+                msg: "Login exitoso"
+            });
         } catch (error) {
             next(error);
         }
@@ -68,18 +78,22 @@ router.post(
             const { email, ...rest } = req.body;
 
             const userToken = await userController.findOne(req.body);
-            
+
             const token = tokenGenerator(userToken);
 
-            res.status(200).json(token);
+            res.status(200).json({
+                ok: true,
+                token,
+                msg: "Login exitoso"
+            });
         } catch (error) {
             next(error);
         }
     }
 )
 
-router.put('/users/:uid',  jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
-    
+router.put('/users/:uid', jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
+
     try {
         const userData = req.body;
         const { uid } = req.params;

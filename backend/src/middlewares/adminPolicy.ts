@@ -9,7 +9,7 @@ export const adminPolicy = async (req: Request, res: Response, next: NextFunctio
         const token = req.headers.authorization?.split(' ')[1]; 
         
         if (!token) {
-            return res.status(401).json({ error: 'Unauthorized' }); 
+            return res.status(401).json({ error: 'No autorizado' }); 
         }
 
         const decodedToken = Jwt.verify(token, secretKey) as { id: string };
@@ -17,11 +17,11 @@ export const adminPolicy = async (req: Request, res: Response, next: NextFunctio
         const user = await userModel.findById(decodedToken.id);
 
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(404).json({ error: 'Usuario no encontrado' });
         }
 
         if (user.role !== 'ADMIN') {
-            return res.status(403).json({ error: 'Forbidden' })
+            return res.status(403).json({ error: 'Solo el administrador puede borrar un usuario' })
         }
 
         next();
