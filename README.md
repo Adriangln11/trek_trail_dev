@@ -8,7 +8,7 @@ Trek Trails es una plataforma en la que puedes conectar con personas del resto d
 
 ### BackEnd
 
-- Carlos López [@carloslopez](https://github.com/carloslopez) --Definir nombre y usuario
+- Tomas Rave [@tomasrave](https://github.com/TomyReiv)
 - María Rodríguez [@mariarodriguez](https://github.com/mariarodriguez) --Definir nombre y usuario
 - Alejandro Martínez [@alejandromartinez](https://github.com/alejandromartinez) --Definir nombre y usuario
 
