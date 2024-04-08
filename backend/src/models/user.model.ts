@@ -4,15 +4,15 @@ import commentModel from './comment.model';
 import tripModel from './trip.model';
 
 const commentSchema = new Schema({
-  cid: { type: mongoose.Schema.Types.ObjectId, ref: commentModel }
+  cid: { type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }
 }, { _id: false });
 
 const tripSchema = new Schema({
-  tid: { type: mongoose.Schema.Types.ObjectId, ref: tripModel }
+  tid: { type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }
 }, { _id: false });
 
 const favoritasSchema = new Schema({
-  tid: { type: mongoose.Schema.Types.ObjectId, ref: tripModel }
+  tid: { type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }
 }, { _id: false });
 
 const UserSchema = new Schema<UserInterface>({
@@ -21,9 +21,9 @@ const UserSchema = new Schema<UserInterface>({
   email: { type: String, required: true },
   password: { type: String, required: true },
   country: { type: String, required: true },
-  comments: [commentSchema],
-  trips: [tripSchema],
-  favorites: [favoritasSchema],
+  comments: [commentSchema] || [],
+  trips: [tripSchema] || [],
+  favorites: [favoritasSchema] || [],
   role: { type: String, enum: ['ADMIN', 'USER'], default: 'USER' },
   last_connection: { type: Date, default: Date.now() },
   status: {type: String, enum:['ACTIVE', 'INACTIVE'], default: 'INACTIVE'}

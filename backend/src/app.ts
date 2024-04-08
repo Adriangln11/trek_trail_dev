@@ -13,6 +13,7 @@ import { init as initPassport } from "./config/passport.config";
 import session from 'express-session';
 import emailRouter from './routes/email.router';
 import { errorHandler } from './middlewares/error.middleware';
+import tripRouter from './routes/trip.router';
 
 const app: Express = express();
 app.use(express.json());
@@ -44,7 +45,7 @@ app.use(passport.session());
 
 const specs = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-app.use('/api', userRouter, emailRouter);
+app.use('/api', userRouter, emailRouter, tripRouter);
 
 async function startServer() {
     try {
