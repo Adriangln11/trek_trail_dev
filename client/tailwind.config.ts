@@ -8,6 +8,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      
       colors: {
         'soft-gray': '#807A80',
         'dark-green': '#073420',
