@@ -23,11 +23,11 @@ export const tokenGenerator = (user: UserDTO) =>{
     return token;
 };
 
-interface AuthenticatedRequest extends Request {
+/* interface AuthenticatedRequest extends Request {
     user?: any;
-}
+} */
 
-export const jwtAuthBear = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const jwtAuthBear = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.headers.authorization?.split(' ')[1]; 
         
@@ -38,6 +38,7 @@ export const jwtAuthBear = async (req: AuthenticatedRequest, res: Response, next
         const decodedToken = Jwt.verify(token, secretKey) as { id: string };
 
         const user = await userModel.findById(decodedToken.id);
+
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }

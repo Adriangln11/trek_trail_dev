@@ -1,6 +1,7 @@
 import User from '../models/user.model';
 import UserDTO from '../dto/user.dto';
 import { UserInterface } from '../interfaces/user.interface';
+import { Types } from 'mongoose';
 
 class UserRepository {
     async getAllUsers(): Promise<UserDTO[]> {
@@ -13,9 +14,10 @@ class UserRepository {
         }
     }
 
-    async findOne(email: any): Promise<any> {
-        try {           
-            const user = await User.findOne({ email });           
+    async findOne(data: any): Promise<any> {
+        try {
+            const { email } = data;
+            const user = await User.findOne({ email });
             if (!user) return null;
             return user;
         } catch (error) {
@@ -23,9 +25,11 @@ class UserRepository {
         }
     }
 
-    async getUserById(userId: string): Promise<UserDTO | null> {
+    async getUserById(uid: any): Promise<UserDTO | null> {
         try {
-            const user = await User.findById(userId).populate("comments.cid").populate("trips.tid");
+            const user2 = await User.findOne({_id:uid});
+            const user = await User.findById(uid).populate("comments.cid").populate("trips.tid");
+
             if (!user) return null;
             return new UserDTO(user.toObject());
         } catch (error) {
@@ -58,9 +62,6 @@ class UserRepository {
     async deleteUser(userId: string): Promise<any> {
         try {
             const user = await User.findByIdAndDelete(userId)
-            if (!user) {
-                throw new Error(`No se encontró el usuario con ID ${userId}`);
-            }
             return { msg: "Usuario eliminado" }
         } catch (error) {
             throw new Error(`Error al actualizar usuario: ${(error as Error).message}`);

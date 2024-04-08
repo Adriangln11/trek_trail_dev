@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Request } from 'express';
-import userService from "../services/user.service";
+import userController from "../controllers/user.controller";
 import userModel from "../models/user.model";
 import { isValidPassword } from "../utils/utility";
 
@@ -12,7 +12,7 @@ export const init = () => {
         new LocalStrategy({ usernameField: "email", passReqToCallback: true },
             async (req: Request, email, password, done) => {
                 try {
-                    const newUser = await userService.createUser(req.body);
+                    const newUser = await userController.createUser(req.body);
                     done(null, newUser);
                 } catch (error) {
                     done(
@@ -27,8 +27,9 @@ export const init = () => {
         new LocalStrategy({ usernameField: "email", passReqToCallback: true },
             async (req: Request, email, password, done) => {
                 try {
-                    const { email } = req.body
-                    const user = await userModel.findOne({ email: email });
+                    const { email } = req.body;
+                    
+                    const user = await userModel.findOne({ email });
                     
                     if (!user) {
                         return done(new Error("Usuario o contraseña invalidos"));

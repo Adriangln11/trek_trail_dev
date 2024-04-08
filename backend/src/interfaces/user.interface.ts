@@ -7,12 +7,14 @@ export enum UserRole {
 }
 
 export interface UserInterface extends AuthInterface {
-    id: string;
+    _id?: string;
     first_name: string;
     last_name: string;
     country: string;
     comments?: Array<any>;
     trips?: Array<any>;
+    favorites?: Array<any>;
     role?: UserRole;
-    last_connection: Date
+    last_connection: Date;
+    status?: string
 }

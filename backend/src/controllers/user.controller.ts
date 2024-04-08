@@ -10,9 +10,9 @@ class UserController {
             throw new Error(`Error al obtener usuarios: ${(error as Error).message}`);
         }
     }
-    async getUserById(userId: string): Promise<UserDTO | null>{
+    async getUserById(uid: string): Promise<UserDTO | null>{
         try {
-            return await userService.getUserById(userId);
+            return await userService.getUserById(uid);
         } catch (error) {
             throw new Error(`Error al obtener usuarios: ${(error as Error).message}`);
         }
