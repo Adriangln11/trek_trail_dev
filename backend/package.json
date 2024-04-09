@@ -4,7 +4,7 @@
   "description": "App web de viajes",
   "main": "build/app.js",
   "scripts": {
-    "dev": "nodemon ./src/app.ts",
+    "dev": "nodemon --exec ts-node-dev ./src/app.ts",
     "start": "node dist/app.js",
     "tsc": "tsc"
   },

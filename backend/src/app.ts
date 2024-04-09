@@ -1,18 +1,19 @@
-import express, { Express } from 'express';
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
-import path from "path";
-import http from "http";
-import cors from "cors"
-import { port, secret } from "./utils/constants";
-import cookieParser from 'cookie-parser';
-import { init } from "./db/mongodb";
-import userRouter from './routes/user.router';
-import passport from "passport";
-import { init as initPassport } from "./config/passport.config";
-import session from 'express-session';
-import emailRouter from './routes/email.router';
-import { errorHandler } from './middlewares/error.middleware';
+import express, { Express } from 'express'
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
+import path from 'path'
+import http from 'http'
+import cors from 'cors'
+import { port, secret } from './utils/constants'
+import cookieParser from 'cookie-parser'
+import { init } from './db/mongodb'
+import userRouter from './routes/user.router'
+import passport from 'passport'
+import { init as initPassport } from './config/passport.config'
+import session from 'express-session'
+import emailRouter from './routes/email.router'
+import { errorHandler } from './middlewares/error.middleware'
+import placeRouter from './routes/place.router'
 
 const app: Express = express()
 app.use(express.json())
@@ -44,9 +45,9 @@ initPassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
-const specs = swaggerJSDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-app.use('/api', userRouter, emailRouter);
+const specs = swaggerJSDoc(swaggerOptions)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
+app.use('/api', userRouter, emailRouter)
 app.use('/api/places', placeRouter)
 
 async function startServer() {
@@ -62,6 +63,6 @@ async function startServer() {
 	}
 }
 
-app.use(errorHandler);
+app.use(errorHandler)
 
 export default app
