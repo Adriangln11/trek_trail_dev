@@ -5,7 +5,7 @@ import tripController from '../controllers/trip.controller';
 
 const router = express.Router();
 
-router.get('/trip/', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/trip', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const trips = await tripController.getAllTrips();
         res.status(200).json(trips);
@@ -30,7 +30,7 @@ router.post('/trip', async (req: Request, res: Response, next: NextFunction) => 
         const newTrip = await tripController.createTrip(data);
         res.status(200).json({
             ok: true,
-            newTrip
+            msg: 'Viaje creado'
         });
     } catch (error) {
         next(error);

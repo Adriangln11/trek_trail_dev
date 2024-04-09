@@ -5,5 +5,6 @@ export interface tripsInterface {
     userId: ObjectId,
     comments?: Array<ObjectId>,
     date: Date,
+    description: String,
     placeId: ObjectId
 }

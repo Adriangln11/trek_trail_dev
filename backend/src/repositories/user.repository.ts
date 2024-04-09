@@ -5,7 +5,7 @@ import { UserInterface } from '../interfaces/user.interface';
 class UserRepository {
     async getAllUsers(): Promise<UserDTO[]> {
         try {
-            const users = await User.find().populate("comments.cid").populate("trips.tid");
+            const users = await User.find().populate("comments.cid").populate("trips");
             const usersDTO = users.map(user => new UserDTO(user.toObject()));
             return usersDTO;
         } catch (error) {
@@ -26,7 +26,7 @@ class UserRepository {
 
     async getUserById(uid: any): Promise<UserDTO | null> {
         try {
-            const user = await User.findById(uid).populate("comments.cid").populate("trips.tid");
+            const user = await User.findById(uid).populate("comments.cid").populate("trips");
 
             if (!user) return null;
             return new UserDTO(user.toObject());
@@ -45,7 +45,7 @@ class UserRepository {
         }
     }
 
-    async updateUser(userId: string, userData: any): Promise<any> {
+    async updateUser(userId: any, userData: any): Promise<any> {
         try {
             const user = await User.findByIdAndUpdate(userId, userData, { new: true })
             if (!user) {
