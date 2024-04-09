@@ -18,7 +18,7 @@ router.get('/users', /* jwtAuthBear, */ async (req: Request, res: Response) => {
     }
 });
 
-router.get('/users/:id', jwtAuthBear, async (req: Request, res: Response) => {
+router.get('/users/:id',  async (req: Request, res: Response) => {
     try {
         const userId: string = req.params.id;
         const users = await UserController.getUserById(userId);

@@ -22,7 +22,7 @@ const UserSchema = new Schema<UserInterface>({
   email: { type: String, required: true },
   password: { type: String, required: true },
   country: { type: String, required: true },
-  comments: [commentSchema],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
   trips: [tripSchema],
   favorites: [favoritasSchema],
   role: { type: String, enum: ['ADMIN', 'USER'], default: 'USER' },

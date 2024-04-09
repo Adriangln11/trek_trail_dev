@@ -7,17 +7,31 @@ class CommentController {
     try {
       return await commentsService.getAllComment();
     } catch (error) {
-      throw new Error(
-        `Error al obtener comentario ${(error as Error).message}`
-      );
+      throw new Error((error as Error).message);
     }
   }
-  async createComment(commentData: commentsInterface): Promise<any>{
+  
+  async getCommentById(id: string): Promise<CommentDto> {
     try {
-      return await commentsService.createComment(commentData)
+      return await commentsService.getCommentById(id);
     } catch (error) {
-      throw new Error(`Error al crear comentario: ${(error as Error).message}`)
-      
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async createComment(commentData: commentsInterface): Promise<any> {
+    try {
+      return await commentsService.createComment(commentData);
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async deleteComment(commendId: string): Promise<CommentDto>{
+    try {
+      return await commentsService.deleteComment(commendId)
+    } catch (error) {
+      throw new Error((error as Error).message);
     }
   }
 }

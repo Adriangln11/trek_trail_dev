@@ -10,12 +10,35 @@ class CommentService {
             throw new Error(`Error al obtener comentarios ${(error as Error).message}`)
         }
     }
+
+    async getCommentById(id: string):Promise<CommentDto>{
+        try {
+            const comment = await CommentsRepository.getCommentById(id)
+            if(!comment) throw new Error('El comentario no existe')
+            return comment
+            
+        } catch (error) {
+            throw new Error((error as Error).message)
+        }
+    }
+
     async createComment(commentData: commentsInterface):Promise<CommentDto>{
         try {
             return await CommentsRepository.createComment(commentData)
         } catch (error) {
-            throw new Error(`Error al crear comentario ${(error as Error).message}`)
+            throw new Error((error as Error).message)
         }
     }
+
+    async deleteComment(commentId: string): Promise<CommentDto>{
+        try {
+            return await CommentsRepository.deleteComment(commentId)
+        } catch (error) {
+            throw new Error((error as Error).message)
+        }
+    }
+    
+
+
 }
 export default new CommentService();

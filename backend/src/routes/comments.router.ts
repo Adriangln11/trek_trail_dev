@@ -14,8 +14,20 @@ router.get("/comments", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/comment/:id", async (req: Request, res: Response) => {
+  try {
+    const commentId: string = req.params.id;
+    const comment = await CommentsController.getCommentById(commentId);
+    console.log(comment);
+
+    res.status(200).json(comment);
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+});
+
 router.post(
-  "/comments",
+  "/comment",
   commentsValidator,
   async (req: Request, res: Response) => {
     const commentData: commentsInterface = req.body;
@@ -23,8 +35,18 @@ router.post(
       const createComment = await CommentsController.createComment(commentData);
       return res.status(200).json(createComment);
     } catch (error) {
-      return res.status(400).json(`Error al crear comentario: ${(error as Error).message}`)
+      res.status(500).json({ message: (error as Error).message });
     }
   }
 );
+
+router.delete("/comment/:id", async (req: Request, res: Response) => {
+  try {
+    const commentId: string = req.params.id;
+    const deleteComment = await CommentsController.deleteComment(commentId);
+    res.status(200).json(deleteComment);
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+});
 export default router;
