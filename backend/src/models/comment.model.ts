@@ -3,7 +3,6 @@ import { commentsInterface } from '../interfaces/coments.interface';
 
 
 const CommentSchema = new Schema<commentsInterface & Document>({
-    id: { type: String },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     text: { type: String, required: true },
     respondsId: [{

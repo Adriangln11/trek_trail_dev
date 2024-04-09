@@ -2,9 +2,9 @@ import { tripsInterface } from "../interfaces/trips.interface";
 import tripService from "../services/trip.service";
 
 class tripController{
-    async getAllTrips(): Promise<any[]>{
+    async getAllTrips(query:any): Promise<any[]>{
         try {
-            const trips = await tripService.getAllTrips();
+            const trips = await tripService.getAllTrips(query);
             return trips;
         } catch (error) {
             throw new Error(`Error al obtener viajes: ${(error as Error).message}`);

@@ -5,9 +5,9 @@ import tripRepository from "../repositories/trip.repository";
 import userRepository from "../repositories/user.repository";
 
 class tripService {
-    async getAllTrips(): Promise<any[]> {
+    async getAllTrips(query:any): Promise<any[]> {
         try {
-            const trips = await tripRepository.getAllTrips();
+            const trips = await tripRepository.getAllTrips(query);
             if (!trips) throw new Error('Viajes no encontrados');
             return trips;
         } catch (error) {

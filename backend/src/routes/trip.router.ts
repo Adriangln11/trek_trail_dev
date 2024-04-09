@@ -7,7 +7,8 @@ const router = express.Router();
 
 router.get('/trip', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const trips = await tripController.getAllTrips();
+        const { query = {} } = req;
+        const trips = await tripController.getAllTrips(query);
         res.status(200).json(trips);
     } catch (error) {
         next(error);
@@ -24,7 +25,7 @@ router.get('/trip/:id', async (req: Request, res: Response, next: NextFunction) 
     }
 });
 
-router.post('/trip', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/trip', jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const data = req.body;
         const newTrip = await tripController.createTrip(data);
@@ -37,7 +38,7 @@ router.post('/trip', async (req: Request, res: Response, next: NextFunction) => 
     }
 });
 
-router.put('/trip/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/trip/:id', jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
         const data = req.body;
@@ -51,7 +52,7 @@ router.put('/trip/:id', async (req: Request, res: Response, next: NextFunction) 
     }
 });
 
-router.delete('/trip/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/trip/:id', jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
         const deletedTrip = await tripController.deleteTrip(id);

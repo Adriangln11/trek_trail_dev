@@ -16,8 +16,8 @@ Run the server with npm run dev (development) or npm start (production)
 
 | Type | Details | Route     | Description                |
 | :-------- |:-------- | :------- | :------------------------- |
-| GET | get all users | http://localhost:PORT/api/users/:id |  headers: {token} |
-| GET | get user by id | http://localhost:PORT/api/users |  headers: {token} |
+| GET | get all users | http://localhost:PORT/api/users |  headers: {token} |
+| GET | get user by id | http://localhost:PORT/api/users/:id |  headers: {token} |
 | POST |  Register user   | http://localhost:PORT/api/users |  body : accept all User Schema |
 | POST |  Login user   | http://localhost:PORT/api/users/login |  body : { email, password } |
 | POST |  Login with google   | http://localhost:PORT/api/users/loginGoogle |  body : { name, email, image } |
@@ -49,8 +49,8 @@ Run the server with npm run dev (development) or npm start (production)
 
 | Type | Details | Route     | Description                |
 | :-------- |:-------- | :------- | :------------------------- |
-| GET | get all places | http://localhost:PORT/api/places/:id |  headers: {token} |
-| GET | get place by id | http://localhost:PORT/api/places |  headers: {token} |
+| GET | get all places | http://localhost:PORT/api/places |  headers: {token} |
+| GET | get place by id | http://localhost:PORT/api/places/:id |  headers: {token} |
 | POST |  Register place   | http://localhost:PORT/api/places |  body : accept all place Schema |
 | PUT | upgrade place by id |  http://localhost:PORT/api/places/:id | params : { id }, body : accept all place Schema, headers: {token} |
 | DELETE | delete place by id | http://localhost:PORT/api/places/:id | params: { id }; headers: {token} |
@@ -74,6 +74,16 @@ Run the server with npm run dev (development) or npm start (production)
 | date | string | true |
 | placeId | string | true |
 
+### Trip
+
+| Type | Details | Route     | Description                |
+| :-------- |:-------- | :------- | :------------------------- |
+| GET | get all trips | http://localhost:PORT/api/trip |  headers: {token} filter: query{} |
+| GET | get trip by id | http://localhost:PORT/api/trip/:id |  headers: {token} |
+| POST |  Register trip   | http://localhost:PORT/api/trip |  body : accept all trip Schema |
+| PUT | upgrade trip by id |  http://localhost:PORT/api/trip/:id | params : { id }, body : accept all trip Schema, headers: {token} |
+| DELETE | delete trip by id | http://localhost:PORT/api/trip/:id | params: { id }; headers: {token} |
+
 ### Trip schema
 
 | Key | Type |  Required |
@@ -82,6 +92,7 @@ Run the server with npm run dev (development) or npm start (production)
 | commentsId | array[string] | false |
 | date | string | true |
 | placeId | string | true |
+| description | string | true |
 
 ## Backend developers
 

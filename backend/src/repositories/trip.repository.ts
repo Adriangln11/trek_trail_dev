@@ -2,9 +2,9 @@ import Trip from '../models/trip.model';
 import { tripsInterface } from '../interfaces/trips.interface';
 
 class tripRepository {
-    async getAllTrips(): Promise<any[]> {
+    async getAllTrips(query:any): Promise<any[]> {
         try {
-            const trip = await Trip.find().populate("comments.cid").populate("placeId");
+            const trip = await Trip.find(query).populate("comments.cid").populate("placeId");
             return trip;
         } catch (error) {
             throw new Error(`Error al obtener viajes: ${(error as Error).message}`);
