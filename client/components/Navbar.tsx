@@ -21,26 +21,28 @@ export const Navbar = () => {
         </Link>
         <div className='hidden md:flex'>
           <ul className='flex gap-3  font-semibold'>
-            <li className='inline-flex items-center hover:text-teal '>
+            <li className='inline-flex items-center hover:text-light-green '>
               <Link
                 href='/'
-                className={` ${pathname == '/' ? 'text-teal' : ''}`}
+                className={` ${pathname == '/' ? 'text-light-green' : ''}`}
               >
                 Inicio
               </Link>
             </li>
-            <li className='inline-flex items-center hover:text-teal'>
+            <li className='inline-flex items-center hover:text-light-green'>
               <Link
                 href='/explore'
-                className={` ${pathname == '/explore' ? 'text-teal' : ''}`}
+                className={` ${
+                  pathname == '/explore' ? 'text-light-green' : ''
+                }`}
               >
                 Explorar
               </Link>
             </li>
-            <li className='inline-flex items-center hover:text-teal'>
+            <li className='inline-flex items-center hover:text-light-green'>
               <Link
                 href='/post'
-                className={` ${pathname == '/post' ? 'text-teal' : ''}`}
+                className={` ${pathname == '/post' ? 'text-light-green' : ''}`}
               >
                 Compartir
               </Link>
@@ -61,7 +63,7 @@ export const Navbar = () => {
           >
             <Link
               href='/login'
-              className='bg-teal text-white font-semibold rounded-lg p-3 hover:bg-white hover:text-teal hover:border-teal border hidden md:block'
+              className='bg-light-green text-white font-semibold rounded-full py-3 px-5 hover:bg-white hover:text-light-green hover:border-light-green border hidden md:block'
             >
               Iniciar sesion
             </Link>
