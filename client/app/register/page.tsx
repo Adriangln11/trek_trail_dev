@@ -50,7 +50,7 @@ const RegisterPage = () => {
                 type='text'
                 name='first_name'
                 id='first_name'
-                className='bg-gray-50 outline outline-1 outline-blue-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-2 block w-full p-2.5'
+                className='bg-gray-50 outline outline-1  outline-light text-gray-900 text-sm rounded-lg focus:outline-2 block w-full p-3 '
                 placeholder='Joe'
                 required
               />
@@ -73,7 +73,7 @@ const RegisterPage = () => {
                 type='text'
                 name='last_name'
                 id='last_name'
-                className='bg-gray-50 outline outline-1 outline-blue-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-2 block w-full p-2.5'
+                className='bg-gray-50 outline outline-1  outline-light text-gray-900 text-sm rounded-lg focus:outline-2 block w-full p-3 '
                 placeholder='Doe'
                 required
               />
@@ -97,7 +97,7 @@ const RegisterPage = () => {
               type='email'
               name='email'
               id='email'
-              className='bg-gray-50 outline outline-1 outline-blue-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-2 block w-full p-2.5'
+              className='bg-gray-50 outline outline-1  outline-light text-gray-900 text-sm rounded-lg focus:outline-2 block w-full p-3 '
               placeholder='name@company.com'
               required
             />
@@ -121,7 +121,7 @@ const RegisterPage = () => {
               name='password'
               id='password'
               placeholder='••••••••'
-              className='bg-gray-50 outline outline-1 outline-blue-500  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-2 block w-full p-2.5 '
+              className='bg-gray-50 outline outline-1  outline-light text-gray-900 text-sm rounded-lg focus:outline-2 block w-full p-3  '
               required
             />
             <small className='text-red-500 font-semibold'>
@@ -143,7 +143,7 @@ const RegisterPage = () => {
             <select
               name='country'
               id=''
-              className='bg-gray-50 outline outline-1 outline-blue-500  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-2 block w-full p-2.5 '
+              className='bg-gray-50 outline outline-1  outline-light text-gray-900 text-sm rounded-lg focus:outline-2 block w-full p-3 '
             >
               <optgroup>
                 <option value='colombia'>Colombia</option>
@@ -167,14 +167,13 @@ const RegisterPage = () => {
               }
             })}
           </small>
-          <button className='w-full text-white bg-blue-500 hover:bg-white border-2 hover:border-blue-500 hover:text-blue-500 font-medium rounded-lg px-5 py-2.5 text-center text-lg'>
+          <button className='w-full text-white bg-light-green hover:-translate-y-1 transition-transform border-2   font-medium rounded-full px-5 py-3 text-center text-lg'>
             Crear cuenta
           </button>
           <button
             onClick={() => signIn(undefined, { callbackUrl: '/' })}
             type='button'
-            className='w-full text-red-500 font-semibold  rounded-lg text-lg px-5 py-2.5 text-center border-2 border-red-500 hover:bg-white  flex justify-center gap-5 items-center
-              '
+            className='w-full font-medium rounded-full text-lg px-5 py-3 text-center border-2 bg-soft-gray hover:-translate-y-1 transition-transform  flex justify-center gap-5 items-center'
           >
             <i className=' text-xl'>
               <FcGoogle />

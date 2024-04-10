@@ -45,12 +45,12 @@ const Slider = () => {
 
   return (
     <div className='w-full'>
-      <div className='relative'>
+      <div className='relative '>
         <AiOutlineLeft
           onClick={handlePrevSlide}
           className='absolute left-0 m-auto text-5xl inset-y-1/2 cursor-pointer text-gray-400 z-20'
         />
-        <div className='w-full h-[60vh] flex overflow-hidden relative m-auto'>
+        <div className='w-full h-[60vh] flex overflow-hidden relative m-auto '>
           {images.map((image, index) => {
             if (index === currentImage) {
               return (
@@ -58,7 +58,7 @@ const Slider = () => {
                   src={image.url}
                   alt='Imagen de un destino recomendado'
                   key={image.id}
-                  className={`brightness-50 rounded-lg ${image.color}`}
+                  className={`brightness-50 rounded-lg bg-gray-400 bg-opacity-50`}
                   layout='fill'
                   loading='lazy'
                 />
