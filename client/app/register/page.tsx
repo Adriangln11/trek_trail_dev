@@ -5,10 +5,24 @@ import { FcGoogle } from 'react-icons/fc'
 import { signIn } from 'next-auth/react'
 
 import logoNoText from '@/public/logoNoText.svg'
+import { registerUser } from '@/utils/http.utils'
+import { FormEvent, useState } from 'react'
+import { AxiosError } from 'axios'
 
 const RegisterPage = () => {
+  const [errors, setErrors] = useState<{ path: string; msg: string }[]>([])
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const res = await registerUser(e)
+    if (res instanceof AxiosError) {
+      const err = res.response?.data.errors
+      setErrors(err)
+    }
+  }
   return (
-    <main className='flex h-full  w-full my-2 '>
+    <div className='flex h-full  w-full my-2 '>
       <div className=' p-10 h-3/4  w-full '>
         <figure className='text-center font-aeonik font-bold text-3xl'>
           <Image
@@ -20,39 +34,56 @@ const RegisterPage = () => {
           />
           <figcaption>Registrate</figcaption>
         </figure>
-        <form className='space-y-4 max-w-lg mx-auto my-5' action='#'>
+        <form
+          className='space-y-4 max-w-lg mx-auto my-5'
+          onSubmit={handleSubmit}
+        >
           <div className='md:flex gap-3'>
             <div className='md:w-1/2'>
               <label
-                htmlFor='firstName'
+                htmlFor='first_name'
                 className='block mb-2 text-sm font-medium text-slate-800 '
               >
                 Nombres
               </label>
               <input
                 type='text'
-                name='firstName'
-                id='firstName'
+                name='first_name'
+                id='first_name'
                 className='bg-gray-50 outline outline-1 outline-blue-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-2 block w-full p-2.5'
                 placeholder='Joe'
                 required
               />
+              <small className='text-red-500 font-semibold'>
+                {errors.map((e) => {
+                  if (e.path == 'first_name') {
+                    return e.msg
+                  }
+                })}
+              </small>
             </div>
             <div className='md:w-1/2'>
               <label
-                htmlFor='lastName'
+                htmlFor='last_name'
                 className='block mb-2 text-sm font-medium text-slate-800 '
               >
                 Apellidos
               </label>
               <input
                 type='text'
-                name='lastName'
-                id='lastName'
+                name='last_name'
+                id='last_name'
                 className='bg-gray-50 outline outline-1 outline-blue-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-2 block w-full p-2.5'
                 placeholder='Doe'
                 required
               />
+              <small className='text-red-500 font-semibold'>
+                {errors.map((e) => {
+                  if (e.path == 'last_name') {
+                    return e.msg
+                  }
+                })}
+              </small>
             </div>
           </div>
           <div>
@@ -70,6 +101,13 @@ const RegisterPage = () => {
               placeholder='name@company.com'
               required
             />
+            <small className='text-red-500 font-semibold'>
+              {errors.map((e) => {
+                if (e.path == 'email') {
+                  return e.msg
+                }
+              })}
+            </small>
           </div>
           <div>
             <label
@@ -86,18 +124,56 @@ const RegisterPage = () => {
               className='bg-gray-50 outline outline-1 outline-blue-500  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-2 block w-full p-2.5 '
               required
             />
+            <small className='text-red-500 font-semibold'>
+              {errors.map((e) => {
+                if (e.path == 'password') {
+                  return e.msg
+                }
+              })}
+            </small>
           </div>
 
-          <button
-            type='submit'
-            className='w-full text-white bg-blue-500 hover:bg-white border-2 hover:border-blue-500 hover:text-blue-500 font-medium rounded-lg px-5 py-2.5 text-center text-lg'
-          >
+          <div>
+            <label
+              htmlFor='country'
+              className='block mb-2 text-sm font-medium text-slate-800'
+            >
+              País
+            </label>
+            <select
+              name='country'
+              id=''
+              className='bg-gray-50 outline outline-1 outline-blue-500  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-2 block w-full p-2.5 '
+            >
+              <optgroup>
+                <option value='colombia'>Colombia</option>
+                <option value='venezuela'>Venezuela</option>
+                <option value='agentina'>Argentina</option>
+                <option value='mexico'>Mexico</option>
+              </optgroup>
+            </select>
+            <small className='text-red-500 font-semibold'>
+              {errors.map((e) => {
+                if (e.path == 'country') {
+                  return e.msg
+                }
+              })}
+            </small>
+          </div>
+          <small className='text-red-500 font-semibold'>
+            {errors.map((e) => {
+              if (e.path == 'email') {
+                return e.msg
+              }
+            })}
+          </small>
+          <button className='w-full text-white bg-blue-500 hover:bg-white border-2 hover:border-blue-500 hover:text-blue-500 font-medium rounded-lg px-5 py-2.5 text-center text-lg'>
             Crear cuenta
           </button>
           <button
-            onClick={() => signIn()}
+            onClick={() => signIn(undefined, { callbackUrl: '/' })}
             type='button'
-            className='w-full text-red-500 font-medium rounded-lg text-lg px-5 py-2.5 text-center border-2 border-red-500 hover:bg-white  flex justify-center gap-5 items-center
+            className='w-full text-red-500 font-semibold  rounded-lg text-lg px-5 py-2.5 text-center border-2 border-red-500 hover:bg-white  flex justify-center gap-5 items-center
               '
           >
             <i className=' text-xl'>
@@ -116,7 +192,7 @@ const RegisterPage = () => {
           </div>
         </form>
       </div>
-    </main>
+    </div>
   )
 }
 

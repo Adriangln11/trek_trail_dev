@@ -1,15 +1,28 @@
 'use client'
 import Image from 'next/image'
-import { signIn, useSession } from 'next-auth/react'
-
-import { FcGoogle } from 'react-icons/fc'
-
-import logoNoText from '@/public/logoNoText.svg'
 import Link from 'next/link'
+import { signIn } from 'next-auth/react'
+import { FcGoogle } from 'react-icons/fc'
+import logoNoText from '@/public/logoNoText.svg'
+import { FormEvent, useState } from 'react'
+import { loginUser } from '@/utils/http.utils'
+import { AxiosError } from 'axios'
 
 const LoginPage = () => {
+  const [errors, setErrors] = useState<{ path: string; msg: string }[]>([])
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const res = await loginUser(e)
+    if (res instanceof AxiosError) {
+      const err = res.response?.data.errors
+      console.log(res)
+      setErrors(err)
+    }
+  }
   return (
-    <main className='flex h-full  w-full my-2 '>
+    <div className='flex h-full  w-full my-2 '>
       <div className=' p-10 h-3/4  w-full '>
         <figure className='text-center font-aeonik font-bold text-3xl'>
           <Image
@@ -21,7 +34,10 @@ const LoginPage = () => {
           />
           <figcaption>Accede a tu cuenta</figcaption>
         </figure>
-        <form className='space-y-4 max-w-lg mx-auto my-5' action='#'>
+        <form
+          className='space-y-4 max-w-lg mx-auto my-5'
+          onSubmit={handleSubmit}
+        >
           <div>
             <label
               htmlFor='email'
@@ -37,6 +53,13 @@ const LoginPage = () => {
               placeholder='name@company.com'
               required
             />
+            {/* <small className='text-red-500 font-semibold'>
+              {errors.map((e) => {
+                if (e.path == 'email') {
+                  return e.msg
+                }
+              })}
+            </small> */}
           </div>
           <div>
             <label
@@ -53,6 +76,13 @@ const LoginPage = () => {
               className='bg-gray-50 outline outline-1 outline-blue-500  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:outline-2 block w-full p-2.5 '
               required
             />
+            {/* <small className='text-red-500 font-semibold'>
+              {errors.map((e) => {
+                if (e.path == 'password') {
+                  return e.msg
+                }
+              })}
+            </small> */}
           </div>
           <div className='flex justify-between'>
             <div className='flex items-start'>
@@ -62,7 +92,6 @@ const LoginPage = () => {
                   type='checkbox'
                   value=''
                   className='w-4 h-4 border border-gray-300 rounded bg-gray-50  focus:ring-blue-300 '
-                  required
                 />
               </div>
               <label
@@ -86,7 +115,7 @@ const LoginPage = () => {
             Acceder
           </button>
           <button
-            onClick={() => signIn()}
+            onClick={() => signIn(undefined, { callbackUrl: '/' })}
             type='submit'
             className='w-full text-red-500 font-medium rounded-lg text-lg px-5 py-2.5 text-center border-2 border-red-500 hover:bg-white  flex justify-center gap-5 items-center
               '
@@ -107,7 +136,7 @@ const LoginPage = () => {
           </div>
         </form>
       </div>
-    </main>
+    </div>
   )
 }
 
