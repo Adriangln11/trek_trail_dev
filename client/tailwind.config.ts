@@ -15,7 +15,6 @@ const config: Config = {
       },
       colors: {
         'soft-gray': '#807A80',
-        'dark-green': '#073420',
         teal: '#497574',
         'forest-green': '#1D3B31',
         silver: '#C0C0C0',
@@ -24,6 +23,11 @@ const config: Config = {
         olive: '#4F5904',
         'dark-silver': '#VBFBDB4',
         'mystery-color': '#t88gc07',
+        light: '#DAD7CD',
+        'light-green': '#A3B18A',
+        green: '#588157',
+        'dark-green': '#3A5A40',
+        dark: '#344E41',
       },
     },
     fontFamily: {
