@@ -25,7 +25,7 @@ router.get('/trip/:id', async (req: Request, res: Response, next: NextFunction) 
     }
 });
 
-router.post('/trip', jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/trip', /* jwtAuthBear, */ async (req: Request, res: Response, next: NextFunction) => {
     try {
         const data = req.body;
         const newTrip = await tripController.createTrip(data);

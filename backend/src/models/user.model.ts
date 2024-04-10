@@ -15,6 +15,11 @@ const favoritasSchema = new Schema({
   tid: { type: mongoose.Schema.Types.ObjectId, ref: tripModel }
 }, { _id: false });
 
+const avatarSchema = new Schema({
+  originalname: String,
+  URL: String
+})
+
 const UserSchema = new Schema<UserInterface>({
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
@@ -25,6 +30,7 @@ const UserSchema = new Schema<UserInterface>({
   trips: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }],
   favorites: [favoritasSchema],
   role: { type: String, enum: ['ADMIN', 'USER'], default: 'USER' },
+  avatar: [avatarSchema],
   last_connection: { type: Date, default: Date.now() },
   status: {type: String, enum:['ACTIVE', 'INACTIVE'], default: 'INACTIVE'}
 });

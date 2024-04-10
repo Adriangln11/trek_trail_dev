@@ -15,6 +15,7 @@ export interface UserInterface extends AuthInterface {
     trips?: Array<any>;
     favorites?: Array<any>;
     role?: UserRole;
+    avatar?: String;
     last_connection: Date;
     status?: string
 }

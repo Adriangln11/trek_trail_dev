@@ -3,8 +3,11 @@ import { ObjectId } from "mongoose";
 export interface tripsInterface {
     id?: string,
     userId: ObjectId,
+    name: string,
     comments?: Array<ObjectId>,
     date: Date,
     description: String,
-    placeId: ObjectId
+    placeId: ObjectId,
+    photo?: Array<String>,
+    stars: Number,
 }
