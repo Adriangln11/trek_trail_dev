@@ -4,6 +4,7 @@ import { MouseEventHandler } from 'react'
 import { FaInstagram, FaFacebookF } from 'react-icons/fa'
 import { RiTwitterXFill } from 'react-icons/ri'
 import logo from '@/public/logo.svg'
+import { useSession } from 'next-auth/react'
 
 interface ModalProps {
   open?: boolean
@@ -17,6 +18,8 @@ export const HamburgerModal = ({
   open: boolean
   close: MouseEventHandler
 }) => {
+  const { data: session } = useSession()
+
   if (!open) return null
   return (
     <div
@@ -78,17 +81,21 @@ export const HamburgerModal = ({
             </ul>
           </div>
         </div>
-        <div className='flex justify-center py-5'>
-          <Link
-            href='/login'
-            className='bg-teal text-white font-semibold rounded-full p-4 hover:bg-white hover:text-teal hover:border-teal border'
-          >
-            Iniciar sesion
-          </Link>
-        </div>
-        <div className='flex justify-center text-3xl'>
+        {session?.user ? (
+          <div></div>
+        ) : (
+          <div className='flex justify-center py-5'>
+            <Link
+              href='/login'
+              className='bg-teal text-white font-semibold rounded-full p-4 hover:bg-white hover:text-teal hover:border-teal border'
+            >
+              Iniciar sesion
+            </Link>
+          </div>
+        )}
+        <div className='flex justify-center text-3xl my-5'>
           <div className=''>
-            <ul className='flex  divide-y-2 font-semibold items-center text-white gap-3'>
+            <ul className='flex font-semibold items-center text-white gap-3 '>
               <li className='inline-flex items-center py-3'>
                 <i className='bg-teal p-2 rounded-full  hover:text-teal hover:bg-white'>
                   <FaInstagram />
