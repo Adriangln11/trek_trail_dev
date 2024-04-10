@@ -37,6 +37,29 @@ Run the server with npm run dev (development) or npm start (production)
 | trips | array[string] | false |
 | role | string | false |
 
+### Comments
+
+
+| Type | Details | Route     | Description                |
+| :-------- |:-------- | :------- | :------------------------- |
+| GET | get all comments | http://localhost:PORT/api/comments |  headers: {token} |
+| GET | get all comments by user | http://localhost:PORT/api/comment/:id |  headers: {token} |
+| GET | get comment by id | http://localhost:PORT/api/comment |  headers: {token} |
+| POST |  create comment   | http://localhost:PORT/api/comment |  body : accept all Comment Schema |
+| PUT | upgrade comment by id |  http://localhost:PORT/api/comment/:id | params : { id }, body : text, headers: {token} |
+| DELETE | delete comment by id | http://localhost:PORT/api/comment/:id | params: { id }; headers: {token} |
+
+### Comment schema
+
+| Key | Type |  Required |
+| :-------- | :------- | :------------------------- |
+| userId | string | true |
+| text | string | true |
+| respondsId | array[string] | false |
+| date | date | true |
+| placeId | string | true |
+
+
 ## Backend developers
 
 - [@Tomas Rave](https://github.com/TomyReiv)

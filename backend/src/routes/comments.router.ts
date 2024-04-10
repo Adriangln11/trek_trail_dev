@@ -1,6 +1,10 @@
 import express, { Request, Response } from "express";
 import CommentsController from "../controllers/comments.controller";
-import { commentsValidator } from "../middlewares/comments.validator";
+import {
+  createCommentValidator,
+  handleCommentsValidationErrors,
+  updateCommentValidator,
+} from "../middlewares/comments.validator";
 import { commentsInterface } from "../interfaces/coments.interface";
 
 const router = express.Router();
@@ -28,12 +32,32 @@ router.get("/comment/:id", async (req: Request, res: Response) => {
 
 router.post(
   "/comment",
-  commentsValidator,
+  createCommentValidator,
+  handleCommentsValidationErrors,
   async (req: Request, res: Response) => {
     const commentData: commentsInterface = req.body;
     try {
       const createComment = await CommentsController.createComment(commentData);
       return res.status(200).json(createComment);
+    } catch (error) {
+      res.status(500).json({ message: (error as Error).message });
+    }
+  }
+);
+
+router.put(
+  "/comment/:id",
+  updateCommentValidator,
+  handleCommentsValidationErrors,
+  async (req: Request, res: Response) => {
+    const commentId: string = req.params.id;
+    const commentData: commentsInterface = req.body;
+    try {
+      const updateComment = await CommentsController.updateComment(
+        commentId,
+        commentData
+      );
+      res.status(200).json(updateComment);
     } catch (error) {
       res.status(500).json({ message: (error as Error).message });
     }

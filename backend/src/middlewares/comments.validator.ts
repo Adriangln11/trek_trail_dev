@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 
-export const commentsValidator = [
+export const createCommentValidator = [
   body("userId").notEmpty().withMessage("User is required"),
   body("text")
     .notEmpty()
@@ -9,6 +9,13 @@ export const commentsValidator = [
     .isLength({ min: 10 })
     .withMessage("Text should beat least 10 characters"),
   body('placeId').notEmpty().withMessage('Place is required')
+];
+export const updateCommentValidator = [
+  body("text")
+    .notEmpty()
+    .withMessage("Text is required")
+    .isLength({ min: 10 })
+    .withMessage("Text should beat least 10 characters")
 ];
 
 export const handleCommentsValidationErrors = (
