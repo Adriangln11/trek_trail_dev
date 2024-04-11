@@ -38,7 +38,6 @@ Run the server with npm run dev (development) or npm start (production)
 | trips | array[string] | false |
 | role | string | false |
 
-<<<<<<< HEAD
 ### Email
 
 | Type | Details | Route     | Description                |
@@ -64,9 +63,8 @@ Run the server with npm run dev (development) or npm start (production)
 | location | string | true |
 | Country | string | false |
 | Comments | array[string] | true |
-=======
-### Comments
 
+### Comments
 
 | Type | Details | Route     | Description                |
 | :-------- |:-------- | :------- | :------------------------- |
@@ -76,13 +74,11 @@ Run the server with npm run dev (development) or npm start (production)
 | POST |  create comment   | http://localhost:PORT/api/comment |  body : accept all Comment Schema |
 | PUT | upgrade comment by id |  http://localhost:PORT/api/comment/:id | params : { id }, body : text, headers: {token} |
 | DELETE | delete comment by id | http://localhost:PORT/api/comment/:id | params: { id }; headers: {token} |
->>>>>>> origin/Backend---Angel
 
 ### Comment schema
 
 | Key | Type |  Required |
 | :-------- | :------- | :------------------------- |
-<<<<<<< HEAD
 | userId | ObjectId | true |
 | text | string | true |
 | respondsId | string | false |
@@ -108,14 +104,6 @@ Run the server with npm run dev (development) or npm start (production)
 | date | string | true |
 | placeId | string | true |
 | description | string | true |
-=======
-| userId | string | true |
-| text | string | true |
-| respondsId | array[string] | false |
-| date | date | true |
-| placeId | string | true |
-
->>>>>>> origin/Backend---Angel
 
 ## Backend developers
 

@@ -10,22 +10,11 @@ const commentSchema = new Schema(
 )
 
 const PlaceSchema = new Schema<placesInterface & Document>({
-<<<<<<< HEAD
-  name: { type: String, required: true },
-  location: { type: String, required: true },
-  country: { type: String, required: true },
-  commentsId: [{
-    "_id": false,
-    cid: { type: mongoose.Schema.Types.ObjectId, ref: 'Comment' },
-  }]
-});
-=======
 	id: { type: String },
 	name: { type: String, required: true },
 	location: { type: String, required: true },
 	country: { type: String, required: true },
 	comments: [commentSchema]
 })
->>>>>>> origin/Backend---Angel
 
 export default mongoose.model('Place', PlaceSchema)

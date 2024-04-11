@@ -51,15 +51,8 @@ app.use(passport.session())
 
 const specs = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-<<<<<<< HEAD
-app.use('/api', userRouter, emailRouter, tripRouter);
-=======
-app.use('/api', userRouter);
+app.use('/api', userRouter, emailRouter, tripRouter, commentsRouter);
 app.use('/api/places', placeRouter)
-app.use('/api', commentsRouter)
-
-
->>>>>>> origin/Backend---Angel
 
 async function startServer() {
 	try {
@@ -73,11 +66,6 @@ async function startServer() {
 		process.exit(1)
 	}
 }
-
-<<<<<<< HEAD
 app.use(errorHandler);
-
 export default app;
-=======
-export default app
->>>>>>> origin/Backend---Angel
+
