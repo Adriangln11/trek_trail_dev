@@ -3,7 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
 import { FormEvent, useState } from 'react'
-import { useCountries } from 'use-react-countries' // eslint-disable-line no-alert
+// @ts-ignore
+import { useCountries } from 'use-react-countries' //Tira error porque tiene tipo "any" inferido
 import { AxiosError } from 'axios'
 import { FcGoogle } from 'react-icons/fc'
 import { registerUser } from '@/utils/http.utils'
