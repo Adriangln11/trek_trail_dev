@@ -2,6 +2,11 @@ import express, { Request, Response, Router } from 'express'
 import { handlePlaceValidationErrors } from '../middlewares/place.validator'
 import PlaceController from '../controllers/place.controller'
 import { CODE } from '../utils/constants'
+import { adminPolicy } from '../middlewares/adminPolicy'
+import { isLogged } from '../middlewares/isLogged'
+import upload from '../middlewares/handleMulter'
+import cloudinary from '../config/cloudinary.config'
+import { unlink } from 'fs/promises'
 
 const router: Router = express.Router()
 
@@ -30,9 +35,20 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 router.post(
 	'/',
+	isLogged,
+	upload.single('image'),
 	handlePlaceValidationErrors,
 	async (req: Request, res: Response) => {
 		const placeData = req.body
+		const image = req.file
+		if (image) {
+			const res = await cloudinary.uploader.upload(image.path)
+			if (res) {
+				const local = `${image.destination}/${image.filename}`
+				placeData.image = res.secure_url
+				await unlink(local)
+			}
+		}
 		try {
 			const placeCreated = await PlaceController.createPlace(placeData)
 			res.status(CODE.OK).json(placeCreated)
@@ -46,12 +62,23 @@ router.post(
 
 router.put(
 	'/:id',
+	isLogged,
+	upload.single('image'),
 	handlePlaceValidationErrors,
 	async (req: Request, res: Response) => {
 		const placeId = req.params.id
 		const placeData = req.body
+		const image = req.file
+		if (image) {
+			const res = await cloudinary.uploader.upload(image.path)
+			if (res) {
+				const local = `${image.destination}/${image.filename}`
+				placeData.image = res.secure_url
+				await unlink(local)
+			}
+		}
 		try {
-			const updatedPlace = await PlaceController.updatePlace(placeId, placeData)
+			await PlaceController.updatePlace(placeId, placeData)
 			res.status(CODE.OK).json({ message: 'Place Actualizado Correctamente' })
 		} catch (error) {
 			res
@@ -61,7 +88,7 @@ router.put(
 	}
 )
 
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', adminPolicy, async (req: Request, res: Response) => {
 	const placeId = req.params.id
 	try {
 		await PlaceController.deletePlace(placeId)
