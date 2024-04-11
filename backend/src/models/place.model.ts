@@ -14,6 +14,7 @@ const PlaceSchema = new Schema<placesInterface & Document>({
 	name: { type: String, required: true },
 	location: { type: String, required: true },
 	country: { type: String, required: true },
+	image: { type: String, required: true },
 	comments: [commentSchema]
 })
 
