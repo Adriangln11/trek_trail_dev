@@ -1,42 +1,84 @@
 'use client'
-
 import Image from 'next/image'
+import Link from 'next/link'
+import { HiMenu } from 'react-icons/hi'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import logo from '../public/logo.png'
-import Modal from './Modal'
-import Provider from '@/app/Providers'
+import logo from '../public/logo.svg'
+import HamburgerModal from './HamburgerModal'
+import Avatar from './Avatar'
+import { useSession } from 'next-auth/react'
 
 export const Navbar = () => {
+  const pathname = usePathname()
+  const { data: session, status } = useSession()
   const [isOpen, setIsOpen] = useState(false)
   return (
-    <nav className='p-3 flex border-b justify-around'>
-      <div className='w-'>
-        <Image src={logo} alt='Aventura Compartida Logo' width={100} />
+    <nav className='py-3 px-5 flex border-b-2 justify-between font-aeonik'>
+      <div className='flex gap-10'>
+        <Link href='/' className='w-'>
+          <Image src={logo} alt='Aventura Compartida Logo' width={100} />
+        </Link>
+        <div className='hidden md:flex'>
+          <ul className='flex gap-3  font-medium'>
+            <li className='inline-flex items-center hover:text-light-green '>
+              <Link
+                href='/'
+                className={` ${pathname == '/' ? 'text-light-green' : ''}`}
+              >
+                Inicio
+              </Link>
+            </li>
+            <li className='inline-flex items-center hover:text-light-green'>
+              <Link
+                href='/explore'
+                className={` ${
+                  pathname == '/explore' ? 'text-light-green' : ''
+                }`}
+              >
+                Explorar
+              </Link>
+            </li>
+            <li className='inline-flex items-center hover:text-light-green'>
+              <Link
+                href='/post'
+                className={` ${pathname == '/post' ? 'text-light-green' : ''}`}
+              >
+                Compartir
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div className='hidden md:flex'>
-        <ul className='flex gap-3 text-zinc-950 font-semibold '>
-          <li className='inline-flex items-center hover:text-green-700'>
-            <a href='/'>Inicio</a>
-          </li>
-          <li className='inline-flex items-center hover:text-green-700'>
-            <a href='/explore'>Explorar</a>
-          </li>
-          <li className='inline-flex items-center hover:text-green-700'>
-            <a href='/post'>Compartir</a>
-          </li>
-        </ul>
-      </div>
-      <div className='flex items-center'>
-        <button
-          onClick={() => setIsOpen(true)}
-          className='bg-green-500 text-white font-semibold rounded-lg p-2 hover:bg-white hover:text-green-700 hover:border-green-700 border'
-        >
-          Iniciar sesion
-        </button>
-        <Provider>
-          <Modal open={isOpen} close={() => setIsOpen(false)} />
-        </Provider>
-      </div>
+      {session?.user ? (
+        <Avatar />
+      ) : (
+        <div>
+          <div
+            className={`${
+              pathname == '/login' ||
+              pathname == '/register' ||
+              pathname == '/login/recovery'
+                ? 'hidden'
+                : 'flex items-center'
+            }`}
+          >
+            <Link
+              href='/login'
+              className='bg-light-green text-white font-medium rounded-full py-3 px-5 hover:bg-white hover:text-light-green hover:border-light-green border hidden md:block'
+            >
+              Iniciar sesión
+            </Link>
+          </div>
+        </div>
+      )}
+      <button
+        className=' md:hidden text-light-green'
+        onClick={() => setIsOpen(true)}
+      >
+        <HiMenu className=' text-5xl' />
+      </button>
+      <HamburgerModal open={isOpen} close={() => setIsOpen(false)} />
     </nav>
   )
 }
