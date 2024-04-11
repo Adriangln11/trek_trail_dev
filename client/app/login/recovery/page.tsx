@@ -42,12 +42,18 @@ const LoginPage = () => {
             priority={true}
             className='m-auto'
           />
-          <figcaption>Accede a tu cuenta</figcaption>
+          <figcaption>Recuperar contraseña</figcaption>
         </figure>
         <form
           className='space-y-4 max-w-lg my-5 mx-auto'
           onSubmit={handleSubmit}
         >
+          <div className='text-xs text-center m-auto'>
+            <p>
+              Por favor, introduce tu dirección de correo electronico asociada a
+              tu cuenta para restablecer tu contraseña.
+            </p>
+          </div>
           <div>
             <label
               htmlFor='email'
@@ -71,68 +77,24 @@ const LoginPage = () => {
               })}
             </small> */}
           </div>
-          <div>
-            <label
-              htmlFor='password'
-              className='block mb-2 text-sm font-medium text-slate-800'
-            >
-              Contraseña
-            </label>
-            <input
-              type='password'
-              name='password'
-              id='password'
-              placeholder='••••••••'
-              className='bg-gray-50 outline outline-1  outline-light text-gray-900 text-sm rounded-lg focus:outline-2 block w-full p-3 '
-              required
-            />
-            {/* <small className='text-red-500 font-semibold'>
-              {errors.map((e) => {
-                if (e.path == 'password') {
-                  return e.msg
-                }
-              })}
-            </small> */}
-          </div>
-          <div className='flex justify-end'>
-            <Link
-              href='/login/recovery'
-              className='text-sm font-normal text-dark/70 underline'
-            >
-              Olvidé mi contraseña
-            </Link>
-          </div>
-          <div className='flex flex-col gap-2'>
+
+          <div className='flex flex-col gap-4'>
             <button
               onSubmit={() => signIn('credentials')}
               type='submit'
               className='w-full text-white bg-teal hover:-translate-y-1 transition-transform border-2   font-bold rounded-full px-5 py-3 text-center text-lg'
             >
-              Acceder
+              Enviar correo
             </button>
-            <div className='flex justify-center divide-y-2'>
-              <span className='text-dark'>o</span>
-            </div>
+
             <button
               onClick={() => signIn(undefined, { callbackUrl: '/' })}
               type='submit'
               className=' border-dark/70 w-full font-semibold rounded-full text-lg text-dark/70 px-5 py-3 text-center border-2 bg-soft-gray hover:-translate-y-1 transition-transform  flex justify-center gap-5 items-center
                 '
             >
-              <p className='relative flex items-center'>
-                {' '}
-                <i className='absolute -left-10 text-2xl'>
-                  <FcGoogle />
-                </i>
-                Iniciar con Google
-              </p>
+              Ir a inicio de sesión
             </button>
-          </div>
-          <div className='text-sm text-center font-normal text-dark '>
-            ¿No tienes cuenta?
-            <Link href='/register' className=' text-semibold underline  mx-2'>
-              Registrarme
-            </Link>
           </div>
         </form>
       </div>

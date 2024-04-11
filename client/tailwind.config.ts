@@ -23,6 +23,7 @@ const config: Config = {
         'dark-silver': '#VBFBDB4',
         light: '#BFBDB4',
         'light-green': '#888C07',
+        dark: '#0B1726',
       },
     },
     fontFamily: {

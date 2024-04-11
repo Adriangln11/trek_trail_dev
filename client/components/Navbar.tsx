@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FcMenu } from 'react-icons/fc'
+import { HiMenu } from 'react-icons/hi'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import logo from '../public/logo.svg'
@@ -14,13 +14,13 @@ export const Navbar = () => {
   const { data: session, status } = useSession()
   const [isOpen, setIsOpen] = useState(false)
   return (
-    <nav className='p-3 flex border-b-2 justify-between font-aeonik'>
+    <nav className='py-3 px-5 flex border-b-2 justify-between font-aeonik'>
       <div className='flex gap-10'>
         <Link href='/' className='w-'>
           <Image src={logo} alt='Aventura Compartida Logo' width={100} />
         </Link>
         <div className='hidden md:flex'>
-          <ul className='flex gap-3  font-semibold'>
+          <ul className='flex gap-3  font-medium'>
             <li className='inline-flex items-center hover:text-light-green '>
               <Link
                 href='/'
@@ -56,22 +56,27 @@ export const Navbar = () => {
         <div>
           <div
             className={`${
-              pathname == '/login' || pathname == '/register'
+              pathname == '/login' ||
+              pathname == '/register' ||
+              pathname == '/login/recovery'
                 ? 'hidden'
                 : 'flex items-center'
             }`}
           >
             <Link
               href='/login'
-              className='bg-light-green text-white font-semibold rounded-full py-3 px-5 hover:bg-white hover:text-light-green hover:border-light-green border hidden md:block'
+              className='bg-light-green text-white font-medium rounded-full py-3 px-5 hover:bg-white hover:text-light-green hover:border-light-green border hidden md:block'
             >
-              Iniciar sesion
+              Iniciar sesión
             </Link>
           </div>
         </div>
       )}
-      <button className=' md:hidden' onClick={() => setIsOpen(true)}>
-        <FcMenu className=' text-5xl' />
+      <button
+        className=' md:hidden text-light-green'
+        onClick={() => setIsOpen(true)}
+      >
+        <HiMenu className=' text-5xl' />
       </button>
       <HamburgerModal open={isOpen} close={() => setIsOpen(false)} />
     </nav>

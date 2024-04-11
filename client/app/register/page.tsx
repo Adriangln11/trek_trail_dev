@@ -1,15 +1,20 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FcGoogle } from 'react-icons/fc'
 import { signIn } from 'next-auth/react'
-
-import logoNoText from '@/public/logoNoText.svg'
-import { registerUser } from '@/utils/http.utils'
 import { FormEvent, useState } from 'react'
+import { useCountries } from 'use-react-countries' // eslint-disable-line no-alert
 import { AxiosError } from 'axios'
+import { FcGoogle } from 'react-icons/fc'
+import { registerUser } from '@/utils/http.utils'
+import logoNoText from '@/public/logoNoText.svg'
+import bgImageLogin from '@/public/bgImageLogin.svg'
+import { useRouter } from 'next/navigation'
+import {} from 'next-auth'
 
 const RegisterPage = () => {
+  const router = useRouter()
+  const { countries } = useCountries()
   const [errors, setErrors] = useState<{ path: string; msg: string }[]>([])
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -20,11 +25,20 @@ const RegisterPage = () => {
       const err = res.response?.data.errors
       setErrors(err)
     }
+    router.push('/')
   }
   return (
-    <div className='flex h-full  w-full my-2 '>
-      <div className=' p-10 h-3/4  w-full '>
-        <figure className='text-center font-aeonik font-bold text-3xl'>
+    <div className='relative flex h-full  w-full md:p-5 font-aeonik '>
+      <div className='absolute inset-x-0 inset-y-0 -z-10 '>
+        <Image
+          src={bgImageLogin}
+          alt='Imagen de fondo'
+          layout='fill'
+          objectFit='cover'
+        />
+      </div>
+      <div className=' p-10 h-3/4  w-full md:w-1/2 xl:w-1/3 mx-auto  rounded-xl bg-soft-gray'>
+        <figure className='text-center font-bold text-3xl'>
           <Image
             src={logoNoText}
             alt='Logo de Aventura Compartida'
@@ -32,7 +46,7 @@ const RegisterPage = () => {
             priority={true}
             className='m-auto'
           />
-          <figcaption>Registrate</figcaption>
+          <figcaption>Crea tu cuenta</figcaption>
         </figure>
         <form
           className='space-y-4 max-w-lg mx-auto my-5'
@@ -42,7 +56,7 @@ const RegisterPage = () => {
             <div className='md:w-1/2'>
               <label
                 htmlFor='first_name'
-                className='block mb-2 text-sm font-medium text-slate-800 '
+                className='block mb-2 text-sm font-medium text-dark  '
               >
                 Nombres
               </label>
@@ -55,17 +69,18 @@ const RegisterPage = () => {
                 required
               />
               <small className='text-red-500 font-semibold'>
-                {errors.map((e) => {
-                  if (e.path == 'first_name') {
-                    return e.msg
-                  }
-                })}
+                {errors &&
+                  errors.map((e) => {
+                    if (e.path == 'first_name') {
+                      return e.msg
+                    }
+                  })}
               </small>
             </div>
             <div className='md:w-1/2'>
               <label
                 htmlFor='last_name'
-                className='block mb-2 text-sm font-medium text-slate-800 '
+                className='block mb-2 text-sm font-medium text-dark  '
               >
                 Apellidos
               </label>
@@ -78,18 +93,19 @@ const RegisterPage = () => {
                 required
               />
               <small className='text-red-500 font-semibold'>
-                {errors.map((e) => {
-                  if (e.path == 'last_name') {
-                    return e.msg
-                  }
-                })}
+                {errors &&
+                  errors.map((e) => {
+                    if (e.path == 'last_name') {
+                      return e.msg
+                    }
+                  })}
               </small>
             </div>
           </div>
           <div>
             <label
               htmlFor='email'
-              className='block mb-2 text-sm font-medium text-slate-800 '
+              className='block mb-2 text-sm font-medium text-dark  '
             >
               Email
             </label>
@@ -102,17 +118,18 @@ const RegisterPage = () => {
               required
             />
             <small className='text-red-500 font-semibold'>
-              {errors.map((e) => {
-                if (e.path == 'email') {
-                  return e.msg
-                }
-              })}
+              {errors &&
+                errors.map((e) => {
+                  if (e.path == 'email') {
+                    return e.msg
+                  }
+                })}
             </small>
           </div>
           <div>
             <label
               htmlFor='password'
-              className='block mb-2 text-sm font-medium text-slate-800'
+              className='block mb-2 text-sm font-medium text-dark '
             >
               Contraseña
             </label>
@@ -125,67 +142,65 @@ const RegisterPage = () => {
               required
             />
             <small className='text-red-500 font-semibold'>
-              {errors.map((e) => {
-                if (e.path == 'password') {
-                  return e.msg
-                }
-              })}
+              {errors &&
+                errors.map((e) => {
+                  if (e.path == 'password') {
+                    return e.msg
+                  }
+                })}
             </small>
           </div>
 
           <div>
             <label
               htmlFor='country'
-              className='block mb-2 text-sm font-medium text-slate-800'
+              className='block mb-2 text-sm font-medium text-dark '
             >
               País
             </label>
             <select
               name='country'
-              id=''
               className='bg-gray-50 outline outline-1  outline-light text-gray-900 text-sm rounded-lg focus:outline-2 block w-full p-3 '
             >
               <optgroup>
-                <option value='colombia'>Colombia</option>
-                <option value='venezuela'>Venezuela</option>
-                <option value='agentina'>Argentina</option>
-                <option value='mexico'>Mexico</option>
+                {countries.map(({ name }: any) => {
+                  return (
+                    <option key={name} value={name}>
+                      {name}
+                    </option>
+                  )
+                })}
               </optgroup>
             </select>
             <small className='text-red-500 font-semibold'>
-              {errors.map((e) => {
-                if (e.path == 'country') {
-                  return e.msg
-                }
-              })}
+              {errors &&
+                errors.map((e) => {
+                  if (e.path == 'country') {
+                    return e.msg
+                  }
+                })}
             </small>
           </div>
-          <small className='text-red-500 font-semibold'>
-            {errors.map((e) => {
-              if (e.path == 'email') {
-                return e.msg
-              }
-            })}
-          </small>
-          <button className='w-full text-white bg-light-green hover:-translate-y-1 transition-transform border-2   font-medium rounded-full px-5 py-3 text-center text-lg'>
+
+          <button className='w-full text-white bg-teal hover:-translate-y-1 transition-transform border-2   font-bold rounded-full px-5 py-3 text-center text-lg'>
             Crear cuenta
           </button>
           <button
             onClick={() => signIn(undefined, { callbackUrl: '/' })}
             type='button'
-            className='w-full font-medium rounded-full text-lg px-5 py-3 text-center border-2 bg-soft-gray hover:-translate-y-1 transition-transform  flex justify-center gap-5 items-center'
+            className=' border-dark/70 w-full font-semibold rounded-full text-lg text-dark/70 px-5 py-3 text-center border-2 bg-soft-gray hover:-translate-y-1 transition-transform  flex justify-center gap-5 items-center'
           >
-            <i className=' text-xl'>
-              <FcGoogle />
-            </i>
-            <p>Iniciar con Google</p>
+            <p className='relative flex items-center'>
+              {' '}
+              <i className='absolute -left-10 text-2xl'>
+                <FcGoogle />
+              </i>
+              Iniciar con Google
+            </p>
           </button>
-          <div className='text-sm font-medium text-gray-700 '>
+          <div className='text-sm text-center font-normal text-dark  '>
             Ya tienes cuenta?
-            <Link
-              href='/login'
-              className='text-blue-700 hover:underline dark:text-blue-500 mx-2'
-            >
+            <Link href='/login' className='text-semibold underline  mx-2'>
               Inicia sesión
             </Link>
           </div>
