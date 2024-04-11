@@ -22,8 +22,6 @@ router.get("/comment/:id", async (req: Request, res: Response) => {
   try {
     const commentId: string = req.params.id;
     const comment = await CommentsController.getCommentById(commentId);
-    console.log(comment);
-
     res.status(200).json(comment);
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });

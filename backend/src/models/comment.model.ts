@@ -10,11 +10,8 @@ const CommentSchema = new Schema<commentsInterface & Document>({
         "_id": false,
         rid: { type: mongoose.Schema.Types.ObjectId, ref: 'Respond' }
     }],
-    date: {type: Date, required: true},
-    placeId: [{
-        "_id": false,
-        pid: { type: mongoose.Schema.Types.ObjectId, ref: 'Place', require: true },
-    }],
+    date: {type: Date, default: Date.now(), required: true},
+    placeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Place', require: true },
 });
 
 

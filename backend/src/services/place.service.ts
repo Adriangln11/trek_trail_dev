@@ -5,7 +5,9 @@ import PlaceRepository from '../repositories/place.repository'
 class PlaceService {
 	async getAllPlaces(): Promise<PlaceDTO[]> {
 		try {
-			return await PlaceRepository.getAllPlaces()
+			const place = await PlaceRepository.getAllPlaces();
+			if(!place) throw new  Error('Lugar no encontrado');
+			return place;
 		} catch (error) {
 			throw new Error(
 				`Error al obtener los lugares: ${(error as Error).message}`
@@ -14,7 +16,9 @@ class PlaceService {
 	}
 	async getPlaceById(id: string): Promise<PlaceDTO | null> {
 		try {
-			return await PlaceRepository.getPlaceById(id)
+			const place = await PlaceRepository.getPlaceById(id);
+			if(!place) throw new  Error('Lugar no encontrado')
+			return place
 		} catch (error) {
 			throw new Error(
 				`Error al obtener los lugares: ${(error as Error).message}`
@@ -35,6 +39,8 @@ class PlaceService {
 		updatePlace: Partial<PlaceDTO>
 	): Promise<PlaceDTO | null> {
 		try {
+			const place = await PlaceRepository.getPlaceById(id);
+			if(!place) throw new  Error('Lugar no encontrado')
 			return await PlaceRepository.updatePlace(id, updatePlace)
 		} catch (error) {
 			throw new Error(
@@ -44,6 +50,8 @@ class PlaceService {
 	}
 	async deletePlace(id: string): Promise<void> {
 		try {
+			const place = await PlaceRepository.getPlaceById(id);
+			if(!place) throw new  Error('Lugar no encontrado')
 			await PlaceRepository.deletePlace(id)
 		} catch (error) {
 			throw new Error(

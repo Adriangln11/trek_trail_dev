@@ -21,6 +21,7 @@ const TripSchema: any = new Schema<tripsInterface>({
   placeId: { type: mongoose.Schema.Types.ObjectId, ref: placeModel, required: true },
   description: { type: String, required: true },
   stars:  { type: Number, min: 1, max: 5, required: true },
+  activity: { type: String, required: true },
   photo: [photoSchema],
   date: { type: Date, default: Date.now() },
 });

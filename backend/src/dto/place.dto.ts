@@ -1,7 +1,8 @@
+import { ObjectId } from 'mongoose'
 import { placesInterface } from '../interfaces/places.interface'
 
 export default class PlaceDTO {
-	id: string
+	id: ObjectId
 	name: string
 	location: string
 	country: string
@@ -9,7 +10,7 @@ export default class PlaceDTO {
 	comments: Array<any>
 
 	constructor(place: placesInterface) {
-		this.id = place.id || '';
+		this.id = place._id!;
 		this.name = place.name;
 		this.location = place.location;
 		this.country = place.country;

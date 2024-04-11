@@ -6,6 +6,7 @@ import userController from '../controllers/user.controller';
 import { tokenGenerator } from '../utils/utility';
 import { jwtAuthBear } from '../utils/utility';
 import { adminPolicy } from '../middlewares/adminPolicy';
+import { CODE } from '../utils/constants';
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ const router = express.Router();
 router.get('/users', jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const users = await UserController.getAllUsers();
-        res.status(200).json(users);
+        res.status(CODE.OK).json(users);
     } catch (error) {
         next(error);
     }
@@ -23,7 +24,7 @@ router.get('/users/:uid', jwtAuthBear, async (req: Request, res: Response, next:
     try {
         const { uid } = req.params;
         const users = await UserController.getUserById(uid);
-        res.status(200).json(users);
+        res.status(CODE.OK).json(users);
     } catch (error) {
         next(error);
     }
@@ -34,7 +35,7 @@ router.post("/users/loginGoogle", async (req: Request, res: Response, next: Next
     try {
         const user = await UserController.loggGoogle(req.body);
         const token = tokenGenerator(user);
-        return res.status(201).json({
+        return res.status(CODE.OK).json({
             ok: true,
             token,
             msg: "Loggin exitoso"
@@ -59,7 +60,7 @@ router.post(
 
             const token = tokenGenerator(userToken);
 
-            res.status(200).json({
+            res.status(CODE.OK).json({
                 ok: true,
                 token,
                 msg: "Login exitoso"
@@ -81,7 +82,7 @@ router.post(
 
             const token = tokenGenerator(userToken);
 
-            res.status(200).json({
+            res.status(CODE.OK).json({
                 ok: true,
                 token,
                 msg: "Login exitoso"
@@ -98,7 +99,7 @@ router.put('/users/:uid', jwtAuthBear, async (req: Request, res: Response, next:
         const userData = req.body;
         const { uid } = req.params;
         await UserController.updateUser(uid, userData);
-        res.status(200).json({ message: 'Usuario actualizado correctamente' });
+        res.status(CODE.OK).json({ message: 'Usuario actualizado correctamente' });
     } catch (error) {
         next(error);
     }
@@ -109,7 +110,7 @@ router.delete('/users/:uid', jwtAuthBear, adminPolicy, async (req: Request, res:
     try {
         const { uid } = req.params;
         await UserController.deleteUser(uid);
-        res.status(200).json({ message: 'Usuario eliminado correctamente' });
+        res.status(CODE.OK).json({ message: 'Usuario eliminado correctamente' });
     } catch (error) {
         next(error);
     }

@@ -7,6 +7,7 @@ export interface tripsInterface {
     comments?: Array<ObjectId>,
     date: Date,
     description: String,
+    activity:string,
     placeId: ObjectId,
     photo?: Array<String>,
     stars: Number,
