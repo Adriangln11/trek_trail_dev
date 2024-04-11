@@ -11,10 +11,12 @@ const config: Config = {
       
       colors: {
         'soft-gray': '#807A80',
-        'dark-green': '#073420',
+        'dark-green': '#2F401E',
+        'soft-green': '#497574',
         'teal': '#497574',
         'forest-green': '#1D3B31',
         'silver': '#C0C0C0',
+        'soft-silver': '#D7D7D7',
         'light-blue': '#081726',
         'dark-green-yellow': '#2F401E',
         'olive': '#4F5904',

@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import  Footer  from '@/components/Footer'
 import CtaNews from '@/components/CtaNews'
 import CarrouselExplore from '@/components/CarrouselExplore'
+import CardsPlaces from '@/components/CardsPlaces'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,8 +23,9 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <Navbar />
+        <CardsPlaces />
         <CarrouselExplore/>
-          <CtaNews />
+
           <Footer />
         {children}
       </body>
