@@ -26,8 +26,12 @@ class UserRepository {
 
     async getUserById(uid: any): Promise<UserDTO | null> {
         try {
+<<<<<<< HEAD
             const user = await User.findById(uid).populate("comments.cid").populate("trips");
 
+=======
+            const user = await User.findById(userId).populate({ path: 'comments', model: 'Comment' }).exec();
+>>>>>>> origin/Backend---Angel
             if (!user) return null;
             return new UserDTO(user.toObject());
         } catch (error) {

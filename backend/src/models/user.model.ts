@@ -26,8 +26,13 @@ const UserSchema = new Schema<UserInterface>({
   email: { type: String, required: true },
   password: { type: String, required: true },
   country: { type: String, required: true },
+<<<<<<< HEAD
   comments: [commentSchema],
   trips: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }],
+=======
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+  trips: [tripSchema],
+>>>>>>> origin/Backend---Angel
   favorites: [favoritasSchema],
   role: { type: String, enum: ['ADMIN', 'USER'], default: 'USER' },
   avatar: [avatarSchema],
