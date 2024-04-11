@@ -10,7 +10,7 @@ export default class CommentDto {
     placeId: ObjectId;
 
     constructor(comments: commentsInterface){
-        this.id = comments.id;
+        this.id = comments.id || '';
         this.userId = comments.userId;
         this.text = comments.text;
         this.respondsId = comments.respondsId;

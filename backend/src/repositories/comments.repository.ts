@@ -26,7 +26,7 @@ class CommentsRepository {
         return null;
       }
 
-      return comment;
+      return new CommentDto(comment.toObject());
     } catch (error) {
       throw new Error(
         `Error al obtener el comentario: ${(error as Error).message}`
