@@ -64,6 +64,8 @@ const CarrouselExplore: React.FC = () => {
                         src={actividad.image}
                         alt={actividad.title}
                         className='rounded-full w-24 h-24'
+                        width={50}
+                        height={50}
                       />
                       <div className='text-center text-white'>
                         <h2>{actividad.title}</h2>
