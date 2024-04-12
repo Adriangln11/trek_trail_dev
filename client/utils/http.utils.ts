@@ -11,13 +11,17 @@ export const registerUser = async (e: FormEvent<HTMLFormElement>) => {
   const country = data.get('country')
 
   try {
-    return await axios.post('https://no-country-back.onrender.com/api/users/', {
-      first_name,
-      last_name,
-      email,
-      password,
-      country,
-    })
+    const res = await axios.post(
+      'https://no-country-back.onrender.com/api/users/',
+      {
+        first_name,
+        last_name,
+        email,
+        password,
+        country,
+      }
+    )
+    return res
   } catch (error) {
     return error
   }

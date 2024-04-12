@@ -4,27 +4,46 @@ import Link from 'next/link'
 import { signIn } from 'next-auth/react'
 import { FcGoogle } from 'react-icons/fc'
 import logoNoText from '@/public/logoNoText.svg'
+import bgImageLogin from '@/public/bgImageLogin.svg'
 import { FormEvent, useState } from 'react'
-import { loginUser } from '@/utils/http.utils'
-import { AxiosError } from 'axios'
+import { useRouter } from 'next/navigation'
 
 const LoginPage = () => {
-  const [errors, setErrors] = useState<{ path: string; msg: string }[]>([])
+  const [errors, setErrors] = useState<string[]>([])
+  const [email, setEmail] = useState('test@test.com')
+  const [password, setPassword] = useState('123123')
+  const router = useRouter()
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setErrors([])
 
-    const res = await loginUser(e)
-    if (res instanceof AxiosError) {
-      const err = res.response?.data.errors
-      console.log(res)
-      setErrors(err)
+    const responseNextAuth = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    })
+
+    if (responseNextAuth?.error) {
+      setErrors(responseNextAuth.error.split(','))
+      return
     }
+
+    router.push('/')
   }
+
   return (
-    <div className='flex h-full  w-full my-2 '>
-      <div className=' p-10 h-3/4  w-full '>
-        <figure className='text-center font-aeonik font-bold text-3xl'>
+    <div className='relative flex h-full  w-full md:p-5 font-aeonik '>
+      <div className='absolute inset-x-0 inset-y-0 -z-10'>
+        <Image
+          src={bgImageLogin}
+          alt='Imagen de fondo'
+          layout='fill'
+          objectFit='cover'
+        />
+      </div>
+      <div className='p-10 h-3/4  w-full md:w-1/2 xl:w-1/3 mx-auto  rounded-xl bg-light-gray '>
+        <figure className='text-center font-bold text-3xl'>
           <Image
             src={logoNoText}
             alt='Logo de Aventura Compartida'
@@ -35,17 +54,18 @@ const LoginPage = () => {
           <figcaption>Accede a tu cuenta</figcaption>
         </figure>
         <form
-          className='space-y-4 max-w-lg mx-auto my-5'
+          className='space-y-4 max-w-lg my-5 mx-auto'
           onSubmit={handleSubmit}
         >
           <div>
             <label
               htmlFor='email'
-              className='block mb-2 text-sm font-medium text-slate-800 '
+              className='block mb-2 text-sm font-medium text-dark '
             >
               Email
             </label>
             <input
+              onChange={(event) => setEmail(event.target.value)}
               type='email'
               name='email'
               id='email'
@@ -69,6 +89,7 @@ const LoginPage = () => {
               Contraseña
             </label>
             <input
+              onChange={(event) => setPassword(event.target.value)}
               type='password'
               name='password'
               id='password'
@@ -84,53 +105,52 @@ const LoginPage = () => {
               })}
             </small> */}
           </div>
-          <div className='flex justify-between'>
-            <div className='flex items-start'>
-              <div className='flex items-center h-5'>
-                <input
-                  id='remember'
-                  type='checkbox'
-                  value=''
-                  className='w-4 h-4 border border-gray-300 rounded bg-gray-50  focus:ring-blue-300 '
-                />
-              </div>
-              <label
-                htmlFor='remember'
-                className='mx-2 text-sm font-medium text-slate-800'
-              >
-                Recordarme
-              </label>
-            </div>
-            <a
-              href='#'
-              className='text-sm text-blue-700 hover:underline dark:text-blue-500'
-            >
-              ¿Olvidaste tu contraseña?
-            </a>
-          </div>
-          <button
-            type='submit'
-            className='w-full text-white bg-light-green hover:-translate-y-1 transition-transform border-2   font-medium rounded-full px-5 py-3 text-center text-lg'
-          >
-            Acceder
-          </button>
-          <button
-            onClick={() => signIn(undefined, { callbackUrl: '/' })}
-            type='submit'
-            className='w-full font-medium rounded-full text-lg px-5 py-3 text-center border-2 bg-soft-gray hover:-translate-y-1 transition-transform  flex justify-center gap-5 items-center
-              '
-          >
-            <i className=' text-xl'>
-              <FcGoogle />
-            </i>
-            <p>Iniciar con Google</p>
-          </button>
-          <div className='text-sm font-medium text-gray-700 '>
-            ¿No tienes cuenta?
+          <div className='flex justify-end'>
             <Link
-              href='/register'
-              className='text-blue-700 hover:underline dark:text-blue-500 mx-2'
+              href='/login/recovery'
+              className='text-sm font-normal text-dark/70 underline'
             >
+              Olvidé mi contraseña
+            </Link>
+          </div>
+          {errors.length > 0 && (
+            <div className='alert alert-danger mt-2'>
+              <ul className='mb-0'>
+                {errors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <div className='flex flex-col gap-2'>
+            <button
+              onSubmit={() => signIn('credentials')}
+              type='submit'
+              className='w-full text-white bg-teal hover:-translate-y-1 transition-transform border-2   font-bold rounded-full px-5 py-3 text-center text-lg'
+            >
+              Acceder
+            </button>
+            <div className='flex justify-center divide-y-2'>
+              <span className='text-dark'>o</span>
+            </div>
+            <button
+              onClick={() => signIn('google', { callbackUrl: '/' })}
+              type='submit'
+              className=' border-dark/70 w-full font-semibold rounded-full text-lg text-dark/70 px-5 py-3 text-center border-2 bg-light-gray hover:-translate-y-1 transition-transform  flex justify-center gap-5 items-center
+                '
+            >
+              <p className='relative flex items-center'>
+                {' '}
+                <i className='absolute -left-10 text-2xl'>
+                  <FcGoogle />
+                </i>
+                Iniciar con Google
+              </p>
+            </button>
+          </div>
+          <div className='text-sm text-center font-normal text-dark '>
+            ¿No tienes cuenta?
+            <Link href='/register' className=' text-semibold underline  mx-2'>
               Registrarme
             </Link>
           </div>
