@@ -1,3 +1,5 @@
+import CardsPlaces from '@/components/CardsPlaces'
+import CarrouselExplore from '@/components/CarrouselExplore'
 
 export default function Home() {
   return (
@@ -7,6 +9,8 @@ export default function Home() {
           ¿Buscas tu proxima aventura compartida?
         </h1>
       </div>
+      <CardsPlaces />
+      <CarrouselExplore />
     </div>
   )
 }
