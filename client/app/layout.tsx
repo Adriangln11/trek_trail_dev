@@ -19,8 +19,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
-        <div className='container-fluid max-w-screen-2xl m-auto'>
+      <body className={` w-screen overflow-x-hidden  ${inter.className}`}>
+        <div className='w-full max-w-screen-2xl m-auto'>
           <Provider>
             <Navbar />
             <main className='flex h-full  w-full'>{children}</main>
