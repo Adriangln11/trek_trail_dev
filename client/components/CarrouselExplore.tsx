@@ -18,16 +18,16 @@ const CarrouselExplore: React.FC = () => {
     { id: 2, image: run.src, title: 'Correr' },
     { id: 3, image: run.src, title: 'Ciclismo' },
     { id: 4, image: run.src, title: 'Escalada en roca' },
-    { id: 5, image: run.src, title: 'ASDADS' },
-    { id: 6, image: run.src, title: 'ActivASDSADSADdad ' },
-    { id: 7, image: run.src, title: 'Actividad ' },
-    { id: 8, image: run.src, title: 'Actividad 8' },
-    { id: 9, image: run.src, title: 'Actividad 9' },
-    { id: 10, image: run.src, title: 'Actividad 10' },
+    { id: 5, image: run.src, title: 'Correr' },
+    { id: 6, image: run.src, title: 'Ciclismo' },
+    { id: 7, image: run.src, title: 'Escalada en roca' },
+    { id: 8, image: run.src, title: 'Correr' },
+    { id: 9, image: run.src, title: 'Ciclismo' },
+    { id: 10, image: run.src, title: 'Escalada en roca' },
   ];
 
   const handleClickNext = () => {
-    const nextIndex = startIndex + 3 < actividades.length ? startIndex + 1 : 0;
+    const nextIndex = startIndex + 1 < actividades.length ? startIndex + 1 : actividades.length - 3;
     setStartIndex(nextIndex);
     setShowPrevButton(true);
   };
