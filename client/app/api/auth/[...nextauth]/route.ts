@@ -29,9 +29,7 @@ const handler = NextAuth({
           }
         )
         const user = await res.json()
-
-        if (user.error) throw user
-
+        if (!user.token) throw new Error('Credenciales invalidas')
         user.email = credentials?.email
         return user
       },

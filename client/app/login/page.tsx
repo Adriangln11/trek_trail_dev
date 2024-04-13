@@ -12,17 +12,20 @@ const LoginPage = () => {
   const [errors, setErrors] = useState<string[]>([])
   const [email, setEmail] = useState('test@test.com')
   const [password, setPassword] = useState('123123')
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setErrors([])
+    setLoading(true)
 
     const responseNextAuth = await signIn('credentials', {
       email,
       password,
       redirect: false,
     })
+    setLoading(false)
 
     if (responseNextAuth?.error) {
       setErrors(responseNextAuth.error.split(','))
@@ -114,12 +117,19 @@ const LoginPage = () => {
             </Link>
           </div>
           {errors.length > 0 && (
-            <div className='alert alert-danger mt-2'>
+            <div className='text-[#B33A3A]'>
               <ul className='mb-0'>
                 {errors.map((error) => (
                   <li key={error}>{error}</li>
                 ))}
               </ul>
+            </div>
+          )}
+          {loading && (
+            <div className='flex justify-center'>
+              <span className='text-dark'>
+                Espera un momento, estamos cargando tu información...
+              </span>
             </div>
           )}
           <div className='flex flex-col gap-2'>
