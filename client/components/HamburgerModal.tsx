@@ -46,7 +46,7 @@ export const HamburgerModal = ({
     <div
       ref={modalRef}
       tabIndex={-1}
-      className='fixed top-0 right-0 z-50 p-2 w-3/4 h-full  overflow-y-hidden backdrop-blur-md flex  rounded-lg bg-white/50'
+      className='fixed top-0 right-0 bottom-0 z-50  w-3/4 backdrop-blur-md flex  rounded-lg bg-white/50'
     >
       <div className='w-full flex p-5 justify-between'>
         <div>
