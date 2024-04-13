@@ -1,4 +1,3 @@
-import React from 'react'
 import Image from 'next/image'
 import { FaSearch } from 'react-icons/fa'
 import imageHeader1 from '@/public/imageHeader1.svg'
