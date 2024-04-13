@@ -1,3 +1,4 @@
+import About from '@/components/About'
 import CardsPlaces from '@/components/CardsPlaces'
 import CarrouselExplore from '@/components/CarrouselExplore'
 import MainHeader from '@/components/MainHeader'
@@ -13,6 +14,7 @@ export default function Home() {
       <MainHeader />
       <CardsPlaces />
       <CarrouselExplore />
+      <About />
     </div>
   )
 }
