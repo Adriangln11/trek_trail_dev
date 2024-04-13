@@ -7,10 +7,11 @@ export default class UserDTO {
     last_name: string;
     email: string;
     country: string;
-    comments: Array<any>;
+    comments?: Array<any>;
     trips: Array<any>;
     role?: string;
     last_connection: Date;
+    avatar?:String;
     status?: string
 
     constructor(user: UserInterface) {
@@ -22,6 +23,7 @@ export default class UserDTO {
         this.comments = user.comments || [];
         this.trips = user.trips || [];
         this.role = user.role;
+        this.avatar = user.avatar;
         this.last_connection = user.last_connection;
         this.status = user.status
     }

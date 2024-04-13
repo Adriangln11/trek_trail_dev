@@ -3,6 +3,7 @@ import CommentDto from "../dto/comments.dto";
 import { commentsInterface } from "../interfaces/coments.interface";
 import Comment from "../models/comment.model";
 import User from "../models/user.model";
+import Place from "../models/place.model";
 
 class CommentsRepository {
   async getAllComments(): Promise<CommentDto[] | []> {
@@ -38,19 +39,26 @@ class CommentsRepository {
     try {
       const date = new Date();
       const user = await User.findById(commentData.userId);
+      const place = await Place.findById(commentData.placeId);
 
       if (!user) {
         throw new Error(
           `No existe el usuario con la id: ${commentData.userId}`
         );
       }
+      if (!place) {
+        throw new Error(`No existe el lugar con el id: ${commentData.placeId}`);
+      }
       const newComment = new Comment({ ...commentData, date });
 
       const savedComment = await newComment.save();
 
       user.comments?.push(savedComment._id);
+            
+      place.comments?.push(savedComment._id);
 
       await user.save();
+      await place.save();
 
       return savedComment;
     } catch (error) {

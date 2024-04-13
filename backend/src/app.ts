@@ -10,7 +10,7 @@ import { init } from "./db/mongodb";
 import userRouter from './routes/user.router';
 import placeRouter from './routes/place.router'
 import commentsRouter from './routes/comments.router';
-
+import countryRouter from "./routes/country.router";
 
 import passport from "passport";
 import { init as initPassport } from "./config/passport.config";
@@ -51,7 +51,7 @@ app.use(passport.session())
 
 const specs = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-app.use('/api', userRouter, emailRouter, tripRouter, commentsRouter);
+app.use('/api', userRouter, emailRouter, tripRouter, commentsRouter, countryRouter);
 app.use('/api/places', placeRouter)
 
 async function startServer() {

@@ -15,7 +15,7 @@ const PlaceSchema = new Schema<placesInterface & Document>({
 	location: { type: String, required: true },
 	country: { type: String, required: true },
 	image: { type: String },
-	comments: [commentSchema]
+	comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
 })
 
 export default mongoose.model('Place', PlaceSchema)

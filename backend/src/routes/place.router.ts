@@ -100,4 +100,4 @@ router.delete('/:id', adminPolicy, async (req: Request, res: Response) => {
 	}
 })
 
-export default router
+export default router;

@@ -13,7 +13,7 @@ export default class CommentDto {
         this.id = comments._id!;
         this.userId = comments.userId;
         this.text = comments.text;
-        this.respondsId = comments.respondsId;
+        this.respondsId = comments.respondsId || [];
         this.date = comments.date;
         this.placeId = comments.placeId;
     }
