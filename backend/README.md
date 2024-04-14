@@ -23,6 +23,7 @@ Run the server with npm run dev (development) or npm start (production)
 | POST |  Login with google   | http://localhost:PORT/api/users/loginGoogle |  body : { name, email, image } |
 | PUT | upgrade user by id |  http://localhost:PORT/api/users/:id | params : { id }, body : accept all User Schema, headers: {token} |
 | DELETE | delete user by id | http://localhost:PORT/api/users/:id | params: { id }; headers: {token} |
+| GET | delete user by id | http://localhost:PORT/api/users/logout/:id | params: { id }; headers: {token} |
 
 
 ### User schema

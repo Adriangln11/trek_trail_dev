@@ -17,5 +17,6 @@ export interface UserInterface extends AuthInterface {
     role?: UserRole;
     avatar?: String;
     last_connection: Date;
-    status?: string
+    status?: string;
+    leter?: string;
 }

@@ -1,12 +1,5 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { UserInterface } from '../interfaces/user.interface';
-import commentModel from './comment.model';
-import tripModel from './trip.model';
-
-
-const favoritasSchema = new Schema({
-  tid: { type: mongoose.Schema.Types.ObjectId, ref: tripModel }
-}, { _id: false });
 
 const UserSchema = new Schema<UserInterface>({
   first_name: { type: String, required: true },
@@ -16,7 +9,7 @@ const UserSchema = new Schema<UserInterface>({
   country: { type: String, required: true },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
   trips: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }],
-  favorites: [favoritasSchema],
+  favorites: [{type: mongoose.Schema.Types.ObjectId, ref: 'Trip'}],
   role: { type: String, enum: ['ADMIN', 'USER'], default: 'USER' },
   avatar: {type:String},
   last_connection: { type: Date, default: Date.now() },

@@ -33,11 +33,13 @@ router.get('/users/:uid', jwtAuthBear, async (req: Request, res: Response, next:
 
 router.post("/users/loginGoogle", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await UserController.loggGoogle(req.body);
-        const token = tokenGenerator(user);
+        const userToken = await UserController.loggGoogle(req.body);
+        const user = await userController.getUserById(userToken._id);
+        const token = tokenGenerator(userToken);
         return res.status(CODE.OK).json({
             ok: true,
             token,
+            user: user,
             msg: "Loggin exitoso"
         });
     } catch (error) {
@@ -57,12 +59,14 @@ router.post(
             const { email, ...rest } = req.body;
 
             const userToken = await userController.findOne(req.body);
+            const user = await userController.getUserById(userToken._id);
 
             const token = tokenGenerator(userToken);
 
             res.status(CODE.OK).json({
                 ok: true,
                 token,
+                user: user,
                 msg: "Login exitoso"
             });
         } catch (error) {
@@ -79,12 +83,13 @@ router.post(
             const { email, ...rest } = req.body;
 
             const userToken = await userController.findOne(req.body);
-
+            const user = await userController.getUserById(userToken._id);
             const token = tokenGenerator(userToken);
 
             res.status(CODE.OK).json({
                 ok: true,
                 token,
+                user: user,
                 msg: "Login exitoso"
             });
         } catch (error) {
@@ -111,6 +116,16 @@ router.delete('/users/:uid', jwtAuthBear, adminPolicy, async (req: Request, res:
         const { uid } = req.params;
         await UserController.deleteUser(uid);
         res.status(CODE.OK).json({ message: 'Usuario eliminado correctamente' });
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/users/logout/:uid', jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { uid } = req.params;
+        const user = await userController.updateUser(uid, { last_connection: new Date() });
+        res.status(CODE.OK).json({ message: 'Logout realizado' });
     } catch (error) {
         next(error);
     }

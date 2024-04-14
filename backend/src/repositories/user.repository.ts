@@ -27,7 +27,6 @@ class UserRepository {
     async getUserById(uid: any): Promise<UserDTO | null> {
         try {
             const user = await User.findById(uid).populate("comments.cid").populate("trips");
-
             if (!user) return null;
             return new UserDTO(user.toObject());
         } catch (error) {

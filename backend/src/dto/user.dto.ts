@@ -12,7 +12,8 @@ export default class UserDTO {
     role?: string;
     last_connection: Date;
     avatar?:String;
-    status?: string
+    status?: string;
+    leter?: string;
 
     constructor(user: UserInterface) {
         this.id = user._id!;
@@ -25,7 +26,8 @@ export default class UserDTO {
         this.role = user.role;
         this.avatar = user.avatar;
         this.last_connection = user.last_connection;
-        this.status = user.status
+        this.status = user.status;
+        this.leter = user.first_name.trim().split("")[0].toUpperCase();
     }
 }
 
