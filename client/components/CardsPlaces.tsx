@@ -1,8 +1,13 @@
+'use client'
 import React from 'react'
+
+
 import run from '../public/run.jpg'
 import place from '../public/place.jpeg'
 import person from '../public/person.png'
 import Image from 'next/image'
+import { useSession } from 'next-auth/react'
+import { useEffect } from 'react'
 
 interface Places {
   id: string
@@ -13,8 +18,14 @@ interface Places {
   image: string
   calificacion: number
 }
-
+interface token{
+  token: string
+}
 const CardsPlaces: React.FC = () => {
+
+  const { data: session, status } = useSession()
+
+
   const Places: Places[] = [
     {
       id: crypto.randomUUID().toString(),
@@ -26,51 +37,80 @@ const CardsPlaces: React.FC = () => {
       image: place.src,
       calificacion: 4.8,
     },
-    {
-      id: crypto.randomUUID().toString(),
+    // {
+    //   id: crypto.randomUUID().toString(),
 
-      lugar: ' Barcelona',
-      descripcion:
-        'Descubre los sabores de Barcelona en este tour culinario por los mejores restaurantes de la ciudad.',
-      autor: 'Carlos Martínez',
-      imageAutor: person.src,
-      image: place.src,
-      calificacion: 4.5,
-    },
-    {
-      id: crypto.randomUUID().toString(),
+    //   lugar: ' Barcelona',
+    //   descripcion:
+    //     'Descubre los sabores de Barcelona en este tour culinario por los mejores restaurantes de la ciudad.',
+    //   autor: 'Carlos Martínez',
+    //   imageAutor: person.src,
+    //   image: place.src,
+    //   calificacion: 4.5,
+    // },
+    // {
+    //   id: crypto.randomUUID().toString(),
 
-      lugar: 'Prado',
-      descripcion:
-        'Recorre las magníficas obras maestras del Museo del Prado con un guía experto.',
-      autor: 'Ana García',
-      imageAutor: person.src,
-      image: place.src,
-      calificacion: 4.9,
-    },
-    {
-      id: crypto.randomUUID().toString(),
+    //   lugar: 'Prado',
+    //   descripcion:
+    //     'Recorre las magníficas obras maestras del Museo del Prado con un guía experto.',
+    //   autor: 'Ana García',
+    //   imageAutor: person.src,
+    //   image: place.src,
+    //   calificacion: 4.9,
+    // },
+    // {
+    //   id: crypto.randomUUID().toString(),
 
-      lugar: ' El campo',
-      descripcion:
-        'Disfruta de un relajante paseo en bicicleta por los hermosos paisajes del campo.',
-      autor: 'Pedro Fernández',
-      imageAutor: person.src,
-      image: place.src,
-      calificacion: 4.7,
-    },
-    {
-      id: crypto.randomUUID().toString(),
+    //   lugar: ' El campo',
+    //   descripcion:
+    //     'Disfruta de un relajante paseo en bicicleta por los hermosos paisajes del campo.',
+    //   autor: 'Pedro Fernández',
+    //   imageAutor: person.src,
+    //   image: place.src,
+    //   calificacion: 4.7,
+    // },
+    // {
+    //   id: crypto.randomUUID().toString(),
 
-      lugar: ' Italia',
-      descripcion:
-        'Aprende a cocinar auténticos platos italianos de la mano de un chef experimentado.',
-      imageAutor: person.src,
-      autor: 'Laura Martínez',
-      image: place.src,
-      calificacion: 4.6,
-    },
+    //   lugar: ' Italia',
+    //   descripcion:
+    //     'Aprende a cocinar auténticos platos italianos de la mano de un chef experimentado.',
+    //   imageAutor: person.src,
+    //   autor: 'Laura Martínez',
+    //   image: place.src,
+    //   calificacion: 4.6,
+    // },
   ]
+
+console.log(session?.user)
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        if (session && session.user) {
+          const response = await fetch("https://no-country-back.onrender.com/api/places", {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTMwNTU4MjIyZjRhMzJjMzVmZDkyYiIsImZpcnN0X25hbWUiOiJhZHJpYW4iLCJsYXN0X25hbWUiOiJkaWF6IiwiZW1haWwiOiJleGFtcGxlQGdtYWlsLmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzEzMjE3MzIyLCJleHAiOjE3MTMzMDM3MjJ9.yDfU5R9kVlMrbyckDqLWYWp7Nh3lkI6FySBbWko0SFY`
+            }
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          console.log(data);
+        } else {
+          throw new Error('No session token available');
+        }
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+      }
+    };
+  
+    fetchPlaces();
+  }, [session]);
 
   return (
     <>
