@@ -6,21 +6,33 @@ import { FcGoogle } from 'react-icons/fc'
 import logoNoText from '@/public/logoNoText.svg'
 import bgImageLogin from '@/public/bgImageLogin.svg'
 import { FormEvent, useState } from 'react'
-import { loginUser } from '@/utils/http.utils'
-import { AxiosError } from 'axios'
+import { useRouter } from 'next/navigation'
 
 const LoginPage = () => {
-  const [errors, setErrors] = useState<{ path: string; msg: string }[]>([])
+  const [errors, setErrors] = useState<string[]>([])
+  const [email, setEmail] = useState('test@test.com')
+  const [password, setPassword] = useState('123123')
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setErrors([])
+    setLoading(true)
 
-    const res = await loginUser(e)
-    if (res instanceof AxiosError) {
-      const err = res.response?.data.errors
-      console.log(res)
-      setErrors(err)
+    const responseNextAuth = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    })
+    setLoading(false)
+
+    if (responseNextAuth?.error) {
+      setErrors(responseNextAuth.error.split(','))
+      return
     }
+
+    router.push('/')
   }
 
   return (
@@ -33,7 +45,7 @@ const LoginPage = () => {
           objectFit='cover'
         />
       </div>
-      <div className='p-10 h-3/4  w-full md:w-1/2 xl:w-1/3 mx-auto  rounded-xl bg-soft-gray '>
+      <div className='p-10 h-3/4  w-full md:w-1/2 xl:w-1/3 mx-auto  rounded-xl bg-light-gray '>
         <figure className='text-center font-bold text-3xl'>
           <Image
             src={logoNoText}
@@ -56,6 +68,7 @@ const LoginPage = () => {
               Email
             </label>
             <input
+              onChange={(event) => setEmail(event.target.value)}
               type='email'
               name='email'
               id='email'
@@ -79,6 +92,7 @@ const LoginPage = () => {
               Contraseña
             </label>
             <input
+              onChange={(event) => setPassword(event.target.value)}
               type='password'
               name='password'
               id='password'
@@ -102,6 +116,22 @@ const LoginPage = () => {
               Olvidé mi contraseña
             </Link>
           </div>
+          {errors.length > 0 && (
+            <div className='text-[#B33A3A]'>
+              <ul className='mb-0'>
+                {errors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {loading && (
+            <div className='flex justify-center'>
+              <span className='text-dark'>
+                Espera un momento, estamos cargando tu información...
+              </span>
+            </div>
+          )}
           <div className='flex flex-col gap-2'>
             <button
               onSubmit={() => signIn('credentials')}
@@ -114,9 +144,9 @@ const LoginPage = () => {
               <span className='text-dark'>o</span>
             </div>
             <button
-              onClick={() => signIn(undefined, { callbackUrl: '/' })}
+              onClick={() => signIn('google', { callbackUrl: '/' })}
               type='submit'
-              className=' border-dark/70 w-full font-semibold rounded-full text-lg text-dark/70 px-5 py-3 text-center border-2 bg-soft-gray hover:-translate-y-1 transition-transform  flex justify-center gap-5 items-center
+              className=' border-dark/70 w-full font-semibold rounded-full text-lg text-dark/70 px-5 py-3 text-center border-2 bg-light-gray hover:-translate-y-1 transition-transform  flex justify-center gap-5 items-center
                 '
             >
               <p className='relative flex items-center'>

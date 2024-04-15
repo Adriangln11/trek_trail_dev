@@ -17,15 +17,20 @@ const RegisterPage = () => {
   const router = useRouter()
   const { countries } = useCountries()
   const [errors, setErrors] = useState<{ path: string; msg: string }[]>([])
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const res = await registerUser(e)
+    setLoading(true)
+
     if (res instanceof AxiosError) {
       const err = res.response?.data.errors
       setErrors(err)
     }
+    setLoading(false)
+
     router.push('/')
   }
   return (
@@ -38,7 +43,7 @@ const RegisterPage = () => {
           objectFit='cover'
         />
       </div>
-      <div className=' p-10 h-3/4  w-full md:w-1/2 xl:w-1/3 mx-auto  rounded-xl bg-soft-gray'>
+      <div className=' p-10 h-3/4  w-full md:w-1/2 xl:w-1/3 mx-auto  rounded-xl bg-light-gray'>
         <figure className='text-center font-bold text-3xl'>
           <Image
             src={logoNoText}
@@ -183,13 +188,20 @@ const RegisterPage = () => {
             </small>
           </div>
 
+          {loading && (
+            <div className='flex justify-center'>
+              <span className='text-dark'>
+                Espera un momento, estamos cargando tu información...
+              </span>
+            </div>
+          )}
           <button className='w-full text-white bg-teal hover:-translate-y-1 transition-transform border-2   font-bold rounded-full px-5 py-3 text-center text-lg'>
             Crear cuenta
           </button>
           <button
-            onClick={() => signIn(undefined, { callbackUrl: '/' })}
+            onClick={() => signIn('google', { callbackUrl: '/' })}
             type='button'
-            className=' border-dark/70 w-full font-semibold rounded-full text-lg text-dark/70 px-5 py-3 text-center border-2 bg-soft-gray hover:-translate-y-1 transition-transform  flex justify-center gap-5 items-center'
+            className=' border-dark/70 w-full font-semibold rounded-full text-lg text-dark/70 px-5 py-3 text-center border-2 bg-light-gray hover:-translate-y-1 transition-transform  flex justify-center gap-5 items-center'
           >
             <p className='relative flex items-center'>
               {' '}

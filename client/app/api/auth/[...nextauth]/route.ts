@@ -12,33 +12,41 @@ const handler = NextAuth({
     }),
     CredentialsProvider({
       name: 'Credentials',
-
       credentials: {
-        email: { label: 'email', type: 'email', placeholder: 'placeholder' },
-        password: { label: 'password', type: 'password' },
+        email: { label: 'email', type: 'email', placeholder: 'test@test.com' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
-        console.log(credentials)
-        // Add logic here to look up the user from the credentials supplied
         const res = await fetch(
           'https://no-country-back.onrender.com/api/users/login',
           {
             method: 'POST',
             body: JSON.stringify({
               email: credentials?.email,
-              passwords: credentials?.password,
+              password: credentials?.password,
             }),
             headers: { 'Content-Type': 'application/json' },
           }
         )
         const user = await res.json()
-        console.log(user)
-
-        if (user.error) throw user
+        if (!user.token) throw new Error('Credenciales invalidas')
+        user.email = credentials?.email
         return user
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...token, ...user }
+    },
+    async session({ session, token }) {
+      session.user = token as any
+      return session
+    },
+  },
+  pages: {
+    signIn: '/login',
+  },
 })
 
 export { handler as GET, handler as POST }
