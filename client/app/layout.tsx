@@ -7,6 +7,7 @@ import  Footer  from '@/components/Footer'
 import CtaNews from '@/components/CtaNews'
 import CarrouselExplore from '@/components/CarrouselExplore'
 import CardsPlaces from '@/components/CardsPlaces'
+import PlaceSpecific from './placeSpecific/page'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,11 +27,12 @@ export default function RootLayout({
         <div className='container-fluid max-w-screen-2xl m-auto'>
           <Provider>
             <Navbar />
-            <main className='flex h-full  w-full'>{children}
-              <CardsPlaces />
+{/*           
+              {/* <CardsPlaces />
               <CarrouselExplore/>
-              <Footer />
-            </main>
+            */}
+            
+            <Footer />
           </Provider>
      
         </div>

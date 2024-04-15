@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 
 import place1 from '../public/place1.jpeg';
+
 const bgImage = () => (
   
 
