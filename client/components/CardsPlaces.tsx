@@ -1,8 +1,5 @@
-import React from 'react'
-import run from '../public/run.jpg'
 import place from '../public/place.jpeg'
 import person from '../public/person.png'
-import Image from 'next/image'
 
 interface Places {
   id?: string
@@ -84,7 +81,7 @@ const CardsPlaces: React.FC = () => {
           <div className=' ' key={place.id}>
             <div className=' bg-soft-silver mt-10 rounded-lg border-gray-200 shadow '>
               <div>
-                <a href='#' className='relative'>
+                <button className='relative'>
                   <div>
                     <img
                       className='size-full rounded-t-lg'
@@ -105,7 +102,7 @@ const CardsPlaces: React.FC = () => {
                       </svg>
                     </a>
                   </div>
-                </a>
+                </button>
               </div>
               <div className='p-2'>
                 <a href='#'>
