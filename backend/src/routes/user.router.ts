@@ -7,6 +7,9 @@ import { tokenGenerator } from '../utils/utility';
 import { jwtAuthBear } from '../utils/utility';
 import { adminPolicy } from '../middlewares/adminPolicy';
 import { CODE } from '../utils/constants';
+import upload from '../middlewares/handleMulter'
+import cloudinary from '../config/cloudinary.config'
+import { unlink } from 'fs/promises'
 
 const router = express.Router();
 
@@ -98,10 +101,20 @@ router.post(
     }
 )
 
-router.put('/users/:uid', jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
-
+router.put('/users/:uid', jwtAuthBear, upload.single('avatar'), async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const avatar = req.file; 
         const userData = req.body;
+
+        if (avatar) {
+			const res = await cloudinary.uploader.upload(avatar.path)
+			if (res) {
+				const local = `${avatar.destination}/${avatar.filename}`
+				userData.avatar = res.secure_url
+				await unlink(local)
+			}
+		}
+
         const { uid } = req.params;
         await UserController.updateUser(uid, userData);
         res.status(CODE.OK).json({ message: 'Usuario actualizado correctamente' });
@@ -124,7 +137,7 @@ router.delete('/users/:uid', jwtAuthBear, adminPolicy, async (req: Request, res:
 router.get('/users/logout/:uid', jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { uid } = req.params;
-        const user = await userController.updateUser(uid, { last_connection: new Date() });
+        await userController.updateUser(uid, { last_connection: new Date() });
         res.status(CODE.OK).json({ message: 'Logout realizado' });
     } catch (error) {
         next(error);

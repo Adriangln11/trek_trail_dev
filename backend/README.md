@@ -23,7 +23,7 @@ Run the server with npm run dev (development) or npm start (production)
 | POST |  Login with google   | http://localhost:PORT/api/users/loginGoogle |  body : { name, email, image } |
 | PUT | upgrade user by id |  http://localhost:PORT/api/users/:id | params : { id }, body : accept all User Schema, headers: {token} |
 | DELETE | delete user by id | http://localhost:PORT/api/users/:id | params: { id }; headers: {token} |
-| GET | delete user by id | http://localhost:PORT/api/users/logout/:id | params: { id }; headers: {token} |
+| GET | logout | http://localhost:PORT/api/users/logout/:id | params: { id }; headers: {token} |
 
 
 ### User schema
@@ -37,7 +37,10 @@ Run the server with npm run dev (development) or npm start (production)
 | country | string | true |
 | comments | array[string] | false |
 | trips | array[string] | false |
+| favorites | array[string] | false |
+| avatar | string | false |
 | role | string | false |
+| status | string | false |
 
 ### Email
 
@@ -63,6 +66,7 @@ Run the server with npm run dev (development) or npm start (production)
 | Name | string | true |
 | location | string | true |
 | Country | string | false |
+| Image | string | false |
 | Comments | array[string] | true |
 
 ### Comments

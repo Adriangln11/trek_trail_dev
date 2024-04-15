@@ -1,6 +1,7 @@
 import multer, { diskStorage } from 'multer'
 import { existsSync, mkdirSync } from 'fs'
 import { extname } from 'path'
+import { randomUUID } from 'crypto';
 
 const multerOptions = multer({
 	limits: {
@@ -23,7 +24,7 @@ const multerOptions = multer({
 			}
 		},
 		filename: (req: any, file: Express.Multer.File, cb: any) => {
-			cb(null, `${crypto.randomUUID()}${extname(file.originalname)}`)
+			cb(null, `${randomUUID()}${extname(file.originalname)}`)
 		}
 	})
 })

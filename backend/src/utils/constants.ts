@@ -14,9 +14,9 @@ export const GMAIL_PASS:string =  process.env.GMAIL_PASS!;
 export const backURL:string = process.env.bakcURL || 'http://localhost:8080';
 export const frontURL:string = process.env.frontURL || 'http://localhost:3000';
 
-export const CLOUDINARY_NAME: string = process.env.CLOUDINARY_NAME || ''
-export const CLOUDINARY_API_KEY: string = process.env.CLOUDINARY_API_KEY || ''
-export const CLOUDINARY_API_SECRET: string = process.env.CLOUDINARY_API_SECRET || ''
+export const CLOUDINARY_NAME: string = process.env.CLOUDINARY_NAME || '';
+export const CLOUDINARY_API_KEY: string = process.env.CLOUDINARY_API_KEY || '';
+export const CLOUDINARY_API_SECRET: string = process.env.CLOUDINARY_API_SECRET || '';
 
 export enum CODE {
 	BAD_REQUEST = 400,

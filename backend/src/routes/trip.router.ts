@@ -3,6 +3,9 @@ import { jwtAuthBear } from '../utils/utility';
 import { adminPolicy } from '../middlewares/adminPolicy';
 import tripController from '../controllers/trip.controller';
 import { CODE } from '../utils/constants';
+import upload from '../middlewares/handleMulter'
+import cloudinary from '../config/cloudinary.config'
+import { unlink } from 'fs/promises'
 
 const router = express.Router();
 
@@ -26,9 +29,19 @@ router.get('/trip/:id', async (req: Request, res: Response, next: NextFunction) 
     }
 });
 
-router.post('/trip', /* jwtAuthBear, */ async (req: Request, res: Response, next: NextFunction) => {
+router.post('/trip', jwtAuthBear, upload.single('photo'), async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const photo = req.file;       
         const data = req.body;
+		if (photo) {
+			const res = await cloudinary.uploader.upload(photo.path)
+			if (res) {
+				const local = `${photo.destination}/${photo.filename}`
+				data.photo = res.secure_url
+				await unlink(local)
+			}
+		}
+        
         const newTrip = await tripController.createTrip(data);
         res.status(CODE.OK).json({
             ok: true,
@@ -39,10 +52,20 @@ router.post('/trip', /* jwtAuthBear, */ async (req: Request, res: Response, next
     }
 });
 
-router.put('/trip/:id', jwtAuthBear, async (req: Request, res: Response, next: NextFunction) => {
+router.put('/trip/:id', jwtAuthBear, upload.single('photo'), async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const photo = req.file;
+        const data = req.body;    
+        if (photo) {
+			const res = await cloudinary.uploader.upload(photo.path)
+			if (res) {
+				const local = `${photo.destination}/${photo.filename}`
+				data.photo = res.secure_url
+				await unlink(local)
+			}
+		}
         const { id } = req.params;
-        const data = req.body;
+        
         const updatedTrip = await tripController.updateTrip(id, data);
         res.status(CODE.OK).json({
             ok: true,
