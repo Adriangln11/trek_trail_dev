@@ -3,10 +3,7 @@ import { Inter } from 'next/font/google'
 import Navbar from '@/components/Navbar'
 import './globals.css'
 import Provider from '@/contexts/Providers'
-import  Footer  from '@/components/Footer'
-import CtaNews from '@/components/CtaNews'
-import CarrouselExplore from '@/components/CarrouselExplore'
-import CardsPlaces from '@/components/CardsPlaces'
+import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,20 +19,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
-        <div className='container-fluid max-w-screen-2xl m-auto'>
+      <body className={` w-screen overflow-x-hidden  ${inter.className}`}>
+        <div className='w-full max-w-screen-2xl m-auto'>
           <Provider>
             <Navbar />
-            <main className='flex h-full  w-full'>{children}
-              <CardsPlaces />
-              <CarrouselExplore/>
-              <Footer />
-            </main>
+            <main className='flex h-full  w-full'>{children}</main>
           </Provider>
-     
+          <Footer />
         </div>
-
-   
       </body>
     </html>
   )

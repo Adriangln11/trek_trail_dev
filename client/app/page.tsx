@@ -1,3 +1,8 @@
+import About from '@/components/About'
+import CardsPlaces from '@/components/CardsPlaces'
+import CarrouselExplore from '@/components/CarrouselExplore'
+import MainHeader from '@/components/MainHeader'
+import Reviews from '@/components/Reviews'
 
 export default function Home() {
   return (
@@ -7,6 +12,11 @@ export default function Home() {
           ¿Buscas tu proxima aventura compartida?
         </h1>
       </div>
+      <MainHeader />
+      <CardsPlaces />
+      <CarrouselExplore />
+      <About />
+      <Reviews />
     </div>
   )
 }
