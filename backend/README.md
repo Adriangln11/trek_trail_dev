@@ -87,8 +87,9 @@ Run the server with npm run dev (development) or npm start (production)
 | userId | ObjectId | true |
 | text | string | true |
 | respondsId | string | false |
-| date | string | true |
+| date | string | false |
 | placeId | string | true |
+| image | string | false |
 
 ### Trip
 
@@ -109,6 +110,9 @@ Run the server with npm run dev (development) or npm start (production)
 | date | string | true |
 | placeId | string | true |
 | description | string | true |
+| photo | string | false |
+| activity | string | true |
+| stars | number | true |
 
 ## Backend developers
 
