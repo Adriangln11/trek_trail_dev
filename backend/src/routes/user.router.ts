@@ -123,6 +123,17 @@ router.put('/users/:uid', jwtAuthBear, upload.single('avatar'), async (req: Requ
     }
 });
 
+router.put('/users/favorites/:id', jwtAuthBear, async (req: Request, res: Response, next: NextFunction)=>{
+    try {
+        const { favorites } = req.body;       
+        const { id } = req.params;
+        await UserController.updateFavorite(id, favorites);
+        res.status(CODE.OK).json({ message: 'Usuario actualizado correctamente' });
+    } catch (error) {
+        next(error);
+    }
+})
+
 
 router.delete('/users/:uid', jwtAuthBear, adminPolicy, async (req: Request, res: Response, next: NextFunction) => {
     try {
