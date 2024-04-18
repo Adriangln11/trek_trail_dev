@@ -7,4 +7,5 @@ export interface placesInterface {
 	country: string
 	image?: string
 	comments: Array<any>
+	stars?: Array<any>
 }

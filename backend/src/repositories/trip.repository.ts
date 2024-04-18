@@ -1,8 +1,10 @@
 import Trip from '../models/trip.model';
 import { tripsInterface } from '../interfaces/trips.interface';
+import userRepository from './user.repository';
+import placeModel from '../models/place.model';
 
 class tripRepository {
-    async getAllTrips(query:any): Promise<any[]> {
+    async getAllTrips(query: any): Promise<any[]> {
         try {
             const trip = await Trip.find(query).populate("comments.cid").populate("placeId");
             return trip;
@@ -36,11 +38,13 @@ class tripRepository {
         try {
             const newTrip = new Trip(tripData);
             const savedTrip = await newTrip.save();
-            return {savedTrip, msg: 'Viaje creado'};
+            return { savedTrip, msg: 'Viaje creado' };
         } catch (error) {
             throw new Error(`Error al obtener al crear el viaje: ${(error as Error).message}`);
         }
     }
+
+
 
     async updateTrip(tripId: string, tripData: any): Promise<any> {
         try {

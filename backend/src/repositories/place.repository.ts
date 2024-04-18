@@ -14,7 +14,7 @@ class PlaceRepository {
 			)
 		}
 	}
-	async getPlaceById(id: string): Promise<PlaceDTO | null> {
+	async getPlaceById(id: any){
 		try {
 			const place = await Place.findById(id).populate('comments')
 			if (!place) return null
@@ -36,7 +36,7 @@ class PlaceRepository {
 			)
 		}
 	}
-	async updatePlace(id: string, updatePlace: Partial<PlaceDTO>): Promise<any> {
+	async updatePlace(id: any, updatePlace: Partial<PlaceDTO>): Promise<any> {
 		try {
 			const place = await Place.findByIdAndUpdate(id, updatePlace, {
 				new: true

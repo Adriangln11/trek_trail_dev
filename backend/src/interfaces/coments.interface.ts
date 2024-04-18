@@ -8,4 +8,5 @@ export interface commentsInterface {
     date: Date,
     placeId: ObjectId,
     image?: string
+    stars?: number
 }

@@ -1,6 +1,8 @@
 import CommentDto from "../dto/comments.dto";
 import { commentsInterface } from "../interfaces/coments.interface";
 import CommentsRepository from "../repositories/comments.repository";
+import placeRepository from "../repositories/place.repository";
+import userRepository from "../repositories/user.repository";
 
 class CommentService {
   async getAllComment(): Promise<CommentDto[]> {
@@ -25,7 +27,31 @@ class CommentService {
 
   async createComment(commentData: commentsInterface): Promise<CommentDto> {
     try {
-      return await CommentsRepository.createComment(commentData);
+      const {userId, placeId} =  commentData;
+      const user = await userRepository.getUserById(userId);
+      const place = await placeRepository.getPlaceById(placeId);
+      
+      if (!user) throw new Error("Usuario no encontrado");
+      if (!place) throw new Error("Lugar de interes no encontrado");
+
+      const comment = await CommentsRepository.createComment(commentData);
+
+      if(comment){
+        const stringifiedStars = place.stars?.map((str: any) => str.uid.toString());
+
+        if (stringifiedStars && stringifiedStars.includes(userId.toString())) {
+          throw new Error("El usuario ya valoro este viaje");
+        }
+
+        place.stars?.push({
+          rating: commentData!.stars,
+          uid: userId
+        })
+
+        const placeUp = await placeRepository.updatePlace(placeId, { stars: place.stars });
+        console.log(placeUp);
+      }
+      return  comment;
     } catch (error) {
       throw new Error((error as Error).message);
     }

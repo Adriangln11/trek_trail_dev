@@ -8,6 +8,8 @@ export default class PlaceDTO {
 	country: string
 	image: string
 	comments: Array<any>
+	stars:Array<any>
+	average: number
 
 	constructor(place: placesInterface) {
 		this.id = place._id!;
@@ -16,5 +18,7 @@ export default class PlaceDTO {
 		this.country = place.country;
 		this.image = place.image || '';
 		this.comments = place.comments || [];
+		this.stars = place.stars || [];
+		this.average = place.stars?.reduce( (acc, curr) => acc + curr.rating , 0)/this.stars!.length;
 	}
 }

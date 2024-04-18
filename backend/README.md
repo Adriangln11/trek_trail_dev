@@ -68,6 +68,7 @@ Run the server with npm run dev (development) or npm start (production)
 | Country | string | false |
 | Image | string | false |
 | Comments | array[string] | true |
+| stars | array[{rating, uid}] | false |
 
 ### Comments
 
@@ -90,6 +91,7 @@ Run the server with npm run dev (development) or npm start (production)
 | date | string | false |
 | placeId | string | true |
 | image | string | false |
+| stars | number | true |
 
 ### Trip
 
