@@ -1,8 +1,16 @@
+'use client'
+import React, { useState } from 'react'
+
+import run from '../public/run.jpg'
 import place from '../public/place.jpeg'
 import person from '../public/person.png'
+import Image from 'next/image'
+import { useSession } from 'next-auth/react'
+import { useEffect } from 'react'
+import axios from 'axios'
 
 interface Places {
-  id?: string
+  id: string
   lugar: string
   descripcion: string
   imageAutor: string
@@ -10,74 +18,46 @@ interface Places {
   image: string
   calificacion: number
 }
-
-interface Texto {
-  texto: string
+interface token {
+  token: string
 }
-
 const CardsPlaces: React.FC = () => {
-  const Places: Places[] = [
-    {
-      lugar: 'Parque oeste',
-      descripcion:
-        'Excursión emocionante por las montañas, con vistas impresionantes y aire fresco.',
-      autor: 'María López',
-      imageAutor: person.src,
-      image: place.src,
-      calificacion: 4.8,
-    },
-    {
-      lugar: ' Barcelona',
-      descripcion:
-        'Descubre los sabores de Barcelona en este tour culinario por los mejores restaurantes de la ciudad.',
-      autor: 'Carlos Martínez',
-      imageAutor: person.src,
-      image: place.src,
-      calificacion: 4.5,
-    },
-    {
-      lugar: 'Prado',
-      descripcion:
-        'Recorre las magníficas obras maestras del Museo del Prado con un guía experto.En esta emocionante experiencia, tendrás la oportunidad de admirar algunas de las piezas más destacadas de la historia del arte, incluyendo obras de maestros como Velázquez, Goya, El Greco y muchos más. Nuestro guía experto te proporcionará información detallada sobre cada obra, así como contexto histórico y artístico para que puedas apreciar plenamente su significado y su impacto en la historia del arte. ¡No te pierdas esta increíble oportunidad de sumergirte en el mundo del arte en el prestigioso Museo del Prado',
-      autor: 'Ana García',
-      imageAutor: person.src,
-      image: place.src,
-      calificacion: 4.9,
-    },
-    {
-      lugar: ' El campo',
-      descripcion:
-        'Disfr un relajante paseo en bicicleta por los hermosos paisajes del campo.',
-      autor: 'Pedro Fernández',
-      imageAutor: person.src,
-      image: place.src,
-      calificacion: 4.7,
-    },
-    {
-      lugar: ' Italia',
-      descripcion:
-        'Aprende a cocinar auténticos platos italianos de la mano de un chef experimentado.',
-      imageAutor: person.src,
-      autor: 'Laura Martínez',
-      image: place.src,
-      calificacion: 4.6,
-    },
-  ]
-  const recortarTexto = (texto: Texto, longitudMaxima: number) => {
-    if (texto.texto.length > longitudMaxima) {
-      return texto.texto.substring(0, longitudMaxima) + '...' // Agregar puntos suspensivos al final
-    } else {
-      return texto.texto
-    }
-  }
+  const [places, setPlaces] = useState<Places[]>([])
+  const { data: session, status } = useSession()
 
+  useEffect(() => {
+    if (!session) return
+    const token: string = session?.user?.token
+    const fetchPlaces = async () => {
+      try {
+        if (session && session.user && token) {
+          const response = await axios.get(
+            'https://no-country-back.onrender.com/api/places',
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+          setPlaces(response.data)
+        } else {
+          throw new Error('No session token available')
+        }
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error)
+      }
+    }
+
+    fetchPlaces()
+  }, [session])
   return (
     <>
       <div className=' mb-5 p-4  ml-2 mt-1'>
         <h1 className=' font-aeonik  text-2xl'>Nuestras rutas destacadas</h1>
       </div>
       <section className='  p-4 m-2 grid md:grid-cols-3 gap-3'>
-        {Places.map((place, i) => (
+        {places.map((place) => (
           <div className=' ' key={place.id}>
             <div className=' bg-soft-silver mt-10 rounded-lg border-gray-200 shadow '>
               <div>
@@ -110,7 +90,6 @@ const CardsPlaces: React.FC = () => {
                     {place.lugar}
                   </h5>
                 </a>
-                {recortarTexto({ texto: place.descripcion }, 90)}
               </div>
               <div className='flex justify-between'>
                 <div className='flex m-2  '>

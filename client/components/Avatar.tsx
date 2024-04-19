@@ -26,8 +26,10 @@ export const Avatar = () => {
               height={40}
             />
           ) : (
-            <div className='p-3  rounded-full bg-light-green text-light-gray'>
-              <span className=' '>{session?.user?.letter}</span>
+            <div>
+              <span className='p-2 inline-block w-10  rounded-full bg-light-green text-light-gray font-bold'>
+                {session?.user?.letter}
+              </span>
             </div>
           )}
         </button>
