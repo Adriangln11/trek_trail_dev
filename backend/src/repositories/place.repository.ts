@@ -3,9 +3,9 @@ import { placesInterface } from '../interfaces/places.interface'
 import Place from '../models/place.model'
 
 class PlaceRepository {
-	async getAllPlaces(): Promise<PlaceDTO[]> {
+	async getAllPlaces(query:any): Promise<PlaceDTO[]> {
 		try {
-			const places = await Place.find().populate('comments')
+			const places = await Place.find(query).populate('trip')
 			const placesDTO = places.map(place => new PlaceDTO(place.toObject()))
 			return placesDTO
 		} catch (error) {
@@ -16,7 +16,7 @@ class PlaceRepository {
 	}
 	async getPlaceById(id: any){
 		try {
-			const place = await Place.findById(id).populate('comments')
+			const place = await Place.findById(id).populate('trip')
 			if (!place) return null
 			return new PlaceDTO(place.toObject())
 		} catch (error) {

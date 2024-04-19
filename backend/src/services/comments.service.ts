@@ -2,12 +2,13 @@ import CommentDto from "../dto/comments.dto";
 import { commentsInterface } from "../interfaces/coments.interface";
 import CommentsRepository from "../repositories/comments.repository";
 import placeRepository from "../repositories/place.repository";
+import tripRepository from "../repositories/trip.repository";
 import userRepository from "../repositories/user.repository";
 
 class CommentService {
-  async getAllComment(): Promise<CommentDto[]> {
+  async getAllComment(query:any): Promise<CommentDto[]> {
     try {
-      return await CommentsRepository.getAllComments();
+      return await CommentsRepository.getAllComments(query);
     } catch (error) {
       throw new Error(
         `Error al obtener comentarios ${(error as Error).message}`
@@ -27,28 +28,32 @@ class CommentService {
 
   async createComment(commentData: commentsInterface): Promise<CommentDto> {
     try {
-      const {userId, placeId} =  commentData;
+      const {userId, tripId} =  commentData;
       const user = await userRepository.getUserById(userId);
-      const place = await placeRepository.getPlaceById(placeId);
+      const trip = await tripRepository.getTripById(tripId);
       
+            
       if (!user) throw new Error("Usuario no encontrado");
-      if (!place) throw new Error("Lugar de interes no encontrado");
+      if (!trip) throw new Error("Viaje de interes no encontrado");
 
       const comment = await CommentsRepository.createComment(commentData);
 
       if(comment){
-        const stringifiedStars = place.stars?.map((str: any) => str.uid.toString());
+        const place =  await placeRepository.getPlaceById(trip.placeId._id.toString());
+        
+        const stringifiedStars = place!.stars?.map((str: any) => str.uid.toString());
 
         if (stringifiedStars && stringifiedStars.includes(userId.toString())) {
           throw new Error("El usuario ya valoro este viaje");
         }
 
-        place.stars?.push({
+        place!.stars?.push({
           rating: commentData!.stars,
           uid: userId
         })
 
-        const placeUp = await placeRepository.updatePlace(placeId, { stars: place.stars });
+        const placeUp = await placeRepository.updatePlace(trip.placeId._id, { stars: place!.stars });
+            
         console.log(placeUp);
       }
       return  comment;

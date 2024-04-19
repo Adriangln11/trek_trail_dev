@@ -26,11 +26,11 @@ class tripRepository {
 
     async getTripById(tid: any): Promise<any | null> {
         try {
-            const trip = await Trip.find().populate("comments.cid").populate("placeId");
+            const trip = await Trip.findById(tid).populate("comments.cid").populate("placeId");
             if (!trip) return null;
             return trip
         } catch (error) {
-            throw new Error(`Error al obtener usuario por ID: ${(error as Error).message}`);
+            throw new Error(`Error al obtener viaje por ID: ${(error as Error).message}`);
         }
     }
 
