@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { signOut, useSession } from 'next-auth/react'
 import emptyUser from '@/public/emptyUser.svg'
 import { useState } from 'react'
+import Link from 'next/link'
 
 export const Avatar = () => {
   const { data: session, status } = useSession()
@@ -15,14 +16,20 @@ export const Avatar = () => {
       <div className='relative'>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className='w-10 h-10 rounded-full cursor-pointer'
+          className='w-11  rounded-full cursor-pointer mx-3'
         >
-          <Image
-            src={session?.user?.image ?? emptyUser}
-            alt='Imagen de perfil de usuario'
-            width={40}
-            height={40}
-          />
+          {session?.user?.image ? (
+            <Image
+              src={session?.user?.image ?? emptyUser}
+              alt='Imagen de perfil de usuario'
+              width={40}
+              height={40}
+            />
+          ) : (
+            <div className='p-3  rounded-full bg-light-green text-light-gray'>
+              <span className=' '>{session?.user?.letter}</span>
+            </div>
+          )}
         </button>
         <div
           className={`absolute bottom-100 right-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 ${
@@ -38,12 +45,12 @@ export const Avatar = () => {
             aria-labelledby='avatarButton'
           >
             <li>
-              <a
-                href='#'
+              <Link
+                href='/profile'
                 className='block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
               >
                 Perfil
-              </a>
+              </Link>
             </li>
             <li>
               <a
