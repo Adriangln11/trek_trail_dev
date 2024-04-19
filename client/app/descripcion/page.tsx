@@ -9,6 +9,7 @@ import place1 from '../../public/place1.jpeg'
 import Link from 'next/link'
 import emptyUser from '@/public/emptyUser.svg'
 import imageReview3 from '@/public/imageReview3.svg'
+import { CommentModal } from '@/components/CommentModal'
 
 interface token {
   token: string
@@ -62,8 +63,6 @@ const Descripcion = () => {
               },
             }
           )
-          console.log(commentsResponse.data)
-          console.log(commentsResponse.data.comments)
 
           setComment(commentsResponse.data)
           const placesResponse = await axios.get(
@@ -75,8 +74,6 @@ const Descripcion = () => {
               },
             }
           )
-          console.log(placesResponse.data)
-          console.log(placesResponse.data.comments)
 
           setPlaces(placesResponse.data)
         } else {
@@ -92,6 +89,7 @@ const Descripcion = () => {
 
   return (
     <div>
+      <CommentModal />
       <section>
         {places.map((place) => (
           <div key={place._id} className='flex flex-col'>
@@ -192,7 +190,7 @@ const Descripcion = () => {
                       id='Puntaje'
                       className='pl-5 p-4 pr-2 bg-gray-50 border  text-sm rounded-lg '
                     >
-                      <option selected>Puntaje</option>
+                      <option defaultValue='Puntaje'>Puntaje</option>
                       <option value='5'>5</option>
                       <option value='4'>4</option>
                       <option value='3'>3</option>
