@@ -31,7 +31,12 @@ const PhotosPage = () => {
         </select>
         </div>
       </div>
-      <CardsPlaces/>
+      {/* <CardsPlaces/> */}
+      <div className="flex justify-center">
+        <button className="rounded-[50px] bg-[#497574] h-[50px] w-[202px] font-[600] text-white my-7">
+          Ver mas fotos
+        </button>
+      </div>
     </div>
   );
 };

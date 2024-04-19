@@ -26,7 +26,11 @@ const ActivitiesPage = () => {
         <h2 className="font-[500] text-[25px] mx-[30px]">
           Las mejores rutas para ti.
         </h2>
-      <CardsPlaces />
+      {/* <CardsPlaces /> */}
+      <div className="flex justify-center">
+
+      <button className="rounded-[50px] bg-[#497574] h-[50px] w-[202px] font-[600] text-white my-7">Ver mas fotos</button>
+      </div>
       </div>
     </div>
   );
