@@ -1,8 +1,13 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
+
 import run from '../public/run.jpg'
 import place from '../public/place.jpeg'
 import person from '../public/person.png'
 import Image from 'next/image'
+import { useSession } from 'next-auth/react'
+import { useEffect } from 'react'
+import axios from 'axios'
 
 interface Places {
   id: string
@@ -13,84 +18,71 @@ interface Places {
   image: string
   calificacion: number
 }
-
+interface token {
+  token: string
+}
 const CardsPlaces: React.FC = () => {
-  const Places: Places[] = [
-    {
-      id: crypto.randomUUID().toString(),
-      lugar: 'Parque oeste',
-      descripcion:
-        'Excursión emocionante por las montañas, con vistas impresionantes y aire fresco.',
-      autor: 'María López',
-      imageAutor: person.src,
-      image: place.src,
-      calificacion: 4.8,
-    },
-    {
-      id: crypto.randomUUID().toString(),
+  const [places, setPlaces] = useState<Places[]>([])
+  const { data: session, status } = useSession()
 
-      lugar: ' Barcelona',
-      descripcion:
-        'Descubre los sabores de Barcelona en este tour culinario por los mejores restaurantes de la ciudad.',
-      autor: 'Carlos Martínez',
-      imageAutor: person.src,
-      image: place.src,
-      calificacion: 4.5,
-    },
-    {
-      id: crypto.randomUUID().toString(),
+  useEffect(() => {
+    if (!session) return
+    const token: string = session?.user?.token
+    const fetchPlaces = async () => {
+      try {
+        if (session && session.user && token) {
+          const response = await axios.get(
+            'https://no-country-back.onrender.com/api/places',
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          )
+          setPlaces(response.data)
+        } else {
+          throw new Error('No session token available')
+        }
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error)
+      }
+    }
 
-      lugar: 'Prado',
-      descripcion:
-        'Recorre las magníficas obras maestras del Museo del Prado con un guía experto.',
-      autor: 'Ana García',
-      imageAutor: person.src,
-      image: place.src,
-      calificacion: 4.9,
-    },
-    {
-      id: crypto.randomUUID().toString(),
-
-      lugar: ' El campo',
-      descripcion:
-        'Disfruta de un relajante paseo en bicicleta por los hermosos paisajes del campo.',
-      autor: 'Pedro Fernández',
-      imageAutor: person.src,
-      image: place.src,
-      calificacion: 4.7,
-    },
-    {
-      id: crypto.randomUUID().toString(),
-
-      lugar: ' Italia',
-      descripcion:
-        'Aprende a cocinar auténticos platos italianos de la mano de un chef experimentado.',
-      imageAutor: person.src,
-      autor: 'Laura Martínez',
-      image: place.src,
-      calificacion: 4.6,
-    },
-  ]
-
+    fetchPlaces()
+  }, [session])
   return (
     <>
       <div className=' mb-5 p-4  ml-2 mt-1'>
         <h1 className=' font-aeonik  text-2xl'>Nuestras rutas destacadas</h1>
       </div>
       <section className='  p-4 m-2 grid md:grid-cols-3 gap-3'>
-        {Places.map((place) => (
-          <div key={place.id} className=' '>
-            <div className=' bg-soft-silver rounded-lg border-gray-200 shadow '>
+        {places.map((place) => (
+          <div className=' ' key={place.id}>
+            <div className=' bg-soft-silver mt-10 rounded-lg border-gray-200 shadow '>
               <div>
-                <a href='#'>
-                  <Image
-                    className='size-full rounded-t -lg  '
-                    width={200}
-                    height={200}
-                    src={place.image}
-                    alt='imagen de lugar'
-                  />
-                </a>
+                <button className='relative'>
+                  <div>
+                    <img
+                      className='size-full rounded-t-lg'
+                      width={200}
+                      height={200}
+                      src={place.image}
+                      alt='imagen de lugar'
+                    />
+                    <a href=''>
+                      <svg
+                        className='text-white  absolute top-1 right-1'
+                        width={40}
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 24 24'
+                        fill='currentColor'
+                      >
+                        <path d='M12.001 4.52853C14.35 2.42 17.98 2.49 20.2426 4.75736C22.5053 7.02472 22.583 10.637 20.4786 12.993L11.9999 21.485L3.52138 12.993C1.41705 10.637 1.49571 7.01901 3.75736 4.75736C6.02157 2.49315 9.64519 2.41687 12.001 4.52853ZM18.827 6.1701C17.3279 4.66794 14.9076 4.60701 13.337 6.01687L12.0019 7.21524L10.6661 6.01781C9.09098 4.60597 6.67506 4.66808 5.17157 6.17157C3.68183 7.66131 3.60704 10.0473 4.97993 11.6232L11.9999 18.6543L19.0201 11.6232C20.3935 10.0467 20.319 7.66525 18.827 6.1701Z'></path>
+                      </svg>
+                    </a>
+                  </div>
+                </button>
               </div>
               <div className='p-2'>
                 <a href='#'>
@@ -98,13 +90,10 @@ const CardsPlaces: React.FC = () => {
                     {place.lugar}
                   </h5>
                 </a>
-                <p className='mb-3 font-normal overflow-hidden text-black '>
-                  {place.descripcion}
-                </p>
               </div>
               <div className='flex justify-between'>
                 <div className='flex m-2  '>
-                  <Image
+                  <img
                     className=' rounded-full text-center  '
                     width={20}
                     height={20}

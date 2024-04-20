@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { FcGoogle } from 'react-icons/fc'
 import logoNoText from '@/public/logoNoText.svg'
 import bgImageLogin from '@/public/bgImageLogin.svg'
@@ -9,12 +9,27 @@ import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 const LoginPage = () => {
+  const { data: session } = useSession()
   const [errors, setErrors] = useState<string[]>([])
   const [email, setEmail] = useState('test@test.com')
   const [password, setPassword] = useState('123123')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
+  const handleGoogleLogin = async (event: React.FormEvent<HTMLElement>) => {
+    event.preventDefault()
+    setErrors([])
+    setLoading(true)
+    const responseNextAuth = await signIn('google', { callbackUrl: '/' })
+    setLoading(false)
+
+    if (responseNextAuth?.error) {
+      setErrors(responseNextAuth.error.split(','))
+      return
+    }
+
+    router.push('/')
+  }
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setErrors([])
@@ -134,7 +149,6 @@ const LoginPage = () => {
           )}
           <div className='flex flex-col gap-2'>
             <button
-              onSubmit={() => signIn('credentials')}
               type='submit'
               className='w-full text-white bg-teal hover:-translate-y-1 transition-transform border-2   font-bold rounded-full px-5 py-3 text-center text-lg'
             >
@@ -144,8 +158,7 @@ const LoginPage = () => {
               <span className='text-dark'>o</span>
             </div>
             <button
-              onClick={() => signIn('google', { callbackUrl: '/' })}
-              type='submit'
+              onClick={handleGoogleLogin}
               className=' border-dark/70 w-full font-semibold rounded-full text-lg text-dark/70 px-5 py-3 text-center border-2 bg-light-gray hover:-translate-y-1 transition-transform  flex justify-center gap-5 items-center
                 '
             >

@@ -1,3 +1,5 @@
+// next.config.js
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -13,6 +15,12 @@ const nextConfig = {
         hostname: 'media.istockphoto.com',
         port: '',
         pathname: '/id/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/image/upload/**', 
       },
     ],
   },
