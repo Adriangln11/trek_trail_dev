@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 // @ts-ignore
 import { useCountries } from 'use-react-countries' //Tira error porque tiene tipo "any" inferido
 import { AxiosError } from 'axios'
@@ -11,9 +11,10 @@ import { registerUser } from '@/utils/http.utils'
 import logoNoText from '@/public/logoNoText.svg'
 import bgImageLogin from '@/public/bgImageLogin.svg'
 import { useRouter } from 'next/navigation'
-import {} from 'next-auth'
 
 const RegisterPage = () => {
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const { countries } = useCountries()
   const [errors, setErrors] = useState<{ path: string; msg: string }[]>([])
@@ -21,17 +22,26 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    const res = await registerUser(e)
+    const res: any = await registerUser(e)
     setLoading(true)
 
     if (res instanceof AxiosError) {
       const err = res.response?.data.errors
       setErrors(err)
+      setLoading(false)
+      return
     }
     setLoading(false)
 
-    router.push('/')
+    if (!res.data.ok) return
+    const email = emailRef.current?.value
+    const password = passwordRef.current?.value
+    const signInResponse = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    })
+    if (signInResponse) router.push('/')
   }
   return (
     <div className='relative flex h-full  w-full md:p-5 font-aeonik '>
@@ -116,6 +126,7 @@ const RegisterPage = () => {
               Email
             </label>
             <input
+              ref={emailRef}
               type='email'
               name='email'
               id='email'
@@ -127,6 +138,7 @@ const RegisterPage = () => {
               {errors &&
                 errors.map((e) => {
                   if (e.path == 'email') {
+                    console.log(e.msg)
                     return e.msg
                   }
                 })}
@@ -140,6 +152,7 @@ const RegisterPage = () => {
               Contraseña
             </label>
             <input
+              ref={passwordRef}
               type='password'
               name='password'
               id='password'

@@ -12,7 +12,7 @@ export const registerUser = async (e: FormEvent<HTMLFormElement>) => {
 
   try {
     const res = await axios.post(
-      'https://no-country-back.onrender.com/api/users/',
+      'https://no-country-back.onrender.com/api/users',
       {
         first_name,
         last_name,

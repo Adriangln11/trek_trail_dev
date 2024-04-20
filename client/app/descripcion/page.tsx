@@ -47,6 +47,8 @@ const Descripcion = () => {
   const { data: session } = useSession()
   const [places, setPlaces] = useState<Place[]>([])
   const [comment, setComment] = useState<Comment[]>([])
+  const [isOpen, setIsOpen] = useState(false)
+
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -89,7 +91,7 @@ const Descripcion = () => {
 
   return (
     <div>
-      <CommentModal />
+      
       <section>
         {places.map((place) => (
           <div key={place._id} className='flex flex-col'>
@@ -199,9 +201,16 @@ const Descripcion = () => {
                     </select>
                   </form>
                   <div className=''>
-                    <button className=' text-white rounded-full font-bold bg-soft-green p-2'>
+                    <button
+                      onClick={() => setIsOpen(true)}
+                      className=' text-white rounded-full font-bold bg-soft-green p-2'
+                    >
                       Escribir Comentario
                     </button>
+                    <CommentModal
+                      open={isOpen}
+                      close={() => setIsOpen(false)}
+                    />
                   </div>
                 </div>
                 <hr />
