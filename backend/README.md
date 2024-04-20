@@ -26,7 +26,7 @@ Run the server with npm run dev (development) or npm start (production)
 | POST |  Login user   | http://localhost:PORT/api/users/login |  body : { email, password } |
 | POST |  Login with google   | http://localhost:PORT/api/users/loginGoogle |  body : { user: { name, email, image }} |
 | PUT | upgrade user by id |  http://localhost:PORT/api/users/:id | params : { id }, body : accept all User Schema, headers: {token} |
-| PUT | Add favorite |  http://localhost:PORT/api/users/favorites/:id | params : { id }, body: { place id }, headers: {token} |
+| PUT | Add favorite |  http://localhost:PORT/api/users/favorites/:id | params : { id }, body: { favorites:placeid }, headers: {token} |
 | DELETE | delete user by id | http://localhost:PORT/api/users/:id | params: { id }; headers: {token} |
 | GET | logout | http://localhost:PORT/api/users/logout/:id | params: { id }; headers: {token} |
 
