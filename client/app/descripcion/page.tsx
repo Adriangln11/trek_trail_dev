@@ -43,10 +43,16 @@ interface token{
     userId: string; 
     text: string;
     respondsId?: string; 
-    date?: string; 
+    date: string; 
     placeId: string;
-    image?: string; 
+    image: string; 
   }
+
+
+interface idComment{
+  Id: string;
+}
+
 const descripcion=()=>{
 
 
@@ -58,7 +64,7 @@ const descripcion=()=>{
     const { data: session, status } = useSession()
     const [place, setPlace] = useState<Place[]>([]);
     const [comment, setComment] = useState<Comment[]>([])
-  
+    const [idComment, setIdComment] = useState<idComment[]>([])
 
     const token:string =session?.user?.token;
     
@@ -73,9 +79,9 @@ const descripcion=()=>{
               }
             });
             console.log(response.data);
-            console.log(response.data.comments);
-            
-            setPlace(response.data);
+            // console.log(response.data.comments);
+            console.log(response.data[0].placeId)
+            setPlace(response.data.trip["placeId"]);
           } else {
             throw new Error('No session token available');
           }
@@ -93,16 +99,13 @@ const descripcion=()=>{
       const fetchPlaces = async () => {
         try {
           if (session && session.user && token) {
-            const response = await axios.get(`https://no-country-back.onrender.com/api/comments`, {
+            const response = await axios.get(`https://no-country-back.onrender.com/api/trip`, {
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
               }
             });
-            console.log(response.data);
-            console.log(response.data.comments);
-            
-            setComment(response.data);
+
           } else {
             throw new Error('No session token available');
           }
@@ -112,8 +115,34 @@ const descripcion=()=>{
       };
     
       fetchPlaces();
-    }, [session]);
+    }, []);
     
+    // useEffect(() => {
+    //   const fetchPlaces = async () => {
+    //     try {
+    //       if (session && session.user && token) {
+    //         const response = await axios.get(`https://no-country-back.onrender.com/api/comments/${}`, {
+    //           headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${token}`
+    //           }
+    //         });
+    //         console.log(response.data);
+    //         console.log(response.data.comments);
+            
+    //         setComment(response.data);
+    //       } else {
+    //         throw new Error('No session token available');
+    //       }
+    //     } catch (error) {
+    //       console.error('There was a problem with the fetch operation:', error);
+    //     }
+    //   };
+    
+    //   fetchPlaces();
+    // }, [session]);
+    
+
 
 
 
@@ -227,8 +256,8 @@ const descripcion=()=>{
                 
               </div>
               <div className='mt-2 p-2'>
-           {comment.text}
-          adasdsadasdsadsadsadasdasdsdasdasdadsa
+           {comment.placeId}
+          
           </div>
           <div className="mt-2 flex md:flex-col">
             {/* <Image src={comment.image.} width={100} height={100} className='mr-3' alt="imagen de lugar ">
