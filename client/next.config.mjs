@@ -12,16 +12,17 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'media.istockphoto.com',
-        port: '',
-        pathname: '/id/**',
-      },
-      {
-        protocol: 'https',
         hostname: 'res.cloudinary.com',
         port: '',
         pathname: '/image/upload/**', 
       },
+      {
+        protocol: 'https',
+        hostname: 'media.istockphoto.com',
+        port: '',
+        pathname: '/id/**',
+      },
+   
     ],
   },
 }
