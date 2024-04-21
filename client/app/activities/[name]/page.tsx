@@ -1,8 +1,12 @@
+"use client";
 import Image from "next/image";
-import header from "../../public/headerActivities.jpg";
-import CardsPlaces from "@/components/CardsPlaces";
+import header from "@/public/headerActivities.jpg";
+import ActivitiesPlaces from "@/components/ActivitiesPlaces";
+import { useParams } from "next/navigation";
 
 const ActivitiesPage = () => {
+  const { name } = useParams<{ name: string }>();
+
   return (
     <div className="w-full mt-0">
       <figure>
@@ -14,7 +18,7 @@ const ActivitiesPage = () => {
         />
       </figure>
       <div className="py-8 mx-[24px] border-b-[2px] border-b-[#BDBDBD]	">
-        <h1 className=" font-bold text-[52px]">Senderismo</h1>
+        <h1 className=" font-bold text-[52px]">{decodeURIComponent(name)}</h1>
         <div className="w-[250px] flex flex-col space-y-[10px]">
           <label className="block">Ordenar por</label>
           <select className="border rounded-md h-[46px] border-black px-1">
@@ -26,11 +30,7 @@ const ActivitiesPage = () => {
         <h2 className="font-[500] text-[25px] mx-[30px]">
           Las mejores rutas para ti.
         </h2>
-      {/* <CardsPlaces /> */}
-      <div className="flex justify-center">
-
-      <button className="rounded-[50px] bg-[#497574] h-[50px] w-[202px] font-[600] text-white my-7">Ver mas fotos</button>
-      </div>
+        <ActivitiesPlaces />
       </div>
     </div>
   );
