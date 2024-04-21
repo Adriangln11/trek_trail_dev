@@ -1,9 +1,6 @@
 'use client'
 import React, { useState } from 'react'
 
-import run from '../public/run.jpg'
-import place from '../public/place.jpeg'
-import person from '../public/person.png'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
@@ -27,7 +24,7 @@ const CardsPlaces: React.FC = () => {
 
   useEffect(() => {
     if (!session) return
-    const token: string = session?.user?.token
+    const token: string | undefined = session?.user?.token
     const fetchPlaces = async () => {
       try {
         if (session && session.user && token) {
@@ -54,7 +51,7 @@ const CardsPlaces: React.FC = () => {
   return (
     <>
       <div className=' mb-5 p-4  ml-2 mt-1'>
-        <h1 className=' font-aeonik  text-2xl'>Nuestras rutas destacadas</h1>
+        <h1 className=' font-aeonik  text-2xl'>Nuestras rutasss destacadas</h1>
       </div>
       <section className='  p-4 m-2 grid md:grid-cols-3 gap-3'>
         {places.map((place) => (
