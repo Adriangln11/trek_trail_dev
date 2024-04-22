@@ -1,3 +1,4 @@
+import { Trip } from '@/types/trip'
 import axios, { AxiosError } from 'axios'
 import { FormEvent } from 'react'
 
@@ -41,5 +42,39 @@ export const loginUser = async (e: FormEvent<HTMLFormElement>) => {
     )
   } catch (error) {
     return error
+  }
+}
+
+export const getPlaceDescription = async (id: string) => {
+  const res = await axios.get(
+    `https://no-country-back.onrender.com/api/places/${id}`
+  )
+  return res
+}
+
+export const getAllComments = async () => {
+  const res = await axios.get(
+    'https://no-country-back.onrender.com/api/comments'
+  )
+
+  return res
+}
+
+export const createTripPost = async (tripData: Trip, token: string) => {
+  try {
+    const res = await axios.post(
+      'https://no-country-back.onrender.com/api/trip',
+      tripData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+
+    return res
+  } catch (e) {
+    return e
   }
 }
