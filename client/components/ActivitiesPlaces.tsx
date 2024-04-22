@@ -32,7 +32,7 @@ export default function ActivitiesPlaces() {
   const token: string | undefined = session?.user?.token;
 
   const handleClickRouter = (id: string) => {
-    router.push(`/descripcion/${id}`);
+    router.push(`/description/${id}`);
   };
 
   useEffect(() => {
