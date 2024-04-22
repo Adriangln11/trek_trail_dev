@@ -1,25 +1,83 @@
-import { MouseEventHandler, useState } from 'react'
+import { EventHandler, MouseEventHandler, useState } from 'react'
 import { RiCloseFill } from 'react-icons/ri'
 import StarsRating from './StarsRating'
 import UploadImage from './UploadImage'
+import { useSession } from 'next-auth/react'
+import { createTripPost } from '@/utils/http.utils'
+import { Trip } from '@/types/trip'
+import { useRouter } from 'next/router'
 
 interface ModalProps {
   open?: boolean
   close?: MouseEventHandler
+  onSucces?: () => void
+  placeName: string
+  placeId: string
 }
 export const CommentModal = ({
   open,
   close,
+  onSucces,
+  placeName,
+  placeId,
 }: {
   open: boolean
   close: MouseEventHandler
+  onSucces: () => void
+  placeName: string
+  placeId: string
 }) => {
- 
+  const { data: session } = useSession()
+  const [stars, setStars] = useState(0)
+  const [text, setText] = useState('')
+  const [titulo, setTitulo] = useState('')
+  const [error, setError] = useState<string>()
+
+  const handleRate = (value: number) => {
+    setStars(value)
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const date = new Date().toISOString()
+    const userId = session?.user.id ? session.user.id : ''
+    const description = text
+    const name = titulo
+    const activity = 'Paseo'
+    const data: Trip = {
+      userId,
+      date,
+      name,
+      placeId,
+      description,
+      activity,
+      stars,
+      photo: '',
+      commentsId: [],
+    }
+    try {
+      const token = session?.user.token
+      if (!token) return setError('Inicia sesión para publicar')
+      const res: any = await createTripPost(data, token)
+      const ok = res.data.ok && res.data.ok
+      if (ok) return onSucces()
+    } catch (e) {
+      setError(
+        'Error al publicar, verifica la información o si ya calificaste el contenido'
+      )
+    }
+  }
+
+  if (!open) return null
+
   return (
-    <div className={`${open ? 'fixed' :'hidden'}  top-0 right-0 bottom-0 z-50 w-full items-center place-content-center backdrop-brightness-50 flex p-3 font-aeonik text-sm`}>
+    <div className='fixed top-0 right-0 bottom-0 z-50 w-full items-center place-content-center backdrop-brightness-50 flex p-3 font-aeonik text-sm'>
       <div tabIndex={-1} className='w-full h-auto'>
-        <div className='h-3/5 w-[80%] max-md:w-2/3 max-lg:w-1/2 flex flex-col gap-3 m-auto bg-light-gray  max-md:p-10 px-10 py-8 rounded-lg '>
-          <div className='absolute top-7 '>
+        <form
+          onSubmit={handleSubmit}
+          className=' lg:w-1/2 flex flex-col gap-2 m-auto bg-light-gray p-5 rounded-xl '
+        >
+          <div>
             <button
               onClick={close}
               type='button'
@@ -29,36 +87,64 @@ export const CommentModal = ({
               <span className='sr-only'>Cerrar modal</span>
             </button>
           </div>
-          <div className='flex gap-1 justify-center mb-2'>
-            <h3 className='font-medium text-3xl'>Crear publicación</h3>
+          <div className='flex gap-2 justify-center'>
+            <h3 className='text-lg '>{placeName}</h3>
+            <div className='text-xs py-2'>(Crear comentario)</div>
           </div>
-          <div className='font-medium text-xl mb-2'>
+          <div>
             <span>Puntaje (*)</span>
-            <StarsRating />
+            <StarsRating onRate={handleRate} />
           </div>
-          <div className='font-medium text-xl'>
-            <span>Reseña (*)</span>
-            <div className='w-full flex mt-1'>
-              <textarea className='w-full rounded-lg p-3' rows={4} />
-            </div>
-          </div>
-          <div className='font-medium text-xl '>
-            <span>Subir foto</span>
-            <div className='w-full flex mt-1'>
-              <UploadImage />
+
+          <div>
+            <span>Titulo (*)</span>
+            <div className='w-full flex'>
+              <input
+                onChange={(e) => setTitulo(e.target.value)}
+                name='name'
+                className='w-full rounded-md outline outline-1 outline-light text-gray-900 focus:outline-2 p-3'
+              />
             </div>
           </div>
           <div>
-            <div className='flex gap-10 justify-end py-2'>
-              <button onClick={close} className='p-3 rounded-full w-40 bg-[#A8A8A8] text-white'>
+            <span>Reseña (*)</span>
+            <div className='w-full flex'>
+              <textarea
+                onChange={(e) => setText(e.target.value)}
+                name='description'
+                className='w-full rounded-md outline outline-1 outline-light text-gray-900 focus:outline-2 p-3'
+                rows={4}
+              />
+            </div>
+          </div>
+          <div>
+            <span>Subir foto</span>
+            <div className='w-full flex'>
+              <UploadImage />
+            </div>
+          </div>
+          {error && (
+            <div className='w-full flex text-center text-[#B33A3A]'>
+              {error}
+            </div>
+          )}
+          <div>
+            <div className='flex gap-10 justify-end py-5'>
+              <button
+                onClick={close}
+                className='p-3 rounded-full w-40 bg-[#A8A8A8] text-white'
+              >
                 Cancelar
               </button>
-              <button className='p-2 rounded-full w-40 bg-teal text-white'>
+              <button
+                type='submit'
+                className='p-3 rounded-full w-40 bg-teal text-white'
+              >
                 Publicar
               </button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   )

@@ -31,7 +31,7 @@ function UploadImage() {
             SVG, PNG, JPG or GIF (MAX. 800x400px)
           </p>
         </div>
-        <input type='file' id='dropzone-file' className='hidden' />
+        <input type='file' id='dropzone-file' className='hidden' name='photo' />
       </label>
     </div>
   )
