@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { EventHandler, MouseEventHandler, useState } from 'react'
 
-const StarsRating = () => {
+const StarsRating = ({ onRate }: { onRate: any }) => {
   const [value, setValue] = useState(0)
 
   const handleClick = (newValue: number) => {
     setValue(newValue)
+    onRate(newValue)
   }
 
   return (
