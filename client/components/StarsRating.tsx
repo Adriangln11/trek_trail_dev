@@ -1,26 +1,29 @@
-import { useState } from 'react'
+import StartFill from "@/components/starFill";
+import StartNoFill from "@/components/starNoFill";
+import { useState } from "react";
 
 const StarsRating = () => {
-  const [value, setValue] = useState(0)
+  const [selectedStar, setSelectedStar] = useState(0); // track selected star
 
   const handleClick = (newValue: number) => {
-    setValue(newValue)
-  }
+    setSelectedStar(newValue);
+  };
 
   return (
-    <div>
+    <div className="flex items-center mt-1">
       {[1, 2, 3, 4, 5].map((number) => (
         <span
           key={number}
-          className={`cursor-pointer font-bold text-3xl ${
-            number <= value ? 'text-teal' : 'text-gray-400'
+          className={`cursor-pointer font-bold text-3xl mx-1 ${
+            number <= selectedStar ? "text-teal" : "text-gray-400"
           }`}
           onClick={() => handleClick(number)}
         >
-          ★
+          {number <= selectedStar ? <StartFill /> : <StartNoFill />}
         </span>
       ))}
     </div>
-  )
-}
-export default StarsRating
+  );
+};
+
+export default StarsRating;

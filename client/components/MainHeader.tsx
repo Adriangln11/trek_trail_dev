@@ -129,13 +129,13 @@ console.log(cityNames);
                onChange={(event) => setSearch(event.target.value)}
               type='text'
               name='search'
-              className='bg-gray-50 outline outline-1 outline-light text-gray-900 text-sm rounded-full  focus:outline-2 block w-full p-5 placeholder:italic pl-20 shadow-sm'
-              placeholder='Buscar por ciudad, parque, o nombre de la ruta'
+              className='bg-gray-50 outline outline-1 outline-light text-gray-900 text-lg rounded-[30px]  focus:outline-2 block w-full p-5  pl-20 shadow-sm'
+              placeholder='Barcelona'
            
            
            />
          
-            <button type='submit' className='absolute inset-y-0 left-10 text-dark/50 flex items-center'>
+            <button type='submit' className='absolute inset-y-0 left-14 text-dark/50 flex items-center'>
               <FaSearch />
             </button>
           </div>
