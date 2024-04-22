@@ -37,9 +37,9 @@ interface IDPlace{
 }
 
 const CardsPlaces: React.FC = () => {
-
+  const [places, setPlaces] = useState<Place[]>([])
   const { data: session, status } = useSession()
-    const [places,setPlaces] = useState<Place[]>([])
+
     const [idUser, setId] = useState<IDPlace | null>(null);
     const [showModal, setShowModal] = useState(false);
 
@@ -70,14 +70,14 @@ useEffect(() => {
       } else {
         throw new Error('No session token available');
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }
   };
 
   fetchPlaces();
-}, [session]);
-
+}, []);
 
 
 

@@ -3,6 +3,7 @@ import CardsPlaces from '@/components/CardsPlaces'
 import CarrouselExplore from '@/components/CarrouselExplore'
 import MainHeader from '@/components/MainHeader'
 import Reviews from '@/components/Reviews'
+import BgImage from '@/components/BgImage'
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <CarrouselExplore />
       <About />
       <Reviews />
+      <BgImage />
     </div>
   )
 }
