@@ -247,7 +247,7 @@ const Descripcion = () => {
                 </div>
                 <div className='mt-2 p-2'>
                   {comment.text}
-                  adasdsadasdsadsadsadasdasdsdasdasdadsa
+                  
                 </div>
                 <div className='mt-2 flex md:flex-col'>
                   {/* <Image src={comment.image.} width={100} height={100} className='mr-3' alt="imagen de lugar ">

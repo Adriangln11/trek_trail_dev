@@ -11,11 +11,10 @@ import axios from 'axios';
 
 
 interface City {
-    Name: string;
-    location: string;
-    Country: string;
-    Image: string[];
-    places: string[];
+  id(id: string): unknown;
+  _id: string
+    name: string;
+  
 }
 
 
@@ -36,7 +35,7 @@ const MainHeader = () => {
     const [search, setSearch] = useState('');
 
 
-  const token:string = session?.user?.token ;
+  const token:string|undefined = session?.user?.token ;
 
 
   // Función para manejar los cambios en el campo de búsqueda
@@ -60,8 +59,11 @@ const MainHeader = () => {
               'Authorization': `Bearer ${token}`
             }
           });
-          console.log(response.data);
-          setCity([response.data.name]);
+const cityNames = response.data.map((item: any) => ({ name: item.name, id: item._id }));
+setCity(cityNames); 
+
+console.log(cityNames);
+    
         } else {
           throw new Error('No session token available');
         }
@@ -78,14 +80,34 @@ const MainHeader = () => {
 
   const handleSubmit = (event:any) => {
     event.preventDefault();
-    // Aquí puedes enviar la consulta de búsqueda a través de una función o realizar alguna otra acción
-    console.log('Consulta de búsqueda:', search);
+    console.log('Datos de city:', city);
+    console.log('Valor de search:', search);
+
+    localStorage.setItem('lastSearch', search);
+  
+
+    const filteredCities = city.filter((c) => {
+      if (c && c.name) {
+        const cityName = c.name.toLowerCase().trim();
+        const searchQuery = search.toLowerCase().trim();
+        return cityName.includes(searchQuery);
+      }
+      return false;
+    });
+  
+
+    console.log('Ciudades filtradas:', filteredCities);
+    console.log(filteredCities[0].id)
+    let cityId;
+   
+      cityId = filteredCities[0].id; // ID del primer resultado coincidente
+      console.log("ID de la ciudad encontrada:", cityId);
+    
+      // Guarda el ID en localStorage
+      localStorage.setItem("cityId", cityId);
+ 
   };
-
-
-
-
-
+  
 
 
 

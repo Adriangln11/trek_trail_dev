@@ -36,7 +36,7 @@ interface User {
     description: string;
     stars: number;
     activity: string;
-    photo: string;
+    image: string;
     date: string;
     __v: number;
 }
@@ -51,13 +51,14 @@ const favoritos: React.FC = () => {
   const [user, setUser] = useState<User[]>([]);
   const [favoritos, setFavoritos] =useState<favorites[]>([])
 
-const token:string =session?.user?.token  ;
+const token:string |undefined =session?.user.token  ;
+const id :string|undefined = session?.user.id
 
 useEffect(() => {
   const fetchPlaces = async () => {
     try {
       if (session && session.user && token) {
-        const response = await axios.get("https://no-country-back.onrender.com/api/users/6622dcc9ce53198f7590c0d3", {
+        const response = await axios.get(`https://no-country-back.onrender.com/api/users/${id}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
@@ -104,15 +105,20 @@ const recortarTexto = (texto: string, longitudMaxima: number) => {
     {favoritos.map((fav, key) => (
       <div key={key} className=' m-2 '>
         <div className='bg-soft-silver rounded-lg border-gray-200 shadow'>
-          <div>
+          <div className='relative'>
             <a href='#'>
-              {/* <Image
-                className='size-full rounded-t-lg'
-                width={200}
-                height={200}
-                src={}
+              <Image
+                className='w-full rounded-t-lg'
+                width={300}
+                height={300}
+                src={fav.image}
                 alt='imagen de lugar'
-              /> */}
+              />
+                  <button>
+                 
+                  <svg xmlns="http://www.w3.org/2000/svg" className='text-white  absolute top-1 right-1'
+                      width={40} viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 4.52853C14.35 2.42 17.98 2.49 20.2426 4.75736C22.5053 7.02472 22.583 10.637 20.4786 12.993L11.9999 21.485L3.52138 12.993C1.41705 10.637 1.49571 7.01901 3.75736 4.75736C6.02157 2.49315 9.64519 2.41687 12.001 4.52853Z"></path></svg>
+                  </button>
             </a>
           </div>
           <div className='p-2'>
@@ -138,7 +144,7 @@ const recortarTexto = (texto: string, longitudMaxima: number) => {
                 alt='imagen de lugar'
               /> */}
               <p className='ml-1 mt-1 overflow-hidden text-center text-black'>
-                {user.first_name}
+              Agregado por:  {user.first_name}
               </p>
             </div>
 
