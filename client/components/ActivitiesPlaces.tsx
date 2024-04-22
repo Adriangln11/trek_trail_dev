@@ -27,17 +27,18 @@ export default function ActivitiesPlaces() {
   const [showModal, setShowModal] = useState(false);
   const [idUser, setId] = useState<IDPlace | null>(null);
   const [forPage, setForPage] = useState(6);
-  const router = useRouter()
+  const router = useRouter();
 
   const token: string | undefined = session?.user?.token;
 
   const handleClickRouter = (id: string) => {
-    router.push(`/descripcion/${id}`)
-  }
+    router.push(`/descripcion/${id}`);
+  };
 
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
+        if(!session) router.push('/')
         if (session && session.user && token) {
           const response = await axios.get(
             "https://no-country-back.onrender.com/api/places",
@@ -95,6 +96,7 @@ export default function ActivitiesPlaces() {
     postID();
   }
 
+
   return (
     <div>
       {" "}
@@ -111,7 +113,7 @@ export default function ActivitiesPlaces() {
                       height={200}
                       src={place.image}
                       alt="imagen de lugar"
-                    onClick={() => handleClickRouter(place.id)}
+                      onClick={() => handleClickRouter(place.id)}
                     />
                     <button onClick={() => handleButtonClick(place.id)}>
                       <svg
