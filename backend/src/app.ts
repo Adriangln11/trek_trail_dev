@@ -12,7 +12,7 @@ import userRouter from './routes/user.router';
 import placeRouter from './routes/place.router'
 import commentsRouter from './routes/comments.router';
 import countryRouter from "./routes/country.router";
-import cityRouter  from "./routes/city.router";
+import cityRouter from "./routes/city.router";
 import tripRouter from './routes/trip.router';
 import emailRouter from './routes/email.router';
 
@@ -20,7 +20,7 @@ import passport from "passport";
 import { init as initPassport } from "./config/passport.config";
 import session from 'express-session';
 import { errorHandler } from './middlewares/error.middleware';
-
+import cron from  'node-cron';
 
 const app: Express = express()
 app.use(express.json())
@@ -47,6 +47,13 @@ app.use(
 	})
 )
 
+
+const hourlyEvent = () => {
+	console.log('Hourly event executed');
+};
+
+cron.schedule('0 * * * *', hourlyEvent);
+
 startServer()
 initPassport()
 app.use(passport.initialize())
@@ -69,6 +76,8 @@ async function startServer() {
 		process.exit(1)
 	}
 }
+
+
 app.use(errorHandler);
 export default app;
 

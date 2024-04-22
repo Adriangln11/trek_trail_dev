@@ -109,8 +109,9 @@ Run the server with npm run dev (development) or npm start (production)
 | Key | Type |  Required |
 | :-------- | :------- | :------------------------- |
 | userId | ObjectId | true |
+| name | ObjectId | true |
 | commentsId | array[ObjectId] | false |
-| date | string | true |
+| date | string | false |
 | placeId | ObjectId | true |
 | description | string | true |
 | photo | string | false |
