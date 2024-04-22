@@ -13,6 +13,7 @@ import axios from 'axios';
 
 
 interface Place {
+  description: string
   id: string;
   name: string;
   city: string[];
@@ -37,9 +38,9 @@ interface IDPlace{
 }
 
 const CardsPlaces: React.FC = () => {
-
+  const [places, setPlaces] = useState<Place[]>([])
   const { data: session, status } = useSession()
-    const [places,setPlaces] = useState<Place[]>([])
+
     const [idUser, setId] = useState<IDPlace | null>(null);
     const [showModal, setShowModal] = useState(false);
 
@@ -51,9 +52,9 @@ const CardsPlaces: React.FC = () => {
       return texto;
     }
   };
-  
 
-const token:string =session?.user?.token;
+
+  const token:string|undefined =session?.user?.token  ;
 
 useEffect(() => {
   const fetchPlaces = async () => {
@@ -70,14 +71,14 @@ useEffect(() => {
       } else {
         throw new Error('No session token available');
       }
-    } catch (error) {
+    }
+    catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }
   };
 
   fetchPlaces();
-}, [session]);
-
+}, []);
 
 
 
@@ -110,6 +111,13 @@ console.log(response.data);
   fetchUsers();
 }, []);
 
+// const recortarTexto = (texto: string, longitudMaxima: number) => {
+//   if (texto.length > longitudMaxima) {
+//     return texto.substring(0, longitudMaxima) + '...'; 
+//   } else {
+//     return texto;
+//   }
+// };
 
 
 
@@ -153,27 +161,26 @@ function handleButtonClick(_id: any): void {
 
 
 
-
-
   return (
     <>
       <div className=' mb-5 p-4  ml-2 mt-1'>
         <h1 className=' font-aeonik  text-2xl'>Nuestras rutas destacadas</h1>
       </div>
       <section className='  p-4 m-2 grid md:grid-cols-3 gap-3'>
-        {places.slice(0,5).map((place) => (
+        {places.slice(0,6).map((place) => (
           <div className=' ' key={place.id}>
           <div className=' bg-soft-silver mt-10 rounded-lg border-gray-200 shadow '>
-            <div>
-              <button className='relative'>
-                <div>
-                  <Image
-                    className='size-full rounded-t-lg'
-                    width={200}
-                    height={200}
-                    src={imageHeader1}
-                    alt='imagen de lugar'
-                  />
+            <div className=' w-full'>
+              <button className='relative w-full'>
+                <div className='w-full'>
+                <img
+                className='size-full rounded-t-lg'
+                width={200}
+                height='auto' 
+                src={place.image}
+                alt='imagen de lugar'
+              />
+
                   <button onClick={() => handleButtonClick(place.id)}>
                     <svg
                       className='text-white  absolute top-1 right-1'
@@ -184,6 +191,7 @@ function handleButtonClick(_id: any): void {
                     >
                       <path d='M12.001 4.52853C14.35 2.42 17.98 2.49 20.2426 4.75736C22.5053 7.02472 22.583 10.637 20.4786 12.993L11.9999 21.485L3.52138 12.993C1.41705 10.637 1.49571 7.01901 3.75736 4.75736C6.02157 2.49315 9.64519 2.41687 12.001 4.52853ZM18.827 6.1701C17.3279 4.66794 14.9076 4.60701 13.337 6.01687L12.0019 7.21524L10.6661 6.01781C9.09098 4.60597 6.67506 4.66808 5.17157 6.17157C3.68183 7.66131 3.60704 10.0473 4.97993 11.6232L11.9999 18.6543L19.0201 11.6232C20.3935 10.0467 20.319 7.66525 18.827 6.1701Z'></path>
                     </svg>
+                    
                   </button>
                   {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-trasparent bg-opacity-50 z-50">
@@ -212,18 +220,19 @@ function handleButtonClick(_id: any): void {
 
                 </h5>
               </a>
+              <p>{recortarTexto(place.description,100)}</p>
             </div>
             <div className='flex justify-between'>
               <div className='flex m-2  '>
-                {/* <img
+                <Image
                   className=' rounded-full text-center  '
-                  width={20}
-                  height={20}
-                  // src={place.imageAutor}
+                  width={30}
+                  height={30}
+                  src={place.image}
                   alt='imagen de lugar'
-                /> */}
+                />
                 <p className=' ml-1 mt-1 overflow-hidden text-center text-black '>
-                  {/* {place.autor} */}
+                  {/* {place.} */}
                 </p>
               </div>
 
@@ -241,7 +250,7 @@ function handleButtonClick(_id: any): void {
                   className='  font-normal 
         text-black mr-3'
                 >
-                  {place.average} 54
+                  {place.average} 4
                 </p>
               </div>
             </div>
