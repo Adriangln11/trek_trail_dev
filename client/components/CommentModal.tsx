@@ -10,10 +10,10 @@ import { Place } from '@/types/place'
 
 interface ModalProps {
   open?: boolean
-  close?: MouseEventHandler
+  close?: () => void
   onSucces?: () => void
-  placeName: string
-  place: Place
+  placeName: string | null
+  place: Place | null
 }
 export const CommentModal = ({
   open,
@@ -23,10 +23,10 @@ export const CommentModal = ({
   place,
 }: {
   open: boolean
-  close: MouseEventHandler
+  close: () => void
   onSucces: () => void
-  placeName: string
-  place: Place
+  placeName: string | null
+  place: Place | null
 }) => {
   const { data: session } = useSession()
   const [stars, setStars] = useState(0)
@@ -44,7 +44,7 @@ export const CommentModal = ({
     const description = text
     const name = titulo
     const activity = 'Paseo'
-    const placeId = place.id
+    const placeId = place?.id ? place.id : ''
     const data: Trip = {
       userId,
       date,
