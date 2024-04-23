@@ -9,8 +9,6 @@ import { Place } from '@/types/place'
 import { getPlaceDescription } from '@/utils/http.utils'
 import CardComment from '@/components/CardComment'
 
-
-
 const DescriptionPage = ({ params }: { params: { id: string } }) => {
   const { data: session } = useSession()
   const [description, setDescription] = useState<Place>()
@@ -47,7 +45,7 @@ const DescriptionPage = ({ params }: { params: { id: string } }) => {
           <span>Fotos (234)</span>
           <span>Comentarios (253)</span>
         </div>
-        <div className='my-5 flex flex-col md:flex-row items-center gap-20 border-b border-soft-gray p-10'>
+        <div className='my-5 flex flex-col md:flex-row items-center gap-10 md:gap-20 border-b border-soft-gray p-10'>
           <StarStats />
           <div className='flex flex-col '>
             <span className='text-4xl font-bold flex mx-auto'>
