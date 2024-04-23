@@ -250,7 +250,7 @@ function handleButtonClick(_id: any): void {
                   className='  font-normal 
         text-black mr-3'
                 >
-                  {place.average} 4
+                  {place.average}
                 </p>
               </div>
             </div>

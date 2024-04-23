@@ -6,12 +6,11 @@ import imageHeader1 from '@/public/imageHeader1.svg'
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
-
+import Link from 'next/link'
 
 
 interface City {
-  id(id: string): unknown;
+
   _id: string
     name: string;
   
@@ -34,7 +33,7 @@ const MainHeader = () => {
     const [city,setCity] = useState<City[]>([])
     const [search, setSearch] = useState('');
 
-
+const [cityId,setCityId] = useState(" ");
   const token:string|undefined = session?.user?.token ;
 
 
@@ -50,20 +49,15 @@ const MainHeader = () => {
     const fetchCities = async () => {
       try {
         if (session && session.user && token) {
-
-          const queryString = `search=${encodeURIComponent(search)}`
-
           const response = await axios.get(`https://no-country-back.onrender.com/api/city`, {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`
             }
           });
-const cityNames = response.data.map((item: any) => ({ name: item.name, id: item._id }));
-setCity(cityNames); 
-
-console.log(cityNames);
-    
+          const cityNames = response.data.map((item: any) => ({ name: item.name, _id: item._id }));
+          setCity(cityNames);
+          console.log(cityNames);
         } else {
           throw new Error('No session token available');
         }
@@ -75,40 +69,27 @@ console.log(cityNames);
     fetchCities();
   }, []);
   
-
-
-
-  const handleSubmit = (event:any) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
-    console.log('Datos de city:', city);
-    console.log('Valor de search:', search);
-
-    localStorage.setItem('lastSearch', search);
   
-
+    const searchQuery = search.toLowerCase().trim();
+  
     const filteredCities = city.filter((c) => {
       if (c && c.name) {
         const cityName = c.name.toLowerCase().trim();
-        const searchQuery = search.toLowerCase().trim();
         return cityName.includes(searchQuery);
       }
       return false;
     });
-  
+      const cityIdfilter = filteredCities[0]._id; 
+   console.log(cityIdfilter);
+  setCityId(cityIdfilter);
 
-    console.log('Ciudades filtradas:', filteredCities);
-    console.log(filteredCities[0].id)
-    let cityId;
-   
-      cityId = filteredCities[0].id; // ID del primer resultado coincidente
-      console.log("ID de la ciudad encontrada:", cityId);
+      // // localStorage.removeItem("cityId");
+      // localStorage.clear()
+      // localStorage.setItem("cityId", JSON.stringify(cityId)); 
     
-      // Guarda el ID en localStorage
-      localStorage.setItem("cityId", cityId);
- 
   };
-  
-
 
 
   return (
@@ -135,9 +116,13 @@ console.log(cityNames);
            
            />
          
-            <button type='submit' className='absolute inset-y-0 left-10 text-dark/50 flex items-center'>
-              <FaSearch />
-            </button>
+
+    <button type='submit' className='absolute inset-y-0 left-10 text-dark/50 flex items-center'>
+    {/* <Link href={`/placeSpecific/${cityId}`}> */}
+      <FaSearch />
+      {/* </Link> */}
+    </button>
+
           </div>
           
         </div>
