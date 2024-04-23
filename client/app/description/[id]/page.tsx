@@ -88,7 +88,6 @@ const DescriptionPage = ({ params }: { params: { id: string } }) => {
   }, [description])
 
   if (!description) return <h4>No hay informacion para mostrar</h4>
-
   return (
     <div className='w-full h-1/3 font-aeonik '>
       <DescriptionHeader />
@@ -99,7 +98,7 @@ const DescriptionPage = ({ params }: { params: { id: string } }) => {
           </h2>
 
           <span className='text-xs text-soft-gray'>
-            ★ {description.average}
+            ★ {Math.floor(description.average).toFixed(1)}
           </span>
         </div>
         <h3 className='text-2xl my-10 font-semibold'>Descripción</h3>
@@ -114,7 +113,7 @@ const DescriptionPage = ({ params }: { params: { id: string } }) => {
           <StarStats />
           <div className='flex flex-col '>
             <span className='text-4xl font-bold flex mx-auto'>
-              {description.average}{' '}
+              {Math.floor(description.average).toFixed(1)}{' '}
             </span>
             <span>Reseñas (253)</span>
           </div>
@@ -131,7 +130,7 @@ const DescriptionPage = ({ params }: { params: { id: string } }) => {
                 close={() => setIsOpen(false)}
                 onSucces={() => setIsOpen(false)}
                 placeName={description.name.toUpperCase()}
-                placeId={description.id}
+                place={description}
               />
             </div>
           </div>

@@ -1,31 +1,31 @@
 import Image from 'next/image'
 import { CiMenuKebab } from 'react-icons/ci'
 import emptyUser from '@/public/emptyUser.svg'
-import { getAllComments } from '@/utils/http.utils'
+import { getAllReviews } from '@/utils/http.utils'
 import { useEffect, useState } from 'react'
+import { Trip } from '@/types/trip'
+import { GetTrip } from '@/types/getTrip'
 
 const CardComment = ({ placeId }: { placeId: string }) => {
-  const [comments, setComments] = useState<Comment[]>([])
+  const [reviews, setReviews] = useState<GetTrip[]>([])
 
   useEffect(() => {
     const getComments = async () => {
-      const res = await getAllComments()
-      const data: Comment[] = res.data
-      const filtered = data.filter(
-        (comment) => comment.tripId.placeId == placeId
-      )
-      setComments(filtered)
+      const res = await getAllReviews()
+      const data: GetTrip[] = res.data
+      // @ts-ignore
+      const filtered = data.filter((trip) => trip.placeId._id == placeId)
+      setReviews(filtered)
     }
     getComments()
   }, [])
-  if (comments.length == 0)
+  if (reviews.length == 0)
     return <div className='w-full text-center '>No hay comentarios</div>
-
   return (
     <>
-      {comments?.map((comment: Comment) => {
+      {reviews?.map((trip: GetTrip) => {
         return (
-          <article className='border-b border-soft-gray p-5' key={comment.id}>
+          <article className='border-b border-soft-gray p-5' key={trip.id}>
             <div className='flex justify-between'>
               <div className='flex gap-5'>
                 <figure>
@@ -36,14 +36,14 @@ const CardComment = ({ placeId }: { placeId: string }) => {
                       objectFit='cover'
                     />
                     <figcaption className='text-teal'>
-                      {comment.tripId.stars} ★
+                      {trip.stars.toFixed(1)} ★
                     </figcaption>
                   </div>
                 </figure>
                 <div className='flex flex-col'>
-                  <span className='font-semibold'>{comment.userId}</span>
+                  <span className='font-semibold'>{trip.userId}</span>
                   <small className='text-xs text-soft-gray'>
-                    {new Date(comment.date).toLocaleDateString()}
+                    {new Date(trip.date).toLocaleDateString()}
                   </small>{' '}
                 </div>
               </div>
@@ -64,7 +64,7 @@ const CardComment = ({ placeId }: { placeId: string }) => {
               </button>
             </div>
             <div>
-              <p>{comment.text}</p>
+              <p>{trip.description}</p>
             </div>
           </article>
         )
