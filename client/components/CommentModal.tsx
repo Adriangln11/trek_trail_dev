@@ -6,26 +6,27 @@ import { useSession } from 'next-auth/react'
 import { createTripPost } from '@/utils/http.utils'
 import { Trip } from '@/types/trip'
 import { useRouter } from 'next/router'
+import { Place } from '@/types/place'
 
 interface ModalProps {
   open?: boolean
-  close?: MouseEventHandler
+  close?: () => void
   onSucces?: () => void
-  placeName: string
-  placeId: string
+  placeName: string | null
+  place: Place | null
 }
 export const CommentModal = ({
   open,
   close,
   onSucces,
   placeName,
-  placeId,
+  place,
 }: {
   open: boolean
-  close: MouseEventHandler
+  close: () => void
   onSucces: () => void
-  placeName: string
-  placeId: string
+  placeName: string | null
+  place: Place | null
 }) => {
   const { data: session } = useSession()
   const [stars, setStars] = useState(0)
@@ -36,7 +37,6 @@ export const CommentModal = ({
   const handleRate = (value: number) => {
     setStars(value)
   }
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const date = new Date().toISOString()
@@ -44,16 +44,16 @@ export const CommentModal = ({
     const description = text
     const name = titulo
     const activity = 'Paseo'
+    const placeId = place?.id ? place.id : ''
     const data: Trip = {
       userId,
       date,
       name,
-      placeId,
       description,
       activity,
       stars,
       photo: '',
-      commentsId: [],
+      placeId,
     }
     try {
       const token = session?.user.token
@@ -89,7 +89,7 @@ export const CommentModal = ({
           </div>
           <div className='flex gap-2 justify-center'>
             <h3 className='text-lg '>{placeName}</h3>
-            <div className='text-xs py-2'>(Crear comentario)</div>
+            <div className='text-xs py-2'>(Crear reseña)</div>
           </div>
           <div>
             <span>Puntaje (*)</span>

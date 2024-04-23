@@ -52,10 +52,8 @@ export const getPlaceDescription = async (id: string) => {
   return res
 }
 
-export const getAllComments = async () => {
-  const res = await axios.get(
-    'https://no-country-back.onrender.com/api/comments'
-  )
+export const getAllReviews = async () => {
+  const res = await axios.get('https://no-country-back.onrender.com/api/trip')
 
   return res
 }

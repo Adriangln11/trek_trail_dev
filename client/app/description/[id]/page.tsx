@@ -9,68 +9,7 @@ import { Place } from '@/types/place'
 import { getPlaceDescription } from '@/utils/http.utils'
 import CardComment from '@/components/CardComment'
 
-const comments = [
-  {
-    userId: '1',
-    text: 'Great experience!',
-    date: '2020-01-15',
-    stars: '5',
-  },
-  {
-    userId: '2',
-    text: 'The driver was late.',
-    date: '2020-02-03',
-    stars: '3',
-  },
-  {
-    userId: '3',
-    text: 'I had a pleasant ride.',
-    date: '2020-03-22',
-    stars: '4',
-  },
-  {
-    userId: '4',
-    text: 'The car was clean and comfortable.',
-    date: '2020-04-10',
-    stars: '5',
-  },
-  {
-    userId: '5',
-    text: 'The driver took a wrong turn.',
-    date: '2020-05-18',
-    stars: '2',
-  },
-  {
-    userId: '6',
-    text: 'The price was too high for the service.',
-    date: '2020-06-29',
-    stars: '1',
-  },
-  {
-    userId: '7',
-    text: 'I had to wait a long time for a ride.',
-    date: '2020-07-07',
-    stars: '2',
-  },
-  {
-    userId: '8',
-    text: 'The driver was friendly and helpful.',
-    date: '2020-08-14',
-    stars: '4',
-  },
-  {
-    userId: '9',
-    text: 'The app crashed during the ride.',
-    date: '2020-09-25',
-    stars: '2',
-  },
-  {
-    userId: '10',
-    text: 'I had a great conversation with the driver.',
-    date: '2020-10-30',
-    stars: '5',
-  },
-]
+
 
 const DescriptionPage = ({ params }: { params: { id: string } }) => {
   const { data: session } = useSession()
@@ -86,9 +25,7 @@ const DescriptionPage = ({ params }: { params: { id: string } }) => {
 
     getData()
   }, [description])
-
   if (!description) return <h4>No hay informacion para mostrar</h4>
-
   return (
     <div className='w-full h-1/3 font-aeonik '>
       <DescriptionHeader />
@@ -99,7 +36,7 @@ const DescriptionPage = ({ params }: { params: { id: string } }) => {
           </h2>
 
           <span className='text-xs text-soft-gray'>
-            ★ {description.average}
+            ★ {Math.floor(description.average).toFixed(1)}
           </span>
         </div>
         <h3 className='text-2xl my-10 font-semibold'>Descripción</h3>
@@ -114,7 +51,7 @@ const DescriptionPage = ({ params }: { params: { id: string } }) => {
           <StarStats />
           <div className='flex flex-col '>
             <span className='text-4xl font-bold flex mx-auto'>
-              {description.average}{' '}
+              {Math.floor(description.average).toFixed(1)}{' '}
             </span>
             <span>Reseñas (253)</span>
           </div>
@@ -131,7 +68,7 @@ const DescriptionPage = ({ params }: { params: { id: string } }) => {
                 close={() => setIsOpen(false)}
                 onSucces={() => setIsOpen(false)}
                 placeName={description.name.toUpperCase()}
-                placeId={description.id}
+                place={description}
               />
             </div>
           </div>

@@ -1,11 +1,13 @@
-import BgImage from '@/components/BgImage';
-import React from 'react'
+'use client'
+import React, { useEffect } from 'react'
 import place2 from '../../public/place2.jpeg'
 
 import CardsPlaces1 from '../../public/cardPlace.jpg';
 import CardsPlaces2 from '../../public/cardPlace2.jpeg';
 import CardsPlaces3 from '../../public/cardPlace3.jpeg';
 import Image from 'next/image';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 
 interface Lugares{
@@ -24,15 +26,72 @@ interface LugarEspecifico {
   clasificacion: number
 }
 
-const PlaceSpecif = () => {
-  const lugares: Lugares[] = [
-    {
-      titulo: "Las mejores rutas de Madrid",
-      descripcion: "Descubre una variedad de rutas disponibles en AllTrails para explorar mapas detallados, reseñas y fotografías compartidas por apasionados de la naturaleza.",
-      destacado: "¡Prepárate para vivir aventuras inolvidables en la emocionante ciudad de Madrid!"
-    },
 
-  ];
+
+
+const PlaceSpecific = () => {
+ 
+  const { data: session, status } = useSession()
+
+
+  const token:string | undefined = session?.user?.token  ;
+// const id :string = session?.user.id
+
+
+useEffect(() => {
+  const fetchUsers = async () => {
+    try {
+      if (session && session.user && token) {
+        const response = await axios.get("https://no-country-back.onrender.com/api/users/6622dcc9ce53198f7590c0d3", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+console.log(response.data);
+
+
+      } else {
+        throw new Error('error');
+      }
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  };
+
+  fetchUsers();
+}, []);
+
+
+useEffect(() => {
+  const fetchCity = async () => {
+    try {
+      if (session && session.user ) {
+        const response = await axios.get("https://no-country-back.onrender.com/api/city", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+console.log(response.data);
+
+
+      } else {
+        throw new Error('errooors');
+      }
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  };
+
+  fetchCity();
+}, []);
+
+
+
+
 
 
   const imagenes: Imagen[] = [
@@ -95,7 +154,7 @@ const PlaceSpecif = () => {
 <div>
 
 </div>
-
+{/* 
 {lugares.map((lugar, index) => (
   <div key={index} className='m-3 p-1 font-aeonik'>
     <h2 className='font-bold '>{lugar.titulo}</h2>
@@ -140,7 +199,7 @@ const PlaceSpecif = () => {
     </div>
     ))
   }
-</div>
+</div> */}
 
 
 </div>
@@ -156,4 +215,4 @@ const PlaceSpecif = () => {
   </>
 }
 
-export default PlaceSpecif;
+export default PlaceSpecific;
