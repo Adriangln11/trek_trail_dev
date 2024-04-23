@@ -6,9 +6,9 @@ import imageHeader1 from '@/public/imageHeader1.svg'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 interface City {
-  id(id: string): unknown
   _id: string
   name: string
 }
@@ -18,6 +18,8 @@ interface token {
 }
 
 const MainHeader = () => {
+  const router = useRouter()
+
   const { data: session, status } = useSession()
   const [city, setCity] = useState<City[]>([])
   const [search, setSearch] = useState('')
@@ -46,7 +48,7 @@ const MainHeader = () => {
           )
           const cityNames = response.data.map((item: any) => ({
             name: item.name,
-            id: item._id,
+            _id: item._id,
           }))
           setCity(cityNames)
 
@@ -79,14 +81,15 @@ const MainHeader = () => {
     })
 
     console.log('Ciudades filtradas:', filteredCities)
-    console.log(filteredCities[0].id)
+    console.log(filteredCities[0]._id)
     let cityId
 
-    cityId = filteredCities[0].id // ID del primer resultado coincidente
+    const cityIdfilter = filteredCities[0]._id // ID del primer resultado coincidente
     console.log('ID de la ciudad encontrada:', cityId)
 
     // Guarda el ID en localStorage
-    localStorage.setItem('cityId', cityId.toString())
+
+    router.push(`/placeSpecific/${cityIdfilter.toString()}`)
   }
 
   return (
