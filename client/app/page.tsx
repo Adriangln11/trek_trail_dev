@@ -5,7 +5,12 @@ import MainHeader from '@/components/MainHeader'
 import Reviews from '@/components/Reviews'
 import BgImage from '@/components/BgImage'
 
+
+import CardsPlacesHome from '@/components/CardsPlacesHome'
 export default function Home() {
+
+  
+
   return (
     <div className=' w-full mt-3'>
       <div>
@@ -14,7 +19,8 @@ export default function Home() {
         </h1>
       </div>
       <MainHeader />
-      <CardsPlaces />
+       {/* {session ? <CardsPlaces /> : <CardsPlacesHome />} */}
+       <CardsPlaces />
       <CarrouselExplore />
       <About />
       <Reviews />

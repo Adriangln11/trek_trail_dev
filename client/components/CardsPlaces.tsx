@@ -171,14 +171,17 @@ function handleButtonClick(_id: any): void {
             <div className=' w-full'>
               <button className='relative w-full'>
                 <div className='w-full'>
+                  <Link href={`/description/${[place.id]}`}>
+                  
                 <img
                 className='size-full rounded-t-lg'
                 width={200}
                 height='auto' 
                 src={place.image}
                 alt='imagen de lugar'
-              />
+                />
 
+                </Link>
                   <button onClick={() => handleButtonClick(place.id)}>
                     <svg
                       className='text-white  absolute top-1 right-1'
