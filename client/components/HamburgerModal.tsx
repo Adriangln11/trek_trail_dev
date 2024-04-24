@@ -94,7 +94,15 @@ export const HamburgerModal = ({
 
           <div className='mt-10'>
             {session?.user ? (
-              <div></div>
+              <div>
+                {' '}
+                <Link
+                  href='/profile'
+                  className=' font-semibold hover:text-light-green'
+                >
+                  Iniciar sesion
+                </Link>
+              </div>
             ) : (
               <div>
                 <Link

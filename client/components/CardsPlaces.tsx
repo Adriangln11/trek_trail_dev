@@ -7,10 +7,8 @@ import place from '../public/place.jpeg'
 import person from '../public/person.png'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
-import { useEffect,useState } from 'react'
-import axios from 'axios';
-
-
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 interface Place {
   description: string
@@ -55,7 +53,7 @@ const CardsPlaces: React.FC = () => {
 
 
   const token:string|undefined =session?.user?.token  ;
-console.log(token)
+console.log
 useEffect(() => {
   const fetchPlaces = async () => {
     try {

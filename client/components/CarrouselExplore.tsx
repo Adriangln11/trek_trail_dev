@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import run from '../public/run.jpg'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 interface Actividad {
   id: number
@@ -10,6 +11,7 @@ interface Actividad {
 }
 
 const CarrouselExplore: React.FC = () => {
+  const router = useRouter()
   const [startIndex, setStartIndex] = useState<number>(0)
   const [showPrevButton, setShowPrevButton] = useState<boolean>(false)
   const actividades: Actividad[] = [
@@ -37,6 +39,10 @@ const CarrouselExplore: React.FC = () => {
     setStartIndex(prevIndex)
     setShowPrevButton(prevIndex !== 0)
   }
+
+  const handleClickRouter = (name: string) => {
+    router.push(`/activities/${name}`)
+  }
   return (
     <>
       <div className=' mb-5 mt-1'>
@@ -50,24 +56,25 @@ const CarrouselExplore: React.FC = () => {
           <div className='relative overflow-hidden '>
             <div
               className='flex flex-row p-10 '
-              style={{ transform: `translateX(-${startIndex * 33.33}%)` }}
+              // style={{ transform: `translateX(-${startIndex * 33.33}%)` }}
             >
               {actividades
                 .slice(startIndex, startIndex + 3)
                 .map((actividad) => (
                   <div
                     key={actividad.id}
-                    className='w-1/10 flex justify-center'
+                    onClick={() => {handleClickRouter(actividad.title)}}
+                    className='w-[200px] max-md:w-[160px]  max-w-[200px]  max-md:max-w-[160px] max-md:h[100px] h-[200px] flex justify-center items-center   '
                   >
-                    <div className='m-3'>
+                    <div className='m-10 h-[240px] max-md:h-[160px] max-h-[240px] max-md:max-h-[160px]   flex flex-col justify-center items-center '>
                       <Image
                         src={actividad.image}
                         alt={actividad.title}
-                        className='rounded-full w-24 h-24'
+                        className='rounded-full   w-24 max-md:w-20 h-24 max-md:h-20 cursor-pointer mb-2'
                         width={50}
                         height={50}
                       />
-                      <div className='text-center text-white'>
+                      <div className='text-center text-white h-8 font-semibold'>
                         <h2>{actividad.title}</h2>
                       </div>
                     </div>
