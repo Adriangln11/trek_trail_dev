@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { CiMenuKebab } from 'react-icons/ci'
 import emptyUser from '@/public/emptyUser.svg'
 import { getAllReviews } from '@/utils/http.utils'
 import { useEffect, useState } from 'react'
@@ -7,6 +6,7 @@ import { Trip } from '@/types/trip'
 import { GetTrip } from '@/types/getTrip'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import CommentButton from './CommentButton'
 
 const CardComment = ({ placeId }: { placeId: string }) => {
   const { data: session } = useSession()
@@ -56,11 +56,7 @@ const CardComment = ({ placeId }: { placeId: string }) => {
                 </div>
               </div>
               <div className='px-4'>
-                <button>
-                  <i>
-                    <CiMenuKebab />
-                  </i>
-                </button>
+                {userId == trip.userId._id ? <CommentButton /> : ''}
               </div>
             </div>
             <div className='w-full flex gap-10 justify-start my-3'>

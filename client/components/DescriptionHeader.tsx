@@ -9,7 +9,7 @@ import { MdOutlineMessage } from 'react-icons/md'
 import imageDescription from '@/public/imageDescription.svg'
 import Link from 'next/link'
 
-const DescriptionHeader = ({ placeId }: { placeId:  string  }) => {
+const DescriptionHeader = ({ placeId }: { placeId: string }) => {
   return (
     <header className='w-full'>
       <figure className='w-full'>
@@ -36,12 +36,14 @@ const DescriptionHeader = ({ placeId }: { placeId:  string  }) => {
             </i>
             <span className='hidden md:flex'>Comentarios (253)</span>
           </figure>
-          <figure className='text-center  flex gap-5 flex-col justify-center items-center md:text-2xl '>
-            <i className='rounded-full bg-white text-teal   w-8 h-8 md:w-16 md:h-16  flex items-center justify-center'>
-              <IoHeartOutline className='w-16 ' />
-            </i>
-            <span className='hidden md:flex'>Favoritos</span>
-          </figure>
+          <Link href='/favoritos'>
+            <figure className='text-center  flex gap-5 flex-col justify-center items-center md:text-2xl '>
+              <i className='rounded-full bg-white text-teal   w-8 h-8 md:w-16 md:h-16  flex items-center justify-center'>
+                <IoHeartOutline className='w-16 ' />
+              </i>
+              <span className='hidden md:flex'>Favoritos</span>
+            </figure>
+          </Link>
           <figure className='text-center  flex gap-5 flex-col justify-center items-center md:text-2xl '>
             <i className='rounded-full bg-white text-teal   w-8 h-8 md:w-16 md:h-16  flex items-center justify-center'>
               <IoShareSocialOutline className='w-16 ' />

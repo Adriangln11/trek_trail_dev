@@ -61,7 +61,8 @@ const CarrouselExplore: React.FC = () => {
               {actividades
                 .slice(startIndex, startIndex + 3)
                 .map((actividad) => (
-                  <div
+                  <a
+                    href={`/activities/${actividad.title}`}
                     key={actividad.id}
                     onClick={() => {
                       handleClickRouter(actividad.title)
@@ -80,7 +81,7 @@ const CarrouselExplore: React.FC = () => {
                         <h2>{actividad.title}</h2>
                       </div>
                     </div>
-                  </div>
+                  </a>
                 ))}
             </div>
             {showPrevButton && (

@@ -41,6 +41,14 @@ const Favoritos = () => {
       return texto
     }
   }
+
+  if (favs.length <= 0)
+    return (
+      <div>
+        <h2>No tienes favoritos agregados</h2>
+      </div>
+    )
+
   return (
     <>
       <div>
