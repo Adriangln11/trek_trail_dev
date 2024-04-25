@@ -66,8 +66,6 @@ const MainHeader = () => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault()
-    console.log('Datos de city:', city)
-    console.log('Valor de search:', search)
 
     localStorage.setItem('lastSearch', search)
 

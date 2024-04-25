@@ -10,7 +10,7 @@ export interface Place {
   }
   image: string
   trip: string[]
-  stars: string[]
+  stars: [{ rating: number; uid: string }]
   description: string
   average: number
 }

@@ -6,17 +6,16 @@ import { CommentModal } from '@/components/CommentModal'
 import DescriptionHeader from '@/components/DescriptionHeader'
 import StarStats from '@/components/StarStats'
 import { Place } from '@/types/place'
-import { getPlaceDescription } from '@/utils/http.utils'
+import { getPlaceById } from '@/utils/http.utils'
 import CardComment from '@/components/CardComment'
 
 const DescriptionPage = ({ params }: { params: { id: string } }) => {
-  const { data: session } = useSession()
   const [description, setDescription] = useState<Place>()
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     const getData = async () => {
-      const data = await getPlaceDescription(params.id)
+      const data = await getPlaceById(params.id)
       setDescription(data.data)
       return
     }
@@ -26,7 +25,7 @@ const DescriptionPage = ({ params }: { params: { id: string } }) => {
   if (!description) return <h4>No hay informacion para mostrar</h4>
   return (
     <div className='w-full h-1/3 font-aeonik '>
-      <DescriptionHeader />
+      <DescriptionHeader placeId={params.id}/>
       <section className='w-full  text-balance md:my-10 p-5'>
         <div>
           <h2 className='font-bold text-3xl md:text-4xl'>

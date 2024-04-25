@@ -44,18 +44,18 @@ const CarrouselExplore: React.FC = () => {
     router.push(`/activities/${name}`)
   }
   return (
-    <>
-      <div className=' mb-5 mt-1'>
-        <h1 className='text-center font-aeonik  text-2xl'>
+    <section className='w-full my-20'>
+      <div>
+        <h1 className='text-center font-aeonik my-5  text-2xl'>
           Explorar actividades
         </h1>
       </div>
 
-      <section className='flex flex-col bg-soft-green  content-center'>
+      <div className='flex flex-col bg-soft-green  content-center'>
         <div className='mx-auto bg-soft-green'>
           <div className='relative overflow-hidden '>
             <div
-              className='flex flex-row p-10 '
+              className='flex flex-row p-1 '
               // style={{ transform: `translateX(-${startIndex * 33.33}%)` }}
             >
               {actividades
@@ -63,10 +63,12 @@ const CarrouselExplore: React.FC = () => {
                 .map((actividad) => (
                   <div
                     key={actividad.id}
-                    onClick={() => {handleClickRouter(actividad.title)}}
-                    className='w-[200px] max-md:w-[160px]  max-w-[200px]  max-md:max-w-[160px] max-md:h[100px] h-[200px] flex justify-center items-center   '
+                    onClick={() => {
+                      handleClickRouter(actividad.title)
+                    }}
+                    className='  flex justify-center items-center  m-2 '
                   >
-                    <div className='m-10 h-[240px] max-md:h-[160px] max-h-[240px] max-md:max-h-[160px]   flex flex-col justify-center items-center '>
+                    <div className='  flex flex-col justify-center items-center '>
                       <Image
                         src={actividad.image}
                         alt={actividad.title}
@@ -111,8 +113,8 @@ const CarrouselExplore: React.FC = () => {
             </button>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   )
 }
 

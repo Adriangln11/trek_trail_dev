@@ -31,12 +31,12 @@ export const Navbar = () => {
             </li>
             <li className='inline-flex items-center hover:text-light-green'>
               <Link
-                href='/explore'
+                href='/profile'
                 className={` ${
-                  pathname == '/explore' ? 'text-light-green' : ''
+                  pathname == '/profile' ? 'text-light-green' : ''
                 }`}
               >
-                Explorar
+                Perfil
               </Link>
             </li>
             <li className='inline-flex items-center hover:text-light-green'>
@@ -51,7 +51,15 @@ export const Navbar = () => {
         </div>
       </div>
       {session?.user ? (
-        <Avatar />
+        <div className='flex gap-5 items-center'>
+          <Link
+            href='/reviews'
+            className='bg-light-green text-white font-medium rounded-full py-3 px-5 hover:bg-white hover:text-light-green hover:border-light-green border hidden md:block'
+          >
+            Añadir ruta
+          </Link>
+          <Avatar />
+        </div>
       ) : (
         <div>
           <div

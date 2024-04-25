@@ -1,6 +1,17 @@
 export interface GetTrip {
   id: string
-  userId: string
+  userId: {
+    _id: string
+    comments?: []
+    country: string
+    email: string
+    favorites: []
+    first_name: string
+    last_name: string
+    last_connection: string
+    role: string
+    trips: []
+  }
   name: string
   description: string
   stars: number
