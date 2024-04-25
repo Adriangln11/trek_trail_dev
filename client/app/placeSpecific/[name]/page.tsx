@@ -9,10 +9,11 @@ import axios from 'axios'
 import Link from 'next/link'
 import { getCities } from '@/utils/http.utils'
 import { GetCity } from '@/types/getCity'
+import { Place } from '@/types/place'
 
 const PlaceSpecific = ({ params }: { params: { name: string } }) => {
-  const [city, setCity] = useState()
-  const [places, setPlaces] = useState([])
+  const [city, setCity] = useState<GetCity>()
+  const [places, setPlaces] = useState<Place[]>([])
 
   // const id :string = session?.user.id
 
