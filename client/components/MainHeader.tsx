@@ -51,8 +51,6 @@ const MainHeader = () => {
             _id: item._id,
           }))
           setCity(cityNames)
-
-          console.log(cityNames)
         } else {
           throw new Error('No session token available')
         }
@@ -78,12 +76,9 @@ const MainHeader = () => {
       return false
     })
 
-    console.log('Ciudades filtradas:', filteredCities)
-    console.log(filteredCities[0]._id)
     let cityId
 
     const cityIdfilter = filteredCities[0]._id // ID del primer resultado coincidente
-    console.log('ID de la ciudad encontrada:', cityId)
 
     // Guarda el ID en localStorage
 

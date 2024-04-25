@@ -34,7 +34,6 @@ const CardsPlaces = () => {
 
     fetchPlaces()
   }, [])
-
   // const recortarTexto = (texto: string, longitudMaxima: number) => {
   //   if (texto.length > longitudMaxima) {
   //     return texto.substring(0, longitudMaxima) + '...';
