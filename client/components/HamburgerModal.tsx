@@ -4,7 +4,7 @@ import { EventHandler, MouseEventHandler, useEffect, useRef } from 'react'
 import { FaInstagram, FaFacebookF } from 'react-icons/fa'
 import { RiTwitterXFill, RiCloseFill } from 'react-icons/ri'
 import logo from '@/public/logo.svg'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Links from './Links'
 
 interface ModalProps {
@@ -99,7 +99,7 @@ export const HamburgerModal = ({
                   href='/profile'
                   className=' font-semibold hover:text-light-green'
                 >
-                  Iniciar sesion
+                  Perfil
                 </Link>
               </div>
             ) : (
@@ -115,7 +115,18 @@ export const HamburgerModal = ({
             )}
           </div>
 
-          <div className='mt-auto'>
+          <div className='mt-auto flex flex-col justify-end'>
+            {session?.user ? (
+              <button
+                onClick={() => signOut()}
+                className=' font-semibold hover:text-red-500 text-end'
+              >
+                Salir
+              </button>
+            ) : (
+              ''
+            )}
+
             <Links />
           </div>
           <div className='text-gray-500 font-bold text-center text-sm'>
