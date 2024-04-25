@@ -1,17 +1,8 @@
-import { useState } from 'react'
-import { CommentModal } from './CommentModal'
+import Link from 'next/link'
 
 export default function MyReviews() {
-  const [isCommentModalOpen, setIsCommentModalOpen] = useState(false)
-  const handleOpenCommentModal = () => {
-    setIsCommentModalOpen(true)
-  }
-
-  const handleCloseCommentModal = () => {
-    setIsCommentModalOpen(false)
-  }
   return (
-    <div className='relative bg-white w-[80%] h-screen mt-9 rounded-[6px] flex flex-col items-center'>
+    <div className=' bg-white w-[80%] h-screen mt-9 rounded-[6px] flex flex-col items-center'>
       <div className='w-[95%] border-b border-[#707070] bg-white flex items-center'>
         <h4 className='font-bold text-xl text-center  ml-7 mt-8 mb-4'>
           Mis Reseñas
@@ -25,15 +16,14 @@ export default function MyReviews() {
           <h4 className='font-bold text-[20px] ml-5'>Sagrada familia</h4>
         </div>
       </div>
-      <div className='absolute bottom-1'>
-        <button
-          onClick={handleOpenCommentModal}
-          className='rounded-[50px] bg-[#497574] h-[50px] w-[240px] font-[600] text-white my-7'
+      <div className=' '>
+        <Link
+          href='/reviews/new'
+          className='rounded-full bg-teal  w-32 font-semibold text-white my-5 p-3'
         >
           Crear reseña
-        </button>
+        </Link>
       </div>
-      {/* <CommentModal open={isCommentModalOpen} close={handleCloseCommentModal} onSucces={handleCloseCommentModal}/> */}
     </div>
   )
 }

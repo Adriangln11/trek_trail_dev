@@ -5,8 +5,12 @@ import { getAllReviews } from '@/utils/http.utils'
 import { useEffect, useState } from 'react'
 import { Trip } from '@/types/trip'
 import { GetTrip } from '@/types/getTrip'
+import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 
 const CardComment = ({ placeId }: { placeId: string }) => {
+  const { data: session } = useSession()
+  const userId = session?.user?.id
   const [reviews, setReviews] = useState<GetTrip[]>([])
 
   useEffect(() => {
@@ -18,7 +22,7 @@ const CardComment = ({ placeId }: { placeId: string }) => {
       setReviews(filtered)
     }
     getComments()
-  }, [])
+  }, [placeId])
   if (reviews.length == 0)
     return <div className='w-full text-center '>No hay comentarios</div>
   return (
@@ -41,7 +45,11 @@ const CardComment = ({ placeId }: { placeId: string }) => {
                   </div>
                 </figure>
                 <div className='flex flex-col'>
-                  <span className='font-semibold'>{trip.userId}</span>
+                  <span className='font-semibold'>
+                    {userId == trip.userId._id
+                      ? 'Tú'
+                      : `${trip.userId.first_name} ${trip.userId.last_name}`}
+                  </span>
                   <small className='text-xs text-soft-gray'>
                     {new Date(trip.date).toLocaleDateString()}
                   </small>{' '}
@@ -56,12 +64,24 @@ const CardComment = ({ placeId }: { placeId: string }) => {
               </div>
             </div>
             <div className='w-full flex gap-10 justify-start my-3'>
-              <button className='p-1 w-20  bg-[#D9D9D9] rounded-md'>
+              <Link
+                href='/activities/ciclismo'
+                className='p-1 w-20  bg-[#D9D9D9] rounded-md text-center'
+              >
                 Paseo
-              </button>
-              <button className='p-1  w-20 bg-[#D9D9D9] rounded-md'>
+              </Link>
+              <Link
+                href='/activities/ciclismo'
+                className='p-1  w-20 bg-[#D9D9D9] rounded-md text-center'
+              >
                 Correr
-              </button>
+              </Link>
+              <Link
+                href='/activities/ciclismo'
+                className='p-1  w-20 bg-[#D9D9D9] rounded-md text-center'
+              >
+                Ciclismo
+              </Link>
             </div>
             <div>
               <p>{trip.description}</p>
