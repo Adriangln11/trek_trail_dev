@@ -26,50 +26,44 @@ const CarrouselExplore: React.FC = () => {
     { id: 9, image: run.src, title: 'Actividad 9' },
     { id: 10, image: run.src, title: 'Actividad 10' },
   ]
-
   const handleClickNext = () => {
-    const nextIndex = startIndex + 3 < actividades.length ? startIndex + 1 : 0
+    const nextIndex = startIndex + 3 < actividades.length ? startIndex + 3 : 0
     setStartIndex(nextIndex)
     setShowPrevButton(true)
   }
 
   const handleClickPrev = () => {
     const prevIndex =
-      startIndex - 1 >= 0 ? startIndex - 1 : actividades.length - 3
+      startIndex - 3 >= 0 ? startIndex - 3 : actividades.length - 3
     setStartIndex(prevIndex)
     setShowPrevButton(prevIndex !== 0)
   }
 
-  const handleClickRouter = (name: string) => {
-    router.push(`/activities/${name}`)
-  }
   return (
-    <section className='w-full my-20'>
-      <div>
-        <h1 className='text-center font-aeonik my-5  text-2xl'>
+    <>
+      <div className=' mt-20 mb-5 '>
+        <h1 className='text-center font-aeonik font-semibold text-3xl'>
           Explorar actividades
         </h1>
       </div>
 
-      <div className='flex flex-col bg-soft-green  content-center'>
+      <section className='flex flex-col bg-soft-green  content-center'>
         <div className='mx-auto bg-soft-green'>
           <div className='relative overflow-hidden '>
             <div
-              className='flex flex-row p-1 '
+              className=' flex flex-row p-10 justify-center '
+              // style={{ transform: `translateX(-${startIndex * (100 / 3)}%)` }} // Uncomment and adjust
               // style={{ transform: `translateX(-${startIndex * 33.33}%)` }}
             >
               {actividades
                 .slice(startIndex, startIndex + 3)
                 .map((actividad) => (
                   <a
-                    href={`/activities/${actividad.title}`}
+                    href={`/activities/${actividad.title.toLowerCase()}`}
                     key={actividad.id}
-                    onClick={() => {
-                      handleClickRouter(actividad.title)
-                    }}
-                    className='  flex justify-center items-center  m-2 '
+                    className='w-[200px] max-md:w-[160px]  max-w-[200px]  max-md:max-w-[160px] max-md:h[100px] h-[200px] flex justify-center items-center   '
                   >
-                    <div className='  flex flex-col justify-center items-center '>
+                    <div className='m-10 h-[240px] max-md:h-[160px] max-h-[240px] max-md:max-h-[160px]   flex flex-col justify-center items-center '>
                       <Image
                         src={actividad.image}
                         alt={actividad.title}
@@ -114,8 +108,8 @@ const CarrouselExplore: React.FC = () => {
             </button>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   )
 }
 

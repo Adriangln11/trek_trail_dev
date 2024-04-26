@@ -96,6 +96,22 @@ export const createTripPost = async (tripData: Trip, token: string) => {
     return e
   }
 }
+export const getTrips = async () => {
+  try {
+    const res = await axios.get(
+      'https://no-country-back.onrender.com/api/trip',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+
+    return res
+  } catch (e) {
+    return e
+  }
+}
 export const postPlace = async (data: PostPlace) => {
   try {
     const res = await axios.post(

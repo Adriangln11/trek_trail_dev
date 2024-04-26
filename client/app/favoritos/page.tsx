@@ -48,7 +48,7 @@ const Favoritos = () => {
         <h2>No tienes favoritos agregados</h2>
       </div>
     )
-
+  console.log(favs)
   return (
     <>
       <div>
