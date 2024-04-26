@@ -101,7 +101,7 @@ export default function ActivitiesPlaces() {
     <div>
       {" "}
       <section className="  p-4 m-2 grid md:grid-cols-3 gap-3">
-        {places.slice(0, forPage).map((place) => (
+        {places.slice(2, forPage).map((place) => (
           <div className=" " key={place.id}>
             <div className=" bg-soft-silver mt-10 rounded-lg border-gray-200 shadow flex flex-col">
               <div className="w-full">
@@ -182,7 +182,7 @@ export default function ActivitiesPlaces() {
                     className="  font-normal 
   text-black mr-3"
                   >
-                    {place.average} 54
+                         {Math.round(place.average|| 4 )}
                   </p>
                 </div>
               </div>
