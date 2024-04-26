@@ -53,6 +53,7 @@ router.put('/city/:id', jwtAuthBear, upload.single('image'), async (req: Request
     try {
         const data = req.body;  
         const image = req.file
+        
 		if (image) {
 			const res = await cloudinary.uploader.upload(image.path)
 			if (res) {
