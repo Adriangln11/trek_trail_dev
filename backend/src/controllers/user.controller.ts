@@ -10,6 +10,7 @@ class UserController {
       throw new Error(`Error al obtener usuarios: ${(error as Error).message}`)
     }
   }
+
   async getUserById(uid: string): Promise<UserDTO | null> {
     try {
       return await userService.getUserById(uid)
@@ -17,13 +18,16 @@ class UserController {
       throw new Error(`Error al obtener usuarios: ${(error as Error).message}`)
     }
   }
+
   async findOne(email: string) {
     try {
       return await userService.findOne(email)
     } catch (error) {
       throw new Error(`Error al obtener usuarios: ${(error as Error).message}`)
+      throw new Error(`Error al obtener usuarios: ${(error as Error).message}`)
     }
   }
+
   async createUser(userData: UserInterface): Promise<any> {
     try {
       return await userService.createUser(userData)
@@ -47,6 +51,16 @@ class UserController {
     try {
       return await userService.updateUser(userId, userData)
     } catch (error: any) {
+      throw new Error(
+        `Error al actualizar usuario: ${(error as Error).message}`
+      )
+    }
+  }
+
+  async updateFavorite(id: any, favorite: any) {
+    try {
+      return await userService.updateFavorite(id, favorite)
+    } catch (error) {
       throw new Error(
         `Error al actualizar usuario: ${(error as Error).message}`
       )
