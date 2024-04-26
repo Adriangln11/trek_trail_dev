@@ -35,24 +35,15 @@ const MainHeader = () => {
     const fetchCities = async () => {
       try {
         if (session && session.user && token) {
-          const queryString = `search=${encodeURIComponent(search)}`
-
-          const response = await axios.get(
-            `https://no-country-back.onrender.com/api/city`,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
+          const response = await axios.get(`https://no-country-back.onrender.com/api/city`, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
             }
-          )
-          const cityNames = response.data.map((item: any) => ({
-            name: item.name,
-            _id: item._id,
-          }))
-          setCity(cityNames)
-
-          console.log(cityNames)
+          });
+          const cityNames = response.data.map((item: any) => ({ name: item.name, _id: item._id }));
+          setCity(cityNames);
+          console.log(cityNames);
         } else {
           throw new Error('No session token available')
         }
